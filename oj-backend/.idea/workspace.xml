@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="AUTO_SHOW_ERRORS_IN_EDITOR" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="MIXED" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/UserServiceImpl.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\apache-maven-3.6.3" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="1.8" />
+        <option name="workspaceImportForciblyTurnedOn" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2ibW1tg4Af30iohjdCdshliFOMO" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.EasyExcelTest.executeCodeByProxy.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.com.zwm.oj.judge.codesandbox.impl in oj-backend.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.oj-backend [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.oj-backend [install].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.MainApplication (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;zwm&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Awork/seeyon-A8V7-HL&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.25747126&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
+    &quot;数据库脚本.create_table.sql.executor&quot;: &quot;Run&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ],
+    &quot;RunConfigurationTargetLRU&quot;: [
+      &quot;2ff9436a-6b23-47e2-83c2-c436928ec63a&quot;,
+      &quot;2ff9436a-6b23-47e2-83c2-c436928ec63a/schema/\&quot;oj\&quot;&quot;
+    ]
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj" />
+      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\judge" />
+      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\model\dto\question" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zwm.oj.controller" />
+      <recent name="com.zwm.oj.judge.codesandbox.impl" />
+      <recent name="com.zwm.oj.model.vo" />
+      <recent name="com.zwm.oj.model.dto.questionsubmit" />
+      <recent name="com.zwm.oj.model.enums" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.MainApplication">
+    <configuration name="create_table.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/sql/create_table.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="2ff9436a-6b23-47e2-83c2-c436928ec63a" namespace="schema/&quot;oj&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="EasyExcelTest.executeCodeByProxy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="oj-backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zwm.oj.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zwm.oj.utils" />
+      <option name="MAIN_CLASS_NAME" value="com.zwm.oj.utils.EasyExcelTest" />
+      <option name="METHOD_NAME" value="executeCodeByProxy" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.zwm.oj.judge.codesandbox.impl in oj-backend" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="oj-backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zwm.oj.judge.codesandbox.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.zwm.oj.judge.codesandbox.impl" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="oj-backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.zwm.oj.MainApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.zwm.oj.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.MainApplication" />
+        <item itemvalue="JUnit.EasyExcelTest.executeCodeByProxy" />
+        <item itemvalue="JUnit.com.zwm.oj.judge.codesandbox.impl in oj-backend" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="" />
+      <created>1719759544634</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719759544634</updated>
+      <workItem from="1719759545738" duration="90000" />
+      <workItem from="1719759664009" duration="81000" />
+      <workItem from="1719759761338" duration="1115000" />
+      <workItem from="1719761119452" duration="4329000" />
+      <workItem from="1721219478590" duration="15413000" />
+      <workItem from="1721744807507" duration="1893000" />
+      <workItem from="1721825370092" duration="15251000" />
+      <workItem from="1721917877712" duration="13956000" />
+      <workItem from="1722864587656" duration="9811000" />
+      <workItem from="1723639580684" duration="5672000" />
+      <workItem from="1724212850842" duration="7674000" />
+      <workItem from="1724228974081" duration="6000" />
+      <workItem from="1724650975202" duration="4552000" />
+      <workItem from="1724742710807" duration="36000" />
+      <workItem from="1724743174366" duration="4988000" />
+      <workItem from="1724829064096" duration="131000" />
+      <workItem from="1724912446221" duration="106000" />
+      <workItem from="1724916994071" duration="23000" />
+      <workItem from="1724983503030" duration="8000" />
+      <workItem from="1725010027011" duration="1575000" />
+      <workItem from="1725245805679" duration="910000" />
+      <workItem from="1725272669763" duration="856000" />
+      <workItem from="1725328157104" duration="45000" />
+      <workItem from="1725334930493" duration="617000" />
+      <workItem from="1725527686026" duration="1328000" />
+      <workItem from="1725529039000" duration="32000" />
+      <workItem from="1725784289644" duration="3188000" />
+      <workItem from="1725787958397" duration="6453000" />
+      <workItem from="1725794699808" duration="1064000" />
+      <workItem from="1725846262900" duration="6168000" />
+      <workItem from="1725860733359" duration="15000" />
+      <workItem from="1725864046902" duration="3000" />
+      <workItem from="1725864253130" duration="4663000" />
+      <workItem from="1726025820125" duration="1017000" />
+      <workItem from="1726037972187" duration="29000" />
+      <workItem from="1726038019038" duration="54000" />
+      <workItem from="1726039601978" duration="548000" />
+      <workItem from="1726043590767" duration="22000" />
+      <workItem from="1726043697494" duration="2000" />
+      <workItem from="1726107039653" duration="6000" />
+      <workItem from="1726108094804" duration="208000" />
+      <workItem from="1726111845583" duration="376000" />
+      <workItem from="1726112314373" duration="214000" />
+      <workItem from="1726302024856" duration="7074000" />
+      <workItem from="1726329034772" duration="443000" />
+      <workItem from="1726329489051" duration="760000" />
+      <workItem from="1726330262872" duration="38000" />
+      <workItem from="1726388295144" duration="4343000" />
+      <workItem from="1726621978725" duration="8000" />
+      <workItem from="1726796186172" duration="3311000" />
+      <workItem from="1726803488261" duration="549000" />
+      <workItem from="1726813464769" duration="31000" />
+      <workItem from="1726827348561" duration="478000" />
+      <workItem from="1727055016490" duration="593000" />
+      <workItem from="1727074218192" duration="1851000" />
+      <workItem from="1727095255356" duration="2565000" />
+      <workItem from="1727143833736" duration="38000" />
+      <workItem from="1727144102071" duration="88000" />
+      <workItem from="1727144197875" duration="170000" />
+      <workItem from="1727144379072" duration="47000" />
+      <workItem from="1727144432172" duration="12000" />
+      <workItem from="1727322419178" duration="123000" />
+      <workItem from="1728628530783" duration="10000" />
+      <workItem from="1730208600811" duration="2374000" />
+      <workItem from="1730250210223" duration="601000" />
+      <workItem from="1730295631396" duration="2962000" />
+      <workItem from="1730298650797" duration="9000" />
+      <workItem from="1730345754299" duration="2300000" />
+      <workItem from="1730353773310" duration="4569000" />
+      <workItem from="1730426444369" duration="3390000" />
+      <workItem from="1730615925410" duration="2972000" />
+    </task>
+    <task id="LOCAL-00001" summary="后端项目初始化">
+      <option name="closed" value="true" />
+      <created>1719763397544</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719763397544</updated>
+    </task>
+    <task id="LOCAL-00002" summary="数据库表设计">
+      <option name="closed" value="true" />
+      <created>1721742104122</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1721742104122</updated>
+    </task>
+    <task id="LOCAL-00003" summary="存档 | 2024.7.23">
+      <option name="closed" value="true" />
+      <created>1721746093327</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1721746093327</updated>
+    </task>
+    <task id="LOCAL-00004" summary="存档 | 2024.7.24">
+      <option name="closed" value="true" />
+      <created>1721832222976</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1721832222976</updated>
+    </task>
+    <task id="LOCAL-00005" summary="后端接口开发 | 开发题目相关接口">
+      <option name="closed" value="true" />
+      <created>1721920362106</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1721920362106</updated>
+    </task>
+    <task id="LOCAL-00006" summary="存档 | 2024.7.31">
+      <option name="closed" value="true" />
+      <created>1722434675240</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1722434675240</updated>
+    </task>
+    <task id="LOCAL-00007" summary="存档 | 2024.7.31">
+      <option name="closed" value="true" />
+      <created>1722434849778</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1722434849778</updated>
+    </task>
+    <task id="LOCAL-00008" summary="存档 | 2024.8.26">
+      <option name="closed" value="true" />
+      <created>1724657269055</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1724657269055</updated>
+    </task>
+    <task id="LOCAL-00009" summary="更新数据库密码">
+      <option name="closed" value="true" />
+      <created>1725325777262</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1725325777262</updated>
+    </task>
+    <task id="LOCAL-00010" summary="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发">
+      <option name="closed" value="true" />
+      <created>1725794445515</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725794445515</updated>
+    </task>
+    <task id="LOCAL-00011" summary="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发">
+      <option name="closed" value="true" />
+      <created>1725794521589</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1725794521589</updated>
+    </task>
+    <task id="LOCAL-00012" summary="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发">
+      <option name="closed" value="true" />
+      <created>1725794616878</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1725794616878</updated>
+    </task>
+    <task id="LOCAL-00013" summary="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发">
+      <option name="closed" value="true" />
+      <created>1725854327344</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725854327344</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="后端项目初始化" />
+    <MESSAGE value="数据库表设计" />
+    <MESSAGE value="存档 | 2024.7.23" />
+    <MESSAGE value="存档 | 2024.7.24" />
+    <MESSAGE value="后端接口开发 | 开发题目相关接口" />
+    <MESSAGE value="存档 | 2024.7.31" />
+    <MESSAGE value="存档 | 2024.8.26" />
+    <MESSAGE value="更新数据库密码" />
+    <MESSAGE value="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
+    <option name="LAST_COMMIT_MESSAGE" value="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/UserServiceImpl.java</url>
+          <line>215</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/controller/QuestionController.java</url>
+          <line>228</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,0 +1,10 @@
+com\zwm\oj\service\PostFavourServiceTest.class
+com\zwm\oj\MainApplicationTests.class
+com\zwm\oj\service\PostServiceTest.class
+com\zwm\oj\service\PostThumbServiceTest.class
+com\zwm\oj\esdao\PostEsDaoTest.class
+com\zwm\oj\mapper\PostFavourMapperTest.class
+com\zwm\oj\service\UserServiceTest.class
+com\zwm\oj\utils\EasyExcelTest.class
+com\zwm\oj\manager\CosManagerTest.class
+com\zwm\oj\mapper\PostMapperTest.class
