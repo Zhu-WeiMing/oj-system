@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
+    <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="更改">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zwm/oj/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zwm/oj/MainApplication.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,45 +62,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.EasyExcelTest.executeCodeByProxy.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.com.zwm.oj.judge.codesandbox.impl in oj-backend.executor&quot;: &quot;Debug&quot;,
-    &quot;Maven.oj-backend [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.oj-backend [install].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.MainApplication (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;zwm&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Awork/seeyon-A8V7-HL&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.25747126&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
-    &quot;数据库脚本.create_table.sql.executor&quot;: &quot;Run&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.EasyExcelTest.executeCodeByProxy.executor": "Debug",
+    "JUnit.com.zwm.oj.judge.codesandbox.impl in oj-backend.executor": "Debug",
+    "Maven.oj-backend [clean].executor": "Run",
+    "Maven.oj-backend [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.MainApplication (1).executor": "Debug",
+    "Spring Boot.MainApplication.executor": "Run",
+    "git-widget-placeholder": "zwm",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Awork/seeyon-A8V7-HL",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.25747126",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true",
+    "数据库脚本.create_table.sql.executor": "Run"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;2ff9436a-6b23-47e2-83c2-c436928ec63a&quot;,
-      &quot;2ff9436a-6b23-47e2-83c2-c436928ec63a/schema/\&quot;oj\&quot;&quot;
+    "RunConfigurationTargetLRU": [
+      "2ff9436a-6b23-47e2-83c2-c436928ec63a",
+      "2ff9436a-6b23-47e2-83c2-c436928ec63a/schema/\"oj\""
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -261,7 +266,10 @@
       <workItem from="1730345754299" duration="2300000" />
       <workItem from="1730353773310" duration="4569000" />
       <workItem from="1730426444369" duration="3390000" />
-      <workItem from="1730615925410" duration="2972000" />
+      <workItem from="1730615925410" duration="5100000" />
+      <workItem from="1730624538605" duration="1164000" />
+      <workItem from="1730685920978" duration="1052000" />
+      <workItem from="1731307652777" duration="623000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目初始化">
       <option name="closed" value="true" />
