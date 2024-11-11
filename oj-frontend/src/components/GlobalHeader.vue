@@ -25,7 +25,7 @@
       <!-- 如果用户已登录，显示用户名 -->
       <div v-if="store.state.user?.loginUser?.userName">
         <a-avatar
-          image-url="{{ store.state.user?.loginUser?.userAvatar }}"
+          :image-url="store.state.user?.loginUser?.userAvatar"
         ></a-avatar>
         {{ store.state.user?.loginUser?.userName }}
       </div>

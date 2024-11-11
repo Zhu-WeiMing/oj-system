@@ -8,7 +8,8 @@ export default {
   state: () => ({
     loginUser: {
       userName: "",
-      userAvatar: "",
+      userAvatar:
+        "https://bronny.oss-cn-hangzhou.aliyuncs.com/DEFAULT_PHOTO.jpg",
     },
   }),
   actions: {
