@@ -12,18 +12,19 @@ import { request as __request } from "../core/request";
 
 export class QuestionSubmitControllerService {
   /**
+   * @deprecated
    * doSubmitQuestion
    * @param questionSubmitAddRequest questionSubmitAddRequest
    * @returns BaseResponse_long_ OK
    * @returns any Created
    * @throws ApiError
    */
-  public static doSubmitQuestionUsingPost(
+  public static doSubmitQuestionUsingPost1(
     questionSubmitAddRequest: QuestionSubmitAddRequest
   ): CancelablePromise<BaseResponse_long_ | any> {
     return __request(OpenAPI, {
       method: "POST",
-      url: "/api/question/question_submit/do",
+      url: "/api/question_submit/",
       body: questionSubmitAddRequest,
       errors: {
         401: `Unauthorized`,
@@ -34,6 +35,7 @@ export class QuestionSubmitControllerService {
   }
 
   /**
+   * @deprecated
    * listQuestionSubmitByPage
    * @param questionSubmitQueryRequest questionSubmitQueryRequest
    * @returns BaseResponse_Page_QuestionSubmitVO_ OK
@@ -45,7 +47,7 @@ export class QuestionSubmitControllerService {
   ): CancelablePromise<BaseResponse_Page_QuestionSubmitVO_ | any> {
     return __request(OpenAPI, {
       method: "POST",
-      url: "/api/question/question_submit/my/list/page",
+      url: "/api/question_submit/my/list/page",
       body: questionSubmitQueryRequest,
       errors: {
         401: `Unauthorized`,

@@ -4,6 +4,6 @@
 /* eslint-disable */
 export type BaseResponse_int_ = {
   code?: number;
-  data?: any;
+  data?: number;
   message?: string;
 };

@@ -16,7 +16,7 @@ export class WxMpControllerService {
    * @returns string OK
    * @throws ApiError
    */
-  public static checkUsingGet1(
+  public static checkUsingGet(
     echostr?: string,
     nonce?: string,
     signature?: string,
@@ -44,7 +44,7 @@ export class WxMpControllerService {
    * @returns any OK
    * @throws ApiError
    */
-  public static receiveMessageUsingPost1(): CancelablePromise<any> {
+  public static receiveMessageUsingPost(): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/",
@@ -61,7 +61,7 @@ export class WxMpControllerService {
    * @returns string OK
    * @throws ApiError
    */
-  public static setMenuUsingGet1(): CancelablePromise<string> {
+  public static setMenuUsingGet(): CancelablePromise<string> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/setMenu",

@@ -2,8 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Question } from "./Question";
+
 export type BaseResponse_Question_ = {
   code?: number;
-  data?: any;
+  data?: Question;
   message?: string;
 };

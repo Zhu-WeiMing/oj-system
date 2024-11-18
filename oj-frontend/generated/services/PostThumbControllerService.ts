@@ -16,7 +16,7 @@ export class PostThumbControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static doThumbUsingPost1(
+  public static doThumbUsingPost(
     postThumbAddRequest: PostThumbAddRequest
   ): CancelablePromise<BaseResponse_int_ | any> {
     return __request(OpenAPI, {

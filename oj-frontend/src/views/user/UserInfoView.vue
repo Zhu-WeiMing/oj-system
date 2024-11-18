@@ -44,11 +44,11 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { UserControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRoute } from "vue-router";
 import { IconEdit } from "@arco-design/web-vue/es/icon";
 import store from "@/store";
+import { UserControllerService } from "../../../generated";
 
 const form = ref({
   createTime: "",
@@ -68,7 +68,6 @@ const loadData = async () => {
   }
   const res = await UserControllerService.getUserVoByIdUsingGet(id as any);
   if (res.code === 0) {
-    console.log("getUserVoByIdUsingGet::::" + res.data.toString());
     form.value = res.data;
   } else {
     console.log("getUserVoByIdUsingGet::::加载失败");

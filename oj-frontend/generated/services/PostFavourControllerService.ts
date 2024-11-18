@@ -19,7 +19,7 @@ export class PostFavourControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static doPostFavourUsingPost1(
+  public static doPostFavourUsingPost(
     postFavourAddRequest: PostFavourAddRequest
   ): CancelablePromise<BaseResponse_int_ | any> {
     return __request(OpenAPI, {
@@ -41,7 +41,7 @@ export class PostFavourControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static listFavourPostByPageUsingPost1(
+  public static listFavourPostByPageUsingPost(
     postFavourQueryRequest: PostFavourQueryRequest
   ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
     return __request(OpenAPI, {
@@ -63,7 +63,7 @@ export class PostFavourControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static listMyFavourPostByPageUsingPost1(
+  public static listMyFavourPostByPageUsingPost(
     postQueryRequest: PostQueryRequest
   ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
     return __request(OpenAPI, {

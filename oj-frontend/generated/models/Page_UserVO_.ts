@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderItem } from "./OrderItem";
+import type { UserVO } from "./UserVO";
 
 export type Page_UserVO_ = {
   countId?: string;
@@ -11,7 +12,7 @@ export type Page_UserVO_ = {
   optimizeCountSql?: boolean;
   orders?: Array<OrderItem>;
   pages?: number;
-  records?: Array<any>;
+  records?: Array<UserVO>;
   searchCount?: boolean;
   size?: number;
   total?: number;

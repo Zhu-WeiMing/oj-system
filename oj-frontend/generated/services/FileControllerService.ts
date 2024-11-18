@@ -16,7 +16,7 @@ export class FileControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static uploadFileUsingPost1(
+  public static uploadFileUsingPost(
     biz?: string,
     file?: Blob
   ): CancelablePromise<BaseResponse_string_ | any> {

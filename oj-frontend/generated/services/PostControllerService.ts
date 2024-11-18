@@ -23,7 +23,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static addPostUsingPost1(
+  public static addPostUsingPost(
     postAddRequest: PostAddRequest
   ): CancelablePromise<BaseResponse_long_ | any> {
     return __request(OpenAPI, {
@@ -45,7 +45,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static deletePostUsingPost1(
+  public static deletePostUsingPost(
     deleteRequest: DeleteRequest
   ): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {
@@ -67,7 +67,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static editPostUsingPost1(
+  public static editPostUsingPost(
     postEditRequest: PostEditRequest
   ): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {
@@ -88,7 +88,7 @@ export class PostControllerService {
    * @returns BaseResponse_PostVO_ OK
    * @throws ApiError
    */
-  public static getPostVoByIdUsingGet1(
+  public static getPostVoByIdUsingGet(
     id?: number
   ): CancelablePromise<BaseResponse_PostVO_> {
     return __request(OpenAPI, {
@@ -112,7 +112,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static listPostVoByPageUsingPost1(
+  public static listPostVoByPageUsingPost(
     postQueryRequest: PostQueryRequest
   ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
     return __request(OpenAPI, {
@@ -134,7 +134,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static listMyPostVoByPageUsingPost1(
+  public static listMyPostVoByPageUsingPost(
     postQueryRequest: PostQueryRequest
   ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
     return __request(OpenAPI, {
@@ -156,7 +156,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static searchPostVoByPageUsingPost1(
+  public static searchPostVoByPageUsingPost(
     postQueryRequest: PostQueryRequest
   ): CancelablePromise<BaseResponse_Page_PostVO_ | any> {
     return __request(OpenAPI, {
@@ -178,7 +178,7 @@ export class PostControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static updatePostUsingPost1(
+  public static updatePostUsingPost(
     postUpdateRequest: PostUpdateRequest
   ): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {

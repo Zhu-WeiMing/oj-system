@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { OrderItem } from "./OrderItem";
+import type { Question } from "./Question";
 
 export type Page_Question_ = {
   countId?: string;
@@ -11,7 +12,7 @@ export type Page_Question_ = {
   optimizeCountSql?: boolean;
   orders?: Array<OrderItem>;
   pages?: number;
-  records?: Array<any>;
+  records?: Array<Question>;
   searchCount?: boolean;
   size?: number;
   total?: number;

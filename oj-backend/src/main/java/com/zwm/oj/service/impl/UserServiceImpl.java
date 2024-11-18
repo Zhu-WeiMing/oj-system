@@ -16,10 +16,12 @@ import com.zwm.oj.model.vo.LoginUserVO;
 import com.zwm.oj.model.vo.UserVO;
 import com.zwm.oj.service.UserService;
 import com.zwm.oj.utils.SqlUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -29,9 +31,6 @@ import org.springframework.util.DigestUtils;
 
 /**
  * 用户服务实现
- *
- *  
- *  
  */
 @Service
 @Slf4j
@@ -43,9 +42,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private static final String SALT = "yupi";
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(String userAvatar, String userName, String userAccount, String userPassword, String checkPassword) {
         // 1. 校验
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, userName)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
         if (userAccount.length() < 4) {
@@ -70,8 +69,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
             // 3. 插入数据
             User user = new User();
+            user.setUserName(userName);
             user.setUserAccount(userAccount);
             user.setUserPassword(encryptPassword);
+            user.setUserAvatar(userAvatar);
             boolean saveResult = this.save(user);
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");

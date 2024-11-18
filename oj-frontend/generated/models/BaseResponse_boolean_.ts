@@ -4,6 +4,6 @@
 /* eslint-disable */
 export type BaseResponse_boolean_ = {
   code?: number;
-  data?: any;
+  data?: boolean;
   message?: string;
 };
