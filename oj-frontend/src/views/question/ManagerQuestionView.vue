@@ -1,6 +1,5 @@
 <template>
   <div id="managerQuestionView">
-    <h2>题目管理</h2>
     <a-table
       :columns="columns"
       :data="dataList"

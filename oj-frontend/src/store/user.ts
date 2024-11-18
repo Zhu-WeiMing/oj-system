@@ -7,6 +7,7 @@ export default {
   namespaced: true,
   state: () => ({
     loginUser: {
+      id: "",
       userName: "",
       userAvatar:
         "https://bronny.oss-cn-hangzhou.aliyuncs.com/DEFAULT_PHOTO.jpg",

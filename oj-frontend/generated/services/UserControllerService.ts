@@ -266,7 +266,7 @@ export class UserControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static updateUserUsingPost1(
+  public static updateUserUsingPost(
     userUpdateRequest: UserUpdateRequest
   ): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {
@@ -288,7 +288,7 @@ export class UserControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static updateMyUserUsingPost1(
+  public static updateMyUserUsingPost(
     userUpdateMyRequest: UserUpdateMyRequest
   ): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {

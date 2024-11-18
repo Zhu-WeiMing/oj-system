@@ -1,5 +1,4 @@
 <template>
-  <div id="addQuestionView">创建题目</div>
   <a-form :model="form">
     <a-form-item field="answer" label="答案">
       <MdEditor :handle-change="onAnswerChange" :value="form.answer" />

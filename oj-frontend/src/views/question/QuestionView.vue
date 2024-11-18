@@ -1,6 +1,5 @@
 <template>
   <div id="questionView">
-    <h2>题目管理</h2>
     <!--    TODO 点击查询按钮后才查询 让页码等于1-->
     <a-form :model="searchParams" layout="inline">
       <a-form-item field="title" label="名称" style="min-width: 280px">

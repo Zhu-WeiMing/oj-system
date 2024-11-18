@@ -1,6 +1,5 @@
 <template>
   <div class="userLoginView">
-    <h2>用户登录</h2>
     <a-form
       :model="form"
       :style="{ width: '600px' }"
@@ -19,17 +18,28 @@
         />
       </a-form-item>
       <a-form-item>
-        <a-button html-type="submit">提交</a-button>
+        <!-- 使用a-space来布局按钮 -->
+        <a-space>
+          <a-button html-type="submit">登录</a-button>
+          <a-button type="text" @click="toRegister">注册</a-button>
+        </a-space>
       </a-form-item>
     </a-form>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+
+const toRegister = () => {
+  router.push({
+    path: "/user/register",
+  });
+};
 
 /**
  * 提交表单
@@ -45,7 +55,7 @@ const handleSubmit = async () => {
   // 调用后端接口
   console.log("form" + form);
   const res = await UserControllerService.userLoginUsingPost(form);
-  console.log("res" + res);
+  console.log("res" + res.toString());
 
   if (res.code === 0) {
     // 登陆成功
