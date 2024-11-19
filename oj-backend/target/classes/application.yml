@@ -12,9 +12,9 @@ spring:
   # session 配置
   session:
     # todo 取消注释开启分布式 session（须先配置 Redis）
-     store-type: redis
+    store-type: redis
     # 30 天过期
-#    timeout: 2592000
+  #    timeout: 2592000
   # 数据库配置
   # todo 需替换配置
   datasource:
@@ -32,10 +32,10 @@ spring:
     password: 123456
   # Elasticsearch 配置
   # todo 需替换配置，然后取消注释
-#  elasticsearch:
-#    uris: http://localhost:9200
-#    username: root
-#    password: 123456
+  #  elasticsearch:
+  #    uris: http://localhost:9200
+  #    username: root
+  #    password: 123456
   # 文件上传
   servlet:
     multipart:
@@ -80,14 +80,13 @@ wx:
   open:
     appId: xxx
     appSecret: xxx
-# 对象存储
-# todo 需替换配置
-cos:
-  client:
-    accessKey: xxx
-    secretKey: xxx
-    region: xxx
-    bucket: xxx
+#miniIo
+minio:
+  accessKey: miniouser
+  secretKey: miniouser
+  bucket: oj-system
+  endpoint: http://192.168.197.131:19000
+  readPath: http://192.168.197.131:19000
 #代码沙箱配置
 codesandbox:
   type: remote

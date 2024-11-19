@@ -5,10 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="更改">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zwm/oj/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oj-backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/oj-backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/config/CosClientConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/constant/FileConstant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/zwm/oj/controller/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/zwm/oj/manager/CosManager.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zwm/oj/MainApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/config/CosClientConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/constant/FileConstant.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/controller/FileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/zwm/oj/controller/FileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/zwm/oj/manager/CosManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.MainApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.esdao.PostEsDaoTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.manager.CosManagerTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.mapper.PostFavourMapperTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.mapper.PostMapperTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.service.PostFavourServiceTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.service.PostServiceTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.service.PostThumbServiceTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.service.UserServiceTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.zwm.oj.utils.EasyExcelTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.MainApplicationTests.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.esdao.PostEsDaoTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.manager.CosManagerTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.mapper.PostFavourMapperTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.mapper.PostMapperTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.service.PostFavourServiceTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.service.PostServiceTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.service.PostThumbServiceTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.service.UserServiceTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.zwm.oj.utils.EasyExcelTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserInfoView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserInfoView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,20 +108,20 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.MainApplication (1).executor": "Debug",
-    "Spring Boot.MainApplication.executor": "Run",
+    "Spring Boot.MainApplication.executor": "Debug",
     "git-widget-placeholder": "zwm",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Awork/seeyon-A8V7-HL",
+    "last_opened_file_path": "E:/JavaProject/OJ/oj-backend/src/main/java/com/zwm/oj/config",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15234375",
     "project.structure.side.proportion": "0.25747126",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true",
     "数据库脚本.create_table.sql.executor": "Run"
   },
@@ -109,16 +143,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\config" />
+      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\service" />
+      <recent name="E:\JavaProject\OJ\oj-backend\user_avatar\1807443893244104706" />
       <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj" />
       <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\judge" />
-      <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\model\dto\question" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zwm.oj.service" />
+      <recent name="com.zwm.oj.service.impl" />
+      <recent name="com.zwm.oj.config" />
+      <recent name="com.zwm.oj.manager" />
       <recent name="com.zwm.oj.controller" />
-      <recent name="com.zwm.oj.judge.codesandbox.impl" />
-      <recent name="com.zwm.oj.model.vo" />
-      <recent name="com.zwm.oj.model.dto.questionsubmit" />
-      <recent name="com.zwm.oj.model.enums" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.MainApplication">
@@ -269,7 +305,11 @@
       <workItem from="1730615925410" duration="5100000" />
       <workItem from="1730624538605" duration="1164000" />
       <workItem from="1730685920978" duration="1052000" />
-      <workItem from="1731307652777" duration="623000" />
+      <workItem from="1731307652777" duration="1221000" />
+      <workItem from="1731549306752" duration="1592000" />
+      <workItem from="1731577968874" duration="1543000" />
+      <workItem from="1731893495052" duration="21088000" />
+      <workItem from="1731982476643" duration="1017000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目初始化">
       <option name="closed" value="true" />
@@ -462,15 +502,20 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/UserServiceImpl.java</url>
-          <line>215</line>
+          <line>216</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/controller/QuestionController.java</url>
           <line>228</line>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/MinIOFileStorageService.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
