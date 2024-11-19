@@ -93,6 +93,10 @@ const goToLogin = () => {
 
 const logOut = () => {
   UserControllerService.userLogoutUsingPost();
+  store.state.user.userName = "";
+  store.state.user.id = "";
+  store.state.user.userRole = "";
+  location.reload();
 };
 </script>
 
