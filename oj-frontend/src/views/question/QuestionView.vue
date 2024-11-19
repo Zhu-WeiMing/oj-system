@@ -9,12 +9,9 @@
         <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary">查询</a-button>
+        <a-button type="primary" @click="handleSearch">查询</a-button>
       </a-form-item>
     </a-form>
-
-    <!--    分割线-->
-    <a-divider size="0" />
 
     <a-table
       :columns="columns"
@@ -27,7 +24,7 @@
       }"
       @page-change="onPageChange"
     >
-      <template #tag="{ record }">
+      <template #tags="{ record }">
         <a-space wrap>
           <a-tag v-for="(tag, index) in record.tags" :key="index" color="green"
             >{{ tag }}
@@ -48,8 +45,29 @@
 
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="toQuestionPage(record)"
+          <a-button
+            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.USER"
+            type="primary"
+            @click="toQuestionPage(record)"
             >做题
+          </a-button>
+
+          <a-button
+            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
+            type="primary"
+            @click="doUpdate(record)"
+            >修改
+          </a-button>
+          <a-button
+            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
+            type="outline"
+            >查看
+          </a-button>
+          <a-button
+            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
+            status="danger"
+            @click="doDelete(record)"
+            >删除
           </a-button>
         </a-space>
       </template>
@@ -58,6 +76,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useStore } from "vuex";
+
+const store = useStore();
 import { onMounted, ref, watchEffect } from "vue";
 import {
   Question,
@@ -67,7 +88,9 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
+import ASSESS_ENUM from "@/access/accessEnum";
 
+const router = useRouter();
 const show = ref(true);
 
 const dataList = ref([]);
@@ -79,18 +102,26 @@ const searchParams = ref<QuestionQueryRequest>({
   current: 1,
 });
 
+const handleSearch = () => {
+  searchParams.value.current = 1; // 重置页码为1
+  loadData();
+  console.log("loadData----");
+};
+
 const loadData = async () => {
+  console.log("loadData0000");
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
     dataList.value = res.data.records;
+    console.log(res.data.records);
     total.value = res.data.total;
   } else {
     message.error("加载失败" + res.message);
   }
 };
-const router = useRouter();
+
 /**
  * 跳转到题目做题页面
  * @param question
@@ -117,6 +148,27 @@ const onPageChange = (page: number) => {
     ...searchParams.value,
     current: page,
   };
+};
+const doUpdate = (question: Question) => {
+  router.push({
+    path: "/update/question",
+    query: {
+      id: question.id,
+    },
+  });
+};
+
+const doDelete = async (question: Question) => {
+  const res = await QuestionControllerService.deleteQuestionUsingPost({
+    id: question.id,
+  });
+  if (res.code === 0) {
+    message.success("删除成功");
+    //更新数据
+    loadData();
+  } else {
+    message.error("删除失败" + res.message);
+  }
 };
 
 /**

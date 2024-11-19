@@ -111,6 +111,9 @@ import { reactive } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
 import { QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const form = reactive({
   answer: "",
@@ -134,6 +137,7 @@ const doSubmit = async () => {
   const res = await QuestionControllerService.addQuestionUsingPost(form);
   if (res.code === 0) {
     message.success("添加成功");
+    router.go(-1);
   } else {
     message.error("创建失败：" + res.message);
   }

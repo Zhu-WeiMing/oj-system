@@ -103,6 +103,7 @@
 
     <a-form-item>
       <a-button type="primary" @click="doSubmit">提交</a-button>
+      <a-button type="dashed" @click="router.go(-1)">返回</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -110,9 +111,12 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { QuestionControllerService } from "../../../generated";
+import { QuestionControllerService, QuestionVO } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const form = ref({
   answer: "",
@@ -130,20 +134,20 @@ const form = ref({
   },
   tags: [],
   title: "",
-});
+} as any);
 
 /**
  * 根据题目id获取老的数据
  */
-const router = useRoute();
+const userrouter = useRoute();
 const loadDate = async () => {
-  const id = router.query.id;
+  const id = userrouter.query.id;
   if (!id) {
     return;
   }
-  const res = await QuestionControllerService.getQuestionByIdUsingGet(
+  const res = (await QuestionControllerService.getQuestionByIdUsingGet(
     id as any
-  );
+  )) as any;
   if (res.code === 0) {
     form.value = res.data;
     form.value.judgeCase = JSON.parse(res.data.judgeCase);

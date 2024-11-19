@@ -6,7 +6,6 @@ import UserLayout from "@/layouts/UserLayout.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import UseLoginView from "@/views/user/UseLoginView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
-import ManagerQuestionView from "@/views/question/ManagerQuestionView.vue";
 import UpdateQuestionView from "@/views/question/UpdateQuestionView.vue";
 import QuestionView from "@/views/question/QuestionView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
@@ -73,14 +72,6 @@ export const routes: Array<RouteRecordRaw> = [
     component: UpdateQuestionView,
     meta: {
       hideInMenu: true,
-      access: ASSESS_ENUM.USER,
-    },
-  },
-  {
-    path: "/manager/question",
-    name: "管理题目",
-    component: ManagerQuestionView,
-    meta: {
       access: ASSESS_ENUM.USER,
     },
   },

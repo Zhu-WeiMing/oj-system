@@ -64,6 +64,9 @@
         <a-button type="primary" style="min-width: 200px" @click="doSubmit"
           >提交代码
         </a-button>
+        <a-button type="dashed" style="min-width: 200px" @click="router.go(-1)"
+          >返回
+        </a-button>
       </a-col>
     </a-row>
   </div>
@@ -75,11 +78,13 @@ import message from "@arco-design/web-vue/es/message";
 import {
   QuestionControllerService,
   QuestionSubmitAddRequest,
-  QuestionSubmitControllerService,
   QuestionVO,
 } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 interface Props {
   id: string;
@@ -111,7 +116,7 @@ const doSubmit = async () => {
   if (!question.value?.id) {
     return;
   }
-  const res = await QuestionSubmitControllerService.doSubmitQuestionUsingPost({
+  const res = await QuestionControllerService.doSubmitQuestionUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
