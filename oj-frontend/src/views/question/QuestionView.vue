@@ -1,6 +1,5 @@
 <template>
   <div id="questionView">
-    <!--    TODO 点击查询按钮后才查询 让页码等于1-->
     <a-form :model="searchParams" layout="inline">
       <a-form-item field="title" label="名称" style="min-width: 280px">
         <a-input v-model="searchParams.title" placeholder="请输入名称" />
@@ -46,7 +45,7 @@
       <template #optional="{ record }">
         <a-space>
           <a-button
-            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.USER"
+            v-if="store.state.user?.loginUser?.userRole != ASSESS_ENUM.USER"
             type="primary"
             @click="toQuestionPage(record)"
             >做题
@@ -61,6 +60,7 @@
           <a-button
             v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
             type="outline"
+            @click="doLook(record)"
             >查看
           </a-button>
           <a-button
@@ -77,8 +77,6 @@
 
 <script lang="ts" setup>
 import { useStore } from "vuex";
-
-const store = useStore();
 import { onMounted, ref, watchEffect } from "vue";
 import {
   Question,
@@ -89,6 +87,8 @@ import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
 import ASSESS_ENUM from "@/access/accessEnum";
+
+const store = useStore();
 
 const router = useRouter();
 const show = ref(true);
@@ -169,6 +169,15 @@ const doDelete = async (question: Question) => {
   } else {
     message.error("删除失败" + res.message);
   }
+};
+
+const doLook = async (question: Question) => {
+  router.push({
+    path: "/info/question",
+    query: {
+      id: question.id,
+    },
+  });
 };
 
 /**

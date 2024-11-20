@@ -48,7 +48,11 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { IconEdit } from "@arco-design/web-vue/es/icon";
-import { UserControllerService, UserRegisterRequest } from "../../../generated";
+import {
+  FileControllerService,
+  UserControllerService,
+  UserRegisterRequest,
+} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 
@@ -73,9 +77,41 @@ const handleSubmit = async () => {
   }
 };
 
-// todo 上传头像
-const uploadImage = () => {
-  return;
+const uploadImage = async () => {
+  // 创建一个文件输入元素
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*"; // 限制只能选择图片文件
+
+  // 监听文件选择事件
+  fileInput.onchange = async (event) => {
+    const files = event.target!.files[0];
+    if (files.length === 0) {
+      message.error("未选择文件");
+      return;
+    }
+
+    // 获取选择的文件
+    const file = files;
+    console.log("file:::" + file);
+
+    // 调用上传文件的接口
+    const res = await FileControllerService.uploadFileUsingPost(
+      "user_avatar",
+      file
+    );
+
+    if (res.code === 0) {
+      form.userAvatar = res.data;
+      console.log("form.value.userAvatar:::" + form.userAvatar);
+      message.info("上传成功！");
+    } else {
+      message.error("上传失败：" + res.message);
+    }
+  };
+
+  // 触发文件输入元素
+  fileInput.click();
 };
 </script>
 

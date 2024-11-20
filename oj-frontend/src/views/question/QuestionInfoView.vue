@@ -1,16 +1,16 @@
 <template>
-  <a-form :model="form">
+  <a-form :model="form" disabled size="large" style="font-weight: bold">
     <a-form-item field="title" label="标题">
       <a-input v-model="form.title" placeholder="请输入标题" />
     </a-form-item>
     <a-form-item field="context" label="题目内容">
-      <MdEditor :handle-change="onContextChange" :value="form.content" />
+      <MdViewer :value="form.content" />
     </a-form-item>
-
+    <p></p>
     <a-form-item field="answer" label="答案">
-      <MdEditor :handle-change="onAnswerChange" :value="form.answer" />
+      <MdViewer :value="form.answer" />
     </a-form-item>
-
+    <p></p>
     <a-form-item field="tags" label="标签">
       <a-input-tag
         v-model="form.tags"
@@ -87,37 +87,24 @@
             placeholder="请输入测试输出用例"
           />
         </a-form-item>
-
-        <a-button
-          :style="{ marginLeft: '10px' }"
-          status="danger"
-          @click="handleDelete(index)"
-          >删除
-        </a-button>
       </a-form-item>
-      <div>
-        <a-button status="success" type="outline" @click="handleAdd"
-          >添加测试用例
-        </a-button>
-      </div>
-    </a-form-item>
-
-    <a-form-item>
-      <a-button type="primary" @click="doSubmit">提交</a-button>
     </a-form-item>
   </a-form>
+  <a-form-item>
+    <a-button type="dashed" @click="router.go(-1)">返回</a-button>
+  </a-form-item>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import MdEditor from "@/components/MdEditor.vue";
+import { onMounted, ref } from "vue";
 import { QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import MdViewer from "@/components/MdViewer.vue";
 
 const router = useRouter();
 
-const form = reactive({
+const form = ref({
   answer: "",
   content: "",
   judgeCase: [
@@ -133,23 +120,52 @@ const form = reactive({
   },
   tags: [],
   title: "",
+} as any);
+
+/**
+ * 根据题目id获取老的数据
+ */
+const userrouter = useRoute();
+const loadDate = async () => {
+  const id = userrouter.query.id;
+  if (!id) {
+    return;
+  }
+  const res = (await QuestionControllerService.getQuestionByIdUsingGet(
+    id as any
+  )) as any;
+  if (res.code === 0) {
+    form.value = res.data;
+    form.value.judgeCase = JSON.parse(res.data.judgeCase);
+    form.value.judgeConfig = JSON.parse(res.data.judgeConfig);
+    form.value.tags = JSON.parse(res.data.tags);
+  } else {
+    message.error("加载失败" + res.message);
+  }
+};
+/**
+ * 加载页面
+ */
+onMounted(() => {
+  loadDate();
 });
 
 const doSubmit = async () => {
-  const res = await QuestionControllerService.addQuestionUsingPost(form);
+  const res = await QuestionControllerService.updateQuestionUsingPost(
+    form.value
+  );
   if (res.code === 0) {
-    message.success("添加成功");
-    router.go(-1);
+    message.success("更新成功");
   } else {
-    message.error("创建失败：" + res.message);
+    message.error("更新失败：" + res.message);
   }
 };
 /**
  * 新增测试用例
  */
 const handleAdd = () => {
-  if (form.judgeCase) {
-    form.judgeCase.push({
+  if (form.value.judgeCase) {
+    form.value.judgeCase.push({
       input: "",
       output: "",
     });
@@ -159,15 +175,9 @@ const handleAdd = () => {
  * 删除测试用例
  */
 const handleDelete = (index: number) => {
-  if (form.judgeCase) {
-    form.judgeCase.splice(index, 1);
+  if (form.value.judgeCase) {
+    form.value.judgeCase.splice(index, 1);
   }
-};
-const onAnswerChange = (v: string) => {
-  form.answer = v;
-};
-const onContextChange = (v: string) => {
-  form.content = v;
 };
 </script>
 

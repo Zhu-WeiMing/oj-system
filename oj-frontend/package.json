@@ -16,8 +16,12 @@
     "moment": "^2.30.1",
     "monaco-editor": "^0.50.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
+    "three": "^0.121.0",
+    "typed.js": "^2.1.0",
+    "vanta": "^0.5.24",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-typed-js": "^0.1.2",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
@@ -36,6 +40,8 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
     "openapi-typescript-codegen": "^0.29.0",
     "typescript": "~4.5.5"
   }

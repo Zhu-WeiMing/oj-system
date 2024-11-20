@@ -73,7 +73,6 @@ const loadData = async () => {
   }
 };
 
-// todo 上传头像
 const uploadImage = async () => {
   // 创建一个文件输入元素
   const fileInput = document.createElement("input");
