@@ -9,24 +9,29 @@ import com.zwm.oj.constant.CommonConstant;
 import com.zwm.oj.exception.BusinessException;
 import com.zwm.oj.exception.ThrowUtils;
 
+import com.zwm.oj.mapper.QuestionSubmitMapper;
 import com.zwm.oj.model.dto.question.QuestionQueryRequest;
 import com.zwm.oj.model.entity.*;
 import com.zwm.oj.model.vo.QuestionVO;
 import com.zwm.oj.model.vo.UserVO;
 import com.zwm.oj.service.QuestionService;
 import com.zwm.oj.mapper.QuestionMapper;
+import com.zwm.oj.service.QuestionSubmitService;
 import com.zwm.oj.service.UserService;
 import com.zwm.oj.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.zwm.oj.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * @author zhuweiming
@@ -143,6 +148,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         return questionVO;
     }
 
+    @Autowired
+    private QuestionSubmitMapper questionSubmitMapper;
+
+
     @Override
     public Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request) {
         List<Question> questionList = questionPage.getRecords();
@@ -165,6 +174,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             User user = null;
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
+            }
+            User loginUser = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
+            if (loginUser != null) {
+                Integer maxStatus = questionSubmitMapper.getMaxStatus(question.getId(), loginUser.getId());
+                questionVO.setQuestionSubmitStatus(maxStatus == null ? 0 : maxStatus);
             }
             questionVO.setUserVO(userService.getUserVO(user));
             return questionVO;

@@ -89,6 +89,11 @@ public class QuestionVO implements Serializable {
      */
     private UserVO userVO;
 
+    /**
+     * 判题状态 0 - 待判题、1 - 判题中、2 - 成功、3 - 失败
+     */
+    private int questionSubmitStatus;
+
 
     /**
      * 包装类转对象

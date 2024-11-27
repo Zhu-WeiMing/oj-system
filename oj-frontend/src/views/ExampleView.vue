@@ -2,12 +2,8 @@
   <div class="box">
     <div ref="vantaRef" style="width: 100vw; height: 100vh"></div>
     <div class="banner">
-      <h1>水香木鱼</h1>
-      <h6>
-        &ensp;&ensp;SHUI&ensp;&ensp;&ensp;XIANG&ensp;&ensp;&ensp;&ensp;MU&ensp;&ensp;&ensp;&ensp;&ensp;YU
-      </h6>
-      <p>活动时间：待定</p>
-      <p>组织单位：待定</p>
+      <h1>OJ Problem Determination System</h1>
+      <p>author：zwm</p>
     </div>
   </div>
 </template>
@@ -52,7 +48,7 @@ export default {
   .banner {
     z-index: 999;
     position: absolute;
-    top: 30%;
+    top: 10%;
     left: 10%;
     color: #fff;
     // 确保文本和背景的对比度足够，避免使用半透明背景

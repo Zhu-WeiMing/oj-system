@@ -130,11 +130,11 @@ public class QuestionController {
             question.setTags(GSON.toJson(tags));
         }
         List<JudgeCase> judgeCase = questionUpdateRequest.getJudgeCase();
-        if(judgeCase != null){
+        if (judgeCase != null) {
             question.setJudgeCase(GSON.toJson(judgeCase));
         }
         JudgeConfig judgeConfig = questionUpdateRequest.getJudgeConfig();
-        if(judgeConfig != null){
+        if (judgeConfig != null) {
             question.setJudgeConfig(GSON.toJson(judgeConfig));
         }
         // 参数校验
@@ -182,7 +182,7 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         //不是本人或者管理员，不能获取全部数据信息
-        if(!question.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
+        if (!question.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         return ResultUtils.success(question);
@@ -242,7 +242,7 @@ public class QuestionController {
     @PostMapping("/list/page")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<Question>> listUserByPage(@RequestBody QuestionQueryRequest questionQueryRequest,
-                                                   HttpServletRequest request) {
+                                                       HttpServletRequest request) {
         long current = questionQueryRequest.getCurrent();
         long size = questionQueryRequest.getPageSize();
         Page<Question> questionPage = questionService.page(new Page<>(current, size),
@@ -289,7 +289,6 @@ public class QuestionController {
      */
 
 
-
     @Resource
     private QuestionSubmitService questionSubmitService;
 
@@ -333,7 +332,7 @@ public class QuestionController {
                 questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
         //返回脱敏信息
         final User loginUser = userService.getLoginUser(request);
-        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage,loginUser));
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }
 
 }

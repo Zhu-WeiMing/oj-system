@@ -27,13 +27,13 @@
                   v-for="(tag, index) of question?.tags"
                   :key="index"
                   color="green"
-                  >{{ tag }}
+                >{{ tag }}
                 </a-tag>
               </a-space>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="评论">
-            Content of Tab Panel 2
+          <a-tab-pane key="comment" title="题解">
+            <CommentList :id="question?.id" />
           </a-tab-pane>
           <a-tab-pane key="answer" title="题解">
             <template #title>Tab 3</template>
@@ -62,10 +62,10 @@
           :handle-change="changeCode"
         />
         <a-button type="primary" style="min-width: 200px" @click="doSubmit"
-          >提交代码
+        >提交代码
         </a-button>
         <a-button type="dashed" style="min-width: 200px" @click="router.go(-1)"
-          >返回
+        >返回
         </a-button>
       </a-col>
     </a-row>
@@ -75,14 +75,11 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import message from "@arco-design/web-vue/es/message";
-import {
-  QuestionControllerService,
-  QuestionSubmitAddRequest,
-  QuestionVO,
-} from "../../../generated";
+import { QuestionControllerService, QuestionSubmitAddRequest, QuestionVO } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import { useRouter } from "vue-router";
+import CommentList from "@/components/AnswerList.vue";
 
 const router = useRouter();
 
@@ -91,7 +88,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: () => "",
+  id: () => ""
 });
 const question = ref<QuestionVO>();
 
@@ -107,7 +104,11 @@ const loadData = async () => {
 };
 const form = ref<QuestionSubmitAddRequest>({
   language: "java",
-  code: "",
+  code: "public class Main {\n" +
+    "    public static void main(String[] args) {\n" +
+    "        //TODO 做题\n" +
+    "    }\n" +
+    "}"
 });
 /**
  * 提交代码
@@ -118,7 +119,7 @@ const doSubmit = async () => {
   }
   const res = await QuestionControllerService.doSubmitQuestionUsingPost({
     ...form.value,
-    questionId: question.value.id,
+    questionId: question.value.id
   });
   if (res.code === 0) {
     message.success("提交成功");
