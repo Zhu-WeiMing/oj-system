@@ -36,7 +36,7 @@ public interface QuestionSubmitService extends IService<QuestionSubmit> {
      * @param questionSubmitQueryRequest
      * @return
      */
-    QueryWrapper<QuestionSubmit> getQueryWrapper(QuestionSubmitQueryRequest questionSubmitQueryRequest);
+    QueryWrapper<QuestionSubmit> getQueryWrapper(QuestionSubmitQueryRequest questionSubmitQueryRequest,User loginUser);
 
 
     /**

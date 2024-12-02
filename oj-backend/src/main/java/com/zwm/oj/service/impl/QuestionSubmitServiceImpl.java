@@ -20,6 +20,7 @@ import com.zwm.oj.service.QuestionSubmitService;
 import com.zwm.oj.mapper.QuestionSubmitMapper;
 import com.zwm.oj.service.UserService;
 import com.zwm.oj.utils.SqlUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -82,7 +83,6 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmit.setQuestionId(questionId);
         questionSubmit.setCode(questionSubmitAddRequest.getCode());
         questionSubmit.setLanguage(language);
-        // todo 设置初始状态
         questionSubmit.setStatus(QuestionSubmitEnum.WAITING.getValue());
         questionSubmit.setJudgeInfo("{}");
 
@@ -90,7 +90,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
-        //todo 执行判题服务
+
         Long questionSubmitId = questionSubmit.getId();
         CompletableFuture.runAsync(() -> {
             judgeService.doJudge(questionSubmitId);
@@ -108,7 +108,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
      * @return
      */
     @Override
-    public QueryWrapper<QuestionSubmit> getQueryWrapper(QuestionSubmitQueryRequest questionSubmitQueryRequest) {
+    public QueryWrapper<QuestionSubmit> getQueryWrapper(QuestionSubmitQueryRequest questionSubmitQueryRequest, User loginUser) {
         QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
         if (questionSubmitQueryRequest == null) {
             return queryWrapper;
@@ -121,9 +121,14 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         String sortField = questionSubmitQueryRequest.getSortField();
         String sortOrder = questionSubmitQueryRequest.getSortOrder();
 
+        if (!userService.isAdmin(loginUser)) {
+            queryWrapper.eq(ObjectUtils.isNotEmpty(loginUser.getId()), "userId", loginUser.getId());
+        } else {
+            queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        }
 
         queryWrapper.eq(StringUtils.isNotEmpty(language), "language", language);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+
         queryWrapper.eq(ObjectUtils.isNotEmpty(questionId), "questionId", questionId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(status), "status", status);
         queryWrapper.eq("isDelete", false);

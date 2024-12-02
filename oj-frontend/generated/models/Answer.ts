@@ -2,10 +2,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type PostEditRequest = {
+export type Answer = {
     content?: string;
+    createTime?: string;
     id?: number;
-    tags?: Array<string>;
+    isDelete?: number;
+    questionId?: number;
     title?: string;
+    userId?: number;
 };
 

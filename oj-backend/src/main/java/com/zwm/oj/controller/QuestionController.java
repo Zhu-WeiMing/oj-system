@@ -13,7 +13,6 @@ import com.zwm.oj.exception.ThrowUtils;
 import com.zwm.oj.model.dto.question.*;
 import com.zwm.oj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.zwm.oj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
-import com.zwm.oj.model.dto.user.UserQueryRequest;
 import com.zwm.oj.model.entity.Question;
 import com.zwm.oj.model.entity.QuestionSubmit;
 import com.zwm.oj.model.entity.User;
@@ -68,11 +67,11 @@ public class QuestionController {
             question.setTags(GSON.toJson(tags));
         }
         List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
-        if(judgeCase != null){
+        if (judgeCase != null) {
             question.setJudgeCase(GSON.toJson(judgeCase));
         }
         JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
-        if(judgeConfig != null){
+        if (judgeConfig != null) {
             question.setJudgeConfig(GSON.toJson(judgeConfig));
         }
         questionService.validQuestion(question, true);
@@ -195,6 +194,7 @@ public class QuestionController {
      * @param request
      * @return
      */
+    //todo 提交数量和通过数量问题！
     @PostMapping("/list/page/vo")
     public BaseResponse<Page<QuestionVO>> listQuestionVOByPage(@RequestBody QuestionQueryRequest questionQueryRequest,
                                                                HttpServletRequest request) {
@@ -327,11 +327,11 @@ public class QuestionController {
 
         long current = questionSubmitQueryRequest.getCurrent();
         long size = questionSubmitQueryRequest.getPageSize();
-        //从数据库中查询原始的题目提交分页信息
-        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
-                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
         //返回脱敏信息
         final User loginUser = userService.getLoginUser(request);
+        //从数据库中查询原始的题目提交分页信息
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest,loginUser));
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }
 

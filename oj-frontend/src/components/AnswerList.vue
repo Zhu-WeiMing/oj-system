@@ -1,45 +1,65 @@
 <template>
-  <a-comment
-    align="right"
-    author="Balzac"
-    avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-    content="A design is a plan or specification for the construction of an object
-          or system or for the implementation of an activity or process, or the
-          result of that plan or specification in the form of a prototype,
-          product or process."
-    datetime="1 hour"
-  >
-    <template #actions>
-      <span class="action"> <IconMessage /> Reply </span>
-    </template>
+  <a-affix :offsetBottom="120" align="right">
+    <a-button status="success" shape="round" @click="toSendAnswerView">发布题解</a-button>
+  </a-affix>
+  <a-divider />
+  <div v-if="answers && answers.length > 0">
     <a-comment
+      v-for="answer in answers"
+      :key="answer.id"
       align="right"
-      avatar="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+      :author="answer.userName"
+      :avatar="answer.userAvatar"
+      :content="answer.content"
+      :datetime="answer.createTime"
     >
-      <template #actions>
-        <a-button key="0" type="secondary"> Cancel</a-button>
-        <a-button key="1" type="primary"> Reply</a-button>
+      <!--     todo 使用 MdViewer 组件来显示 Markdown 内容 -->
+      <template #content v-if="answers">
+        <MdViewer :value="answer.content || ''" />
       </template>
-      <template #content>
-        <a-input placeholder="Here is you content." />
-      </template>
+
     </a-comment>
-  </a-comment>
+  </div>
+  <template v-else-if="answers.length === 0">
+    <a-empty />
+  </template>
+
+
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted } from "vue";
-import { IconMessage } from "@arco-design/web-vue/es/icon";
+import { defineProps, onMounted, ref } from "vue";
+import { AnswerControllerService, AnswerGetVo } from "../../generated";
+import message from "@arco-design/web-vue/es/message";
+import { useRouter } from "vue-router";
+import MdViewer from "@/components/MdViewer.vue";
 
 interface Props {
-  id: string;
+  id: number;
 }
 
+
 const props = defineProps<Props>();
+const answers = ref<AnswerGetVo[]>([]); // 定义一个响应式数据属性来存储后端返回的数据
 
 onMounted(() => {
-  if (props.id) console.log(props.id);
+  loadData();
 });
+const loadData = async () => {
+  const res = await AnswerControllerService.getByQuestionIdUsingGet(props.id);
+  if (res.code === 0) {
+    answers.value = res.data;
+  } else {
+    message.error("加载失败" + res.message);
+  }
+};
+const router = useRouter();
+const toSendAnswerView = () => {
+  router.push({
+    path: `/answer/send/${props.id}`
+  });
+};
+
 </script>
 
 <style scoped>

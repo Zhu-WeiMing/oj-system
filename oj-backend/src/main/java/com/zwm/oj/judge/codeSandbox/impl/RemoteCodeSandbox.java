@@ -24,7 +24,6 @@ public class RemoteCodeSandbox implements CodeSandbox {
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         log.info("***远程沙箱调用***");
-        // todo 记得修改沙箱地址，确定连接的是本地沙箱还是服务器上的沙箱
         String url = "http://192.168.197.131:8090/executeCode";
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 

@@ -3,9 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserRegisterRequest = {
-  checkPassword?: string;
-  userAccount?: string;
-  userAvatar?: string;
-  userName?: string;
-  userPassword?: string;
+    checkPassword?: string;
+    userAccount?: string;
+    userAvatar?: string;
+    userName?: string;
+    userPassword?: string;
 };
+

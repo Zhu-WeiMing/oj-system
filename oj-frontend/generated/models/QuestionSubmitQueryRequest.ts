@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 export type QuestionSubmitQueryRequest = {
-  code?: string;
-  current?: number;
-  language?: string;
-  pageSize?: number;
-  questionId?: number;
-  sortField?: string;
-  sortOrder?: string;
-  status?: number;
-  userId?: number;
+    code?: string;
+    current?: number;
+    language?: string;
+    pageSize?: number;
+    questionId?: number;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+    userId?: number;
 };
+

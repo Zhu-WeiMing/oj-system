@@ -58,7 +58,6 @@
       <template #optional="{ record }">
         <a-space>
           <a-button
-            v-if="store.state.user?.loginUser?.userRole != ASSESS_ENUM.ADMIN"
             type="primary"
             @click="toQuestionPage(record)"
           >做题
@@ -117,13 +116,11 @@ const handleSearch = () => {
 };
 
 const loadData = async () => {
-  console.log("loadData0000");
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
     dataList.value = res.data.records;
-    console.log(res.data.records);
     total.value = res.data.total;
   } else {
     message.error("加载失败" + res.message);

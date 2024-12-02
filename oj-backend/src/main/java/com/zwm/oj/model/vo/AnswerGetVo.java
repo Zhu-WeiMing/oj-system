@@ -2,9 +2,12 @@ package com.zwm.oj.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 public class AnswerGetVo {
 
     /**
@@ -47,6 +50,7 @@ public class AnswerGetVo {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
 

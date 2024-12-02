@@ -32,14 +32,15 @@
               </a-space>
             </template>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="题解">
-            <CommentList :id="question?.id" />
+          <a-tab-pane key="answer" title="题解" v-if="question">
+            <CommentList :id="question.id" />
           </a-tab-pane>
-          <a-tab-pane key="answer" title="题解">
-            <template #title>Tab 3</template>
-            Content of Tab Panel 3
+          <a-tab-pane key="commitHistory" title="提交记录" v-if="question">
+            <CommitHistory :id="question.id" />
           </a-tab-pane>
         </a-tabs>
+
+
         <!--        右侧代码编辑器-->
       </a-col>
       <a-col :md="12" :xs="24">
@@ -80,6 +81,7 @@ import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import { useRouter } from "vue-router";
 import CommentList from "@/components/AnswerList.vue";
+import CommitHistory from "@/components/CommitHistory.vue";
 
 const router = useRouter();
 
