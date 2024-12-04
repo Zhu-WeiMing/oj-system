@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 
-import com.zwm.client.service.UserService;
+import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.constant.CommonConstant;
 import com.zwm.common.exception.BusinessException;
@@ -17,10 +17,12 @@ import com.zwm.model.entity.User;
 import com.zwm.model.vo.QuestionVO;
 import com.zwm.model.vo.UserVO;
 import com.zwm.questionservice.mapper.QuestionMapper;
+import com.zwm.questionservice.mapper.QuestionSubmitMapper;
 import com.zwm.questionservice.service.QuestionService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.zwm.common.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * @author zhuweiming
@@ -43,7 +47,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     private final static Gson GSON = new Gson();
 
     @Resource
-    private UserService userService;
+    private UserFeignClient userFeignClient;
 
 
     /**
@@ -138,14 +142,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         Long userId = question.getUserId();
         User user = null;
         if (userId != null && userId > 0) {
-            user = userService.getById(userId);
+            user = userFeignClient.getById(userId);
         }
-        UserVO userVO = userService.getUserVO(user);
+        UserVO userVO = userFeignClient.getUserVO(user);
         questionVO.setUserVO(userVO);
 
         return questionVO;
     }
 
+    @Autowired
+    private QuestionSubmitMapper questionSubmitMapper;
     @Override
     public Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request) {
         List<Question> questionList = questionPage.getRecords();
@@ -154,8 +160,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             return questionVOPage;
         }
         // 1. 关联查询用户信息
-        Set<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toSet());
-        Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
+        List<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toList());
+        Map<Long, List<User>> userIdUserListMap = userFeignClient.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
         // 2. 已登录，获取用户点赞、收藏状态
         Map<Long, Boolean> questionIdHasThumbMap = new HashMap<>();
@@ -169,7 +175,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
             if (userIdUserListMap.containsKey(userId)) {
                 user = userIdUserListMap.get(userId).get(0);
             }
-            questionVO.setUserVO(userService.getUserVO(user));
+            User loginUser = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
+            if (loginUser != null) {
+                Integer maxStatus = questionSubmitMapper.getMaxStatus(question.getId(), loginUser.getId());
+                questionVO.setQuestionSubmitStatus(maxStatus == null ? 0 : maxStatus);
+            }
+            questionVO.setUserVO(userFeignClient.getUserVO(user));
             return questionVO;
         }).collect(Collectors.toList());
         questionVOPage.setRecords(questionVOList);

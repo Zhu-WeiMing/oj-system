@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]': # ??????
+            allowedOrigins: "*" # ???? ??????
+            allowedMethods: # ?????
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        - id: user-service
+          uri:
+            lb://user-service
+          predicates:
+            - Path=/api/user/**
+
+        - id: question-service
+          uri:
+            lb://question-service
+          predicates:
+            - Path=/api/question/**
+
+        - id: judge-service
+          uri:
+            lb://judge-service
+          predicates:
+            - Path=/api/judge/**
+
+        - id: answer-service
+          uri:
+            lb://answer-service
+          predicates:
+            - Path=/api/answer/**
+
+        - id: file-service
+          uri:
+            lb://file-service
+          predicates:
+            - Path=/api/file/**
+
+
+  application:
+    name: gateway
+  main:
+    web-application-type: reactive
+server:
+  port: 8888

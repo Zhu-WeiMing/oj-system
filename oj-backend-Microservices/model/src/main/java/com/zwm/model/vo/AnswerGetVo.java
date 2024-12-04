@@ -2,9 +2,11 @@ package com.zwm.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 public class AnswerGetVo {
 
     /**

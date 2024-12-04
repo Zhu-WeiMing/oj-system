@@ -2,8 +2,7 @@ package com.zwm.judgeservice.judge.service.impl;
 
 import cn.hutool.json.JSONUtil;
 
-import com.zwm.client.service.QuestionService;
-import com.zwm.client.service.QuestionSubmitService;
+import com.zwm.client.service.QuestionFeignClient;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.exception.BusinessException;
 import com.zwm.judgeservice.judge.codeSandbox.CodeSandbox;
@@ -30,10 +29,8 @@ import java.util.stream.Collectors;
 public class JudgeServiceImpl implements JudgeService {
 
     @Resource
-    private QuestionService questionService;
+    private QuestionFeignClient questionFeignClient;
 
-    @Resource
-    private QuestionSubmitService questionSubmitService;
 
     //默认为example
     @Value("${codesandbox.type:example}")
@@ -48,7 +45,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 1)传入题目的提交id，获取到对应的题目、提交信息
 
         //获取提交题目的信息
-        QuestionSubmit questionSubmit = questionSubmitService.getById(questionSubmitId);
+        QuestionSubmit questionSubmit = questionFeignClient.getQuestionSubmitById(questionSubmitId);
 
 
         if (questionSubmit == null) {  //如果提交题目的信息为空，抛出去
@@ -57,7 +54,7 @@ public class JudgeServiceImpl implements JudgeService {
 
         //获取题目信息
         Long questionId = questionSubmit.getQuestionId();
-        Question question = questionService.getById(questionId);
+        Question question = questionFeignClient.getById(questionId);
 
         if (question == null) {     //如果题目的信息为空，抛出去
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "题目不存在");
@@ -72,7 +69,7 @@ public class JudgeServiceImpl implements JudgeService {
         QuestionSubmit questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
         questionSubmitUpdate.setStatus(QuestionSubmitEnum.RUNNING.getValue()); //修改状态为 判题中
-        boolean update = questionSubmitService.updateById(questionSubmitUpdate);
+        boolean update = questionFeignClient.updateQuestionSubmitById(questionSubmitUpdate);
 
         if (!update) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目状态更新失败");
@@ -109,13 +106,18 @@ public class JudgeServiceImpl implements JudgeService {
         // 6）更新判题结果信息
         questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
-        questionSubmitUpdate.setStatus(QuestionSubmitEnum.SUCCEED.getValue());
-        questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
-        update = questionSubmitService.updateById(questionSubmitUpdate);
+        String jsonStr = JSONUtil.toJsonStr(judgeInfo);
+        questionSubmitUpdate.setStatus(QuestionSubmitEnum.FAILED.getValue());
+        if (jsonStr.contains(QuestionSubmitEnum.SUCCEED.getText())) {
+            questionSubmitUpdate.setStatus(QuestionSubmitEnum.SUCCEED.getValue());
+        }
+
+        questionSubmitUpdate.setJudgeInfo(jsonStr);
+        update = questionFeignClient.updateQuestionSubmitById(questionSubmitUpdate);
         if (!update) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "题目状态更新失败");
         }
-        QuestionSubmit questionSubmitResult = questionSubmitService.getById(questionId);
+        QuestionSubmit questionSubmitResult = questionFeignClient.getQuestionSubmitById(questionId);
         return questionSubmitResult;
     }
 }

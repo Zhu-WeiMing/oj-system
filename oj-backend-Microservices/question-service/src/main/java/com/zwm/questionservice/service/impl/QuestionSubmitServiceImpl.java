@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import com.zwm.client.service.JudgeService;
-import com.zwm.client.service.UserService;
+import com.zwm.client.service.JudgeFeignClient;
+import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.constant.CommonConstant;
 import com.zwm.common.exception.BusinessException;
@@ -45,10 +45,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private QuestionService questionService;
     @Resource
-    private UserService userService;
+    private UserFeignClient userFeignClient;
     @Resource
     @Lazy
-    private JudgeService judgeService;
+    private JudgeFeignClient judgeFeignClient;
 
     /**
      * 提交题目
@@ -93,7 +93,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         //todo 执行判题服务
         Long questionSubmitId = questionSubmit.getId();
         CompletableFuture.runAsync(() -> {
-            judgeService.doJudge(questionSubmitId);
+            judgeFeignClient.doJudge(questionSubmitId);
         });
         return questionSubmit.getId();
 
@@ -138,7 +138,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);
         //脱敏
         Long userId = loginUser.getId();
-        if (userId != questionSubmit.getId() && !userService.isAdmin(loginUser)) {
+        if (userId != questionSubmit.getId() && !userFeignClient.isAdmin(loginUser)) {
             questionSubmitVO.setCode(null);
         }
         return questionSubmitVO;
