@@ -61,6 +61,7 @@
           :value="form.code"
           :language="form.language"
           :handle-change="changeCode"
+          :disable="store.state.code.isCode"
         />
         <a-button type="primary" style="min-width: 200px" @click="doSubmit"
         >提交代码
@@ -74,7 +75,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { QuestionControllerService, QuestionSubmitAddRequest, QuestionVO } from "../../../generated";
 import CodeEditor from "@/components/CodeEditor.vue";
@@ -82,9 +83,14 @@ import MdViewer from "@/components/MdViewer.vue";
 import { useRouter } from "vue-router";
 import CommentList from "@/components/AnswerList.vue";
 import CommitHistory from "@/components/CommitHistory.vue";
+import store from "@/store";
 
 const router = useRouter();
-
+onMounted(()=>{
+  watch(()=>store.state.code.codeList,(newValue)=>{
+   form.value.code = newValue
+  })
+})
 interface Props {
   id: string;
 }

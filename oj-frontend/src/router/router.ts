@@ -12,6 +12,7 @@ import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import QuestionInfoView from "@/views/question/QuestionInfoView.vue";
 import SendAnswerView from "@/views/question/SendAnswerView.vue";
+import UserProgressView from "@/views/user/UserProgressView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -37,6 +38,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/info",
         name: "个人信息",
         component: UserInfoView
+      },
+      {
+        path: "/user/progress",
+        name: "进展分析",
+        component: UserProgressView
       }
     ]
   },

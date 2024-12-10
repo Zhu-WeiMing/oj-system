@@ -60,7 +60,6 @@ const router = useRoute();
 
 const loadData = async () => {
   const id = router.query.id;
-  console.log("id::::" + id);
   if (!id) {
     return;
   }
@@ -68,7 +67,6 @@ const loadData = async () => {
   if (res.code === 0) {
     form.value = res.data;
   } else {
-    console.log("getUserVoByIdUsingGet::::加载失败");
     message.error("加载失败" + res.message);
   }
 };
@@ -89,7 +87,6 @@ const uploadImage = async () => {
 
     // 获取选择的文件
     const file = files;
-    console.log("file:::" + file);
 
     // 调用上传文件的接口
     const res = await FileControllerService.uploadFileUsingPost(
@@ -99,7 +96,6 @@ const uploadImage = async () => {
 
     if (res.code === 0) {
       form.value.userAvatar = res.data;
-      console.log("form.value.userAvatar:::" + form.value.userAvatar);
       message.info("上传成功！");
     } else {
       message.error("上传失败：" + res.message);
@@ -114,16 +110,14 @@ const updateUserInfo = async () => {
   const res = await UserControllerService.updateMyUserUsingPost(form.value);
   if (res.code === 0) {
     loadData();
-    console.log("修改成功！");
     message.info("修改成功！");
   } else {
-    console.log("更新失败！");
+    message.error("修改失败")
   }
 };
 
 onMounted(() => {
   loadData();
-  console.log("onMounted");
 });
 </script>
 

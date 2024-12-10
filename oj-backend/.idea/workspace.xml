@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/package.json" afterDir="false" />
+    <list default="true" id="2958eba7-9c50-45dc-a4ea-90d7dfa92148" name="更改" comment="前后端开发 | 优化">
       <change beforePath="$PROJECT_DIR$/../oj-frontend/src/router/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/router/router.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/src/views/ExampleView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/views/ExampleView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/src/views/question/QuestionView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/views/question/QuestionView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserInfoView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserInfoView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserRegisterView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../oj-frontend/src/views/user/UserRegisterView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +28,8 @@
     <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.3.22/spring-aop-5.3.22.jar!/org/springframework/aop/framework/CglibAopProxy.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.22/spring-core-5.3.22.jar!/org/springframework/cglib/proxy/MethodProxy.class" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/UserServiceImpl.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MavenImportPreferences">
@@ -77,20 +73,20 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;Spring Boot.MainApplication (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.MainApplication.executor&quot;: &quot;JRebel Debug&quot;,
+    &quot;Spring Boot.MainApplication.executor&quot;: &quot;Debug&quot;,
     &quot;git-widget-placeholder&quot;: &quot;zwm&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/JavaProject/OJ/oj-backend/src/main/java/com/zwm/oj/config&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/JavaProject/OJ/oj-backend-Microservices&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15234375&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.25747126&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
     &quot;数据库脚本.create_table.sql.executor&quot;: &quot;Run&quot;
   },
@@ -119,11 +115,11 @@
       <recent name="E:\JavaProject\OJ\oj-backend\src\main\java\com\zwm\oj\judge" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.zwm.oj.model.entity" />
       <recent name="com.zwm.oj.service" />
       <recent name="com.zwm.oj.service.impl" />
       <recent name="com.zwm.oj.config" />
       <recent name="com.zwm.oj.manager" />
-      <recent name="com.zwm.oj.controller" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.MainApplication">
@@ -177,10 +173,10 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Database Script.create_table.sql" />
       <item itemvalue="JUnit.com.zwm.oj.judge.codesandbox.impl in oj-backend" />
       <item itemvalue="JUnit.EasyExcelTest.executeCodeByProxy" />
       <item itemvalue="Spring Boot.MainApplication" />
+      <item itemvalue="数据库脚本.create_table.sql" />
     </list>
     <recent_temporary>
       <list>
@@ -287,6 +283,35 @@
       <workItem from="1731984689050" duration="886000" />
       <workItem from="1731995779405" duration="5930000" />
       <workItem from="1732066683933" duration="2944000" />
+      <workItem from="1732151985350" duration="796000" />
+      <workItem from="1732172185266" duration="3344000" />
+      <workItem from="1732177682093" duration="5412000" />
+      <workItem from="1732241262868" duration="1193000" />
+      <workItem from="1732244700210" duration="28000" />
+      <workItem from="1732244741337" duration="490000" />
+      <workItem from="1732245250500" duration="439000" />
+      <workItem from="1732245707321" duration="325000" />
+      <workItem from="1732246047614" duration="1918000" />
+      <workItem from="1732279186863" duration="695000" />
+      <workItem from="1732448001475" duration="622000" />
+      <workItem from="1732497676885" duration="388000" />
+      <workItem from="1732500476281" duration="4510000" />
+      <workItem from="1732514542703" duration="454000" />
+      <workItem from="1732515014613" duration="242000" />
+      <workItem from="1732515316583" duration="6430000" />
+      <workItem from="1732678068399" duration="3280000" />
+      <workItem from="1732687832920" duration="6552000" />
+      <workItem from="1732758395855" duration="16333000" />
+      <workItem from="1732844013629" duration="10134000" />
+      <workItem from="1732873680389" duration="86000" />
+      <workItem from="1732873780597" duration="2509000" />
+      <workItem from="1733106556320" duration="2240000" />
+      <workItem from="1733191639661" duration="7038000" />
+      <workItem from="1733274512526" duration="656000" />
+      <workItem from="1733276629233" duration="595000" />
+      <workItem from="1733284561255" duration="1632000" />
+      <workItem from="1733293989501" duration="3625000" />
+      <workItem from="1733456935155" duration="800000" />
     </task>
     <task id="LOCAL-00001" summary="后端项目初始化">
       <option name="closed" value="true" />
@@ -392,7 +417,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725854327344</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="前后端开发 | 评论功能模块、题目列表增添状态">
+      <option name="closed" value="true" />
+      <created>1732695126053</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1732695126053</updated>
+    </task>
+    <task id="LOCAL-00015" summary="前后端开发 | 优化">
+      <option name="closed" value="true" />
+      <created>1733110124867</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1733110124867</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -445,7 +486,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="zwm" />
                       </list>
                     </value>
                   </entry>
@@ -474,20 +515,27 @@
     <MESSAGE value="存档 | 2024.8.26" />
     <MESSAGE value="更新数据库密码" />
     <MESSAGE value="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
-    <option name="LAST_COMMIT_MESSAGE" value="后端开发 | 判题架构的工厂模式、策略模式和代理模式初始化开发" />
+    <MESSAGE value="前后端开发 | 评论功能模块、题目列表增添状态" />
+    <MESSAGE value="前后端开发 | 优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="前后端开发 | 优化" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/service/impl/UserServiceImpl.java</url>
-          <line>216</line>
-          <option name="timeStamp" value="14" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/judge/service/impl/JudgeServiceImpl.java</url>
+          <line>117</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
-        <line-breakpoint type="java-line">
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/judge/strategy/impl/JavaJudgeStrategyImpl.java</url>
+          <line>76</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/zwm/oj/controller/QuestionController.java</url>
-          <line>228</line>
-          <option name="timeStamp" value="16" />
+          <line>76</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -53,9 +53,7 @@ const form = reactive({
 } as UserLoginRequest);
 const handleSubmit = async () => {
   // 调用后端接口
-  console.log("form" + form);
   const res = await UserControllerService.userLoginUsingPost(form);
-  console.log("res" + res.toString());
 
   if (res.code === 0) {
     // 登陆成功

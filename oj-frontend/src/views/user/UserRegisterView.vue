@@ -93,7 +93,6 @@ const uploadImage = async () => {
 
     // 获取选择的文件
     const file = files;
-    console.log("file:::" + file);
 
     // 调用上传文件的接口
     const res = await FileControllerService.uploadFileUsingPost(
@@ -103,7 +102,6 @@ const uploadImage = async () => {
 
     if (res.code === 0) {
       form.userAvatar = res.data;
-      console.log("form.value.userAvatar:::" + form.userAvatar);
       message.info("上传成功！");
     } else {
       message.error("上传失败：" + res.message);
