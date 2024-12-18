@@ -18,18 +18,24 @@ import com.zwm.model.entity.User;
 import com.zwm.model.enums.QuestionSubmitEnum;
 import com.zwm.model.enums.QuestionSubmitLanguageEnum;
 import com.zwm.model.vo.QuestionSubmitVO;
+import com.zwm.model.vo.QuestionVO;
 import com.zwm.questionservice.mapper.QuestionSubmitMapper;
 import com.zwm.questionservice.service.QuestionService;
 import com.zwm.questionservice.service.QuestionSubmitService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
 import org.apache.commons.collections4.CollectionUtils;
 
 /**
@@ -157,6 +163,49 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
                 .collect(Collectors.toList());
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
+
+
+    }
+
+    @Autowired
+    private QuestionSubmitMapper questionSubmitMapper;
+
+    @Override
+    public List<QuestionSubmitVO> getLatestByUserId(Long userId) {
+// 根据userId查询所有的QuestionSubmit记录
+        QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userId", userId);
+        queryWrapper.orderByDesc("updateTime"); // 确保查询结果是按更新时间降序排列
+        List<QuestionSubmit> allSubmits = list(queryWrapper);
+
+        // 将查询结果按questionId分组，并在每个分组中选择最新的记录
+        List<QuestionSubmit> questionSubmitList = allSubmits.stream()
+                .collect(Collectors.groupingBy(
+                        QuestionSubmit::getQuestionId,
+                        Collectors.collectingAndThen(
+                                Collectors.maxBy(Comparator.comparing(QuestionSubmit::getUpdateTime)),
+                                optional -> optional.orElse(null) // 如果没有找到最大的，返回null
+                        )
+                ))
+                .values()
+                .stream()
+                .filter(item -> item != null) // 过滤掉null值
+                .collect(Collectors.toList());
+        List<QuestionSubmitVO> questionSubmitVOList = new ArrayList<>();
+        for (QuestionSubmit questionSubmit : questionSubmitList) {
+            QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);
+            Question question = questionService.getById(questionSubmit.getQuestionId());
+
+            Integer maxStatus = questionSubmitMapper.getMaxStatus(question.getId(), questionSubmit.getUserId());
+            questionSubmitVO.setQuestionSubmitStatus(maxStatus == null ? 0 : maxStatus);
+            QuestionVO questionVO = QuestionVO.objToVo(question);
+            questionVO.setQuestionSubmitStatus(maxStatus == null ? 0 : maxStatus);
+            questionSubmitVO.setQuestionVO(questionVO);
+
+
+            questionSubmitVOList.add(questionSubmitVO);
+        }
+        return questionSubmitVOList;
 
 
     }

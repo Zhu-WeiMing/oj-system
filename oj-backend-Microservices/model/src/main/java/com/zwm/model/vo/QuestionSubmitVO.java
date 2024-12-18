@@ -67,9 +67,12 @@ public class QuestionSubmitVO implements Serializable {
     private UserVO userVO;
 
     /**
-     *对应题目信息
+     * 对应题目信息
      */
     private QuestionVO questionVO;
+
+    @TableField(exist = false)
+    private Integer questionSubmitStatus;
 
 
 

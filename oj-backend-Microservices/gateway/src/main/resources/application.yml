@@ -51,3 +51,54 @@ spring:
     web-application-type: reactive
 server:
   port: 8888
+
+#knife4j的网关聚合配置 文档地址：http://{gateway.host}:{gateway.port}/doc.html
+knife4j:
+  # 聚合swagger文档
+  gateway:
+    enabled: true
+    # 排序规则(tag/operation排序自4.2.0版本新增)
+    # 取值：alpha-默认排序规则，官方swagger-ui默认实现,order-Knife4j提供的增强排序规则，开发者可扩展x-order，根据数值来自定义排序
+    tags-sorter: order
+    operations-sorter: order
+    # 指定手动配置的模式(默认为该模式)
+    strategy: manual
+    routes:
+      - name: 用户服务
+        # 真实子服务访问url地址-提供OpenAPI的文档
+        # /user是我网关中配置的服务访问的前缀，group=user才是刚刚配置的组名，别搞混了
+        url: /api/user/v2/api-docs?group=user
+        #        url: /v3/api-docs
+        service-name: user-service  # 服务名
+        # 路由前缀
+        # 兼容OpenAPI3规范在聚合时丢失contextPath属性的异常情况，由开发者自己配置contextPath,Knife4j的前端Ui做兼容处理,与url属性独立不冲突，仅OpenAPI3规范聚合需要，OpenAPI2规范不需要设置此属性,默认为(apiPathPrefix)
+        context-path: /
+        order: 1
+
+      - name: 题解服务
+        url: /api/answer/v2/api-docs?group=answer
+        service-name: answer-service
+        # 路由前缀
+        context-path: /
+        order: 2
+
+      - name: 题目服务
+        url: /api/question/v2/api-docs?group=question
+        service-name: question-service
+        # 路由前缀
+        context-path: /
+        order: 3
+
+      - name: 判题服务
+        url: /api/judge/v2/api-docs?group=judge
+        service-name: judge-service
+        # 路由前缀
+        context-path: /
+        order: 4
+
+      - name: 文件服务
+        url: /api/file/v2/api-docs?group=file
+        service-name: file-service
+        # 路由前缀
+        context-path: /
+        order: 5

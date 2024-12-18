@@ -29,7 +29,8 @@
           <a-tooltip v-if="record.questionSubmitStatus===3" content="已解答" background-color="#3491FA" mini>
             <a-progress type="circle" :percent="100" size="mini" />
           </a-tooltip>
-          <a-tooltip v-else-if="record.questionSubmitStatus===2" content="尝试过" background-color="#3491FA" mini>
+          <a-tooltip v-else-if="record.questionSubmitStatus===2 || record.questionSubmitStatus===1" content="尝试过"
+                     background-color="#3491FA" mini>
             <a-progress type="circle" status='danger' :percent="100" size="mini" />
           </a-tooltip>
 

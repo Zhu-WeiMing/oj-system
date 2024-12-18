@@ -23,6 +23,7 @@ import com.zwm.model.vo.QuestionVO;
 import com.zwm.questionservice.service.QuestionService;
 import com.zwm.questionservice.service.QuestionSubmitService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,11 +68,11 @@ public class QuestionController {
             question.setTags(GSON.toJson(tags));
         }
         List<JudgeCase> judgeCase = questionAddRequest.getJudgeCase();
-        if(judgeCase != null){
+        if (judgeCase != null) {
             question.setJudgeCase(GSON.toJson(judgeCase));
         }
         JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
-        if(judgeConfig != null){
+        if (judgeConfig != null) {
             question.setJudgeConfig(GSON.toJson(judgeConfig));
         }
         questionService.validQuestion(question, true);
@@ -332,6 +333,17 @@ public class QuestionController {
         //返回脱敏信息
         final User loginUser = userFeignClient.getLoginUser(request);
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+    }
+
+
+    @GetMapping("/question_submit/my/latestByUserId")
+    public BaseResponse<List<QuestionSubmitVO>> listLatestByUserId(@RequestParam("id") Long userId) {
+        if (userId == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<QuestionSubmitVO> questionSubmitList = questionSubmitService.getLatestByUserId(userId);
+
+        return ResultUtils.success(questionSubmitList);
     }
 
 }

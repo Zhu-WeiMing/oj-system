@@ -9,6 +9,8 @@ import com.zwm.model.entity.QuestionSubmit;
 import com.zwm.model.entity.User;
 import com.zwm.model.vo.QuestionSubmitVO;
 
+import java.util.List;
+
 
 /**
  * @author zhuweiming
@@ -54,4 +56,6 @@ public interface QuestionSubmitService extends IService<QuestionSubmit> {
     Page<QuestionSubmitVO> getQuestionSubmitVOPage(Page<QuestionSubmit> questionSubmitPage, User loginUser);
 
 
+    // 根据userId获取QuestionSubmit列表，并只保留每个questionId的最新提交
+    List<QuestionSubmitVO> getLatestByUserId(Long userId);
 }

@@ -1,59 +1,76 @@
 <template>
-  <a-form
-    ref="formRef"
-    :model="form"
-    :style="{ width: '600px', margin: 'auto' }"
-  >
-    <a-space size="large" class="avatar-container">
-      <a-avatar @click="uploadImage" :image-url="form.userAvatar" :size="100">
-        <template #trigger-icon>
-          <IconEdit />
-        </template>
-      </a-avatar>
-    </a-space>
-    <a-form-item field="name" label="姓名" validate-trigger="blur">
-      <a-input
-        v-model="form.userName"
-        placeholder="please enter your username..."
-      />
-    </a-form-item>
-    <a-form-item field="profile" label="简介">
-      <a-input
-        v-model="form.userProfile"
-        placeholder="please enter your profile..."
-      />
-    </a-form-item>
-    <a-form-item field="createTime" label="注册时间">
-      <a-input
-        disabled
-        v-model="form.createTime"
-        placeholder="please enter your createTime..."
-      />
-    </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button html-type="submit" @click="updateUserInfo">修改</a-button>
+  <div class="container">
+    <div class="menu-demo">
+      <a-menu mode="popButton">
+        <a-menu-item key="1" @click="toUserInfo">
+          <template #icon>
+            <icon-user></icon-user>
+          </template>
+          个人资料
+        </a-menu-item>
+        <a-menu-item key="2" @click="toUserProgress">
+          <template #icon>
+            <icon-bulb></icon-bulb>
+          </template>
+          进展分析
+        </a-menu-item>
+      </a-menu>
+    </div>
+    <a-form
+      ref="formRef"
+      :model="form"
+      :style="{ width: '600px', marginLeft: '20rem' }"
+    >
+      <a-space size="large" class="avatar-container">
+        <a-avatar @click="uploadImage" :image-url="form.userAvatar" :size="100">
+          <template #trigger-icon>
+            <IconEdit />
+          </template>
+        </a-avatar>
       </a-space>
-    </a-form-item>
-  </a-form>
+      <a-form-item field="name" label="姓名" validate-trigger="blur">
+        <a-input
+          v-model="form.userName"
+          placeholder="please enter your username..."
+        />
+      </a-form-item>
+      <a-form-item field="profile" label="简介">
+        <a-input
+          v-model="form.userProfile"
+          placeholder="please enter your profile..."
+        />
+      </a-form-item>
+      <a-form-item field="createTime" label="注册时间">
+        <a-input
+          disabled
+          v-model="form.createTime"
+          placeholder="please enter your createTime..."
+        />
+      </a-form-item>
+      <a-form-item>
+        <a-space>
+          <a-button html-type="submit" @click="updateUserInfo">修改</a-button>
+        </a-space>
+      </a-form-item>
+    </a-form>
+  </div>
+
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import message from "@arco-design/web-vue/es/message";
-import { useRoute } from "vue-router";
-import { IconEdit } from "@arco-design/web-vue/es/icon";
-import {
-  FileControllerService,
-  UserControllerService,
-} from "../../../generated";
+import { useRoute, useRouter } from "vue-router";
+import {  IconBulb, IconEdit, IconUser } from "@arco-design/web-vue/es/icon";
+import { FileControllerService, UserControllerService } from "../../../generated";
+import store from "@/store";
 
 const form = ref({
   createTime: "",
   id: "",
   userAvatar: "",
   userName: "",
-  userProfile: "",
+  userProfile: ""
 });
 
 const router = useRoute();
@@ -112,16 +129,36 @@ const updateUserInfo = async () => {
     loadData();
     message.info("修改成功！");
   } else {
-    message.error("修改失败")
+    message.error("修改失败");
   }
 };
 
 onMounted(() => {
   loadData();
 });
+const userouter = useRouter();
+const toUserInfo = () => {
+  userouter.push({
+    path: "/user/info",
+    query: { id: store.state.user?.loginUser?.id }
+  });
+};
+
+const toUserProgress = () => {
+  userouter.push({
+    path: "/user/progress",
+    query: { id: store.state.user?.loginUser?.id }
+  });
+};
+
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  padding: 1rem;
+}
+
 .avatar-container {
   display: flex;
   justify-content: center; /* 使头像居中 */
@@ -136,5 +173,55 @@ a-form {
 
 a-form-item {
   width: 100%; /* 使表单项宽度为100% */
+}
+
+.menu-demo {
+  box-sizing: border-box;
+  z-index: 99;
+  margin-top: 3rem;
+}
+
+.menu-demo .arco-menu {
+  width: 200px;
+  height: 100%;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.menu-demo .arco-menu :deep(.arco-menu-collapse-button) {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.menu-demo .arco-menu:not(.arco-menu-collapsed) :deep(.arco-menu-collapse-button) {
+  right: 0;
+  bottom: 8px;
+  transform: translateX(50%);
+}
+
+.menu-demo .arco-menu:not(.arco-menu-collapsed)::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
+  background-color: inherit;
+  border-radius: 50%;
+  box-shadow: -4px 0 2px var(--color-bg-2), 0 0 1px rgba(0, 0, 0, 0.3);
+  transform: translateX(50%);
+}
+
+.menu-demo .arco-menu.arco-menu-collapsed {
+  width: 48px;
+  height: auto;
+  padding-top: 24px;
+  padding-bottom: 138px;
+  border-radius: 22px;
+}
+
+.menu-demo .arco-menu.arco-menu-collapsed :deep(.arco-menu-collapse-button) {
+  right: 8px;
+  bottom: 8px;
 }
 </style>
