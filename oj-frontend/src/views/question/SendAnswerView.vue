@@ -15,23 +15,20 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
 import { AnswerControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
+const id = route.params.id;
+const paramsCode = route.query.paramsCode; // 直接从 route.params 获取 paramsCode
 
-interface Props {
-  id: string;
-}
 
-const props = withDefaults(defineProps<Props>(), {
-  id: () => ""
-});
 const form = reactive({
-  questionId: props.id,
+  questionId: id,
   content: "# 思路\n" +
     "\n" +
     "> 你选用何种方法解题？\n" +
@@ -40,7 +37,8 @@ const form = reactive({
     "\n" +
     "> 这些方法具体怎么运用？\n" +
     "\n" +
-    "# Code\n",
+    "# Code\n"
+    + paramsCode,
   title: ""
 });
 

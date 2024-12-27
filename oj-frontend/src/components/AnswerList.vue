@@ -2,29 +2,30 @@
   <a-affix :offsetBottom="120" align="right">
     <a-button status="success" shape="round" @click="toSendAnswerView">发布题解</a-button>
   </a-affix>
-  <a-divider />
-  <div v-if="answers && answers.length > 0">
-    <a-comment
-      v-for="answer in answers"
-      :key="answer.id"
-      align="right"
-      :author="answer.userName"
-      :avatar="answer.userAvatar"
-      :content="answer.content"
-      :datetime="answer.createTime"
-    >
-      <!--     todo 使用 MdViewer 组件来显示 Markdown 内容 -->
-      <template #content v-if="answers">
-        <MdViewer :value="answer.content || ''" />
+  <a-scrollbar style="height:400px;overflow: auto;">
+    <div style="height:auto;width: auto">
+      <a-divider />
+      <div v-if="answers && answers.length > 0">
+        <a-comment
+          v-for="answer in answers"
+          :key="answer.id"
+          align="right"
+          :author="answer.userName"
+          :avatar="answer.userAvatar" @click="toUserInfo"
+          :datetime="formattedDateTime(answer.createTime as string)"
+        >
+          <MdViewer :value="answer.content"></MdViewer>
+
+
+        </a-comment>
+      </div>
+
+
+      <template v-else-if="answers.length === 0">
+        <a-empty />
       </template>
-
-    </a-comment>
-  </div>
-  <template v-else-if="answers.length === 0">
-    <a-empty />
-  </template>
-
-
+    </div>
+  </a-scrollbar>
 </template>
 
 <script lang="ts" setup>
@@ -32,7 +33,9 @@ import { defineProps, onMounted, ref } from "vue";
 import { AnswerControllerService, AnswerGetVo } from "../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import moment from "moment";
 import MdViewer from "@/components/MdViewer.vue";
+
 
 interface Props {
   id: number;
@@ -59,6 +62,11 @@ const toSendAnswerView = () => {
     path: `/answer/send/${props.id}`
   });
 };
+// 格式化日期时间的函数
+const formattedDateTime = (dateTime: string) => {
+  return moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+};
+
 
 </script>
 

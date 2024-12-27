@@ -21,6 +21,7 @@
       <a-table
         :columns="columns"
         :data="dataList"
+        @row-click="openDrawer"
       >
 
         <template #questionSubmitStatus="{ record }">
@@ -29,7 +30,7 @@
               <a-progress type="circle" :percent="100" size="mini" />
             </a-tooltip>
             <a-tooltip v-else-if="record.questionSubmitStatus===2 || record.questionSubmitStatus===1" content="尝试过"
-                        background-color="#3491FA" mini>
+                       background-color="#3491FA" mini>
               <a-progress type="circle" status='danger' :percent="100" size="mini" />
             </a-tooltip>
 
@@ -40,24 +41,27 @@
           {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
         </template>
       </a-table>
+
+
     </div>
-    <div class="question_submit_overview">
-      <a-statistic title="解题总数" :value="50.52" :precision="2" :value-style="{ color: '#BB8FCE' }">
-        <template #prefix>
-          <icon-arrow-rise />
-        </template>
-      </a-statistic>
-      <a-statistic title="提交总数" :value="50.52" :precision="2" :value-style="{ color: '#2980B9' }">
-        <template #prefix>
-          <icon-arrow-rise />
-        </template>
-      </a-statistic>
-      <a-statistic title="通过率" :value="50.52" :precision="2" :value-style="{ color: '#0fbf60' }">
-        <template #prefix>
-          <icon-arrow-rise />
-        </template>
-      </a-statistic>
+    <div class="card" :style="{ display: 'flex' }">
+      <a-card :style="{ width: '360px' }" title="Arco Card">
+        ByteDance's core product, Toutiao ("Headlines"), is a content platform in
+        China and around the world. Toutiao started out as a news recommendation
+        engine and gradually evolved into a platform delivering content in various
+        formats.
+      </a-card>
     </div>
+
+    <a-drawer :width="600" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
+      <template #title>
+        详情
+      </template>
+      <CodeEditor :value="code ||''" :read="true" />
+      <a-affix :offsetBottom="120" align="right">
+        <a-button status="success" shape="round" @click="toSendAnswerView(code)">发布题解</a-button>
+      </a-affix>
+    </a-drawer>
   </div>
 </template>
 
@@ -69,8 +73,29 @@ import moment from "moment/moment";
 import { onMounted, ref } from "vue";
 import { QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { log } from "three";
+import CodeEditor from "@/components/CodeEditor.vue";
 
+const visible = ref<boolean>(false);
+const code = ref<string>("");
+let rowQuestionId;
+const openDrawer = (row: any) => {
+  visible.value = true;
+  code.value = row.code;
+  rowQuestionId = row.questionId;
+};
+const handleOk = () => {
+  visible.value = false;
+};
+const handleCancel = () => {
+  visible.value = false;
+};
+const router = useRouter();
+const toSendAnswerView = (paramsCode: string) => {
+  router.push({
+    path: `/answer/send/${rowQuestionId}`,
+    query: { paramsCode }
+  });
+};
 const userouter = useRouter();
 const toUserInfo = () => {
   userouter.push({
@@ -103,14 +128,18 @@ const loadData = async () => {
 
   if (res.code === 0) {
     dataList.value = res.data;
-    const data = [] as any
+    console.log(dataList.value);
+    const data = [] as any;
     dataList.value.forEach(item => {
-          data.push({
-            createTime:item.updateTime,
-            questionSubmitStatus:item.questionVO.questionSubmitStatus,
-            title:item.questionVO.title})
-    })
-    dataList.value = data
+      data.push({
+        createTime: item.updateTime,
+        questionSubmitStatus: item.questionVO.questionSubmitStatus,
+        title: item.questionVO.title,
+        code: item.code,
+        questionId: item.questionId
+      });
+    });
+    dataList.value = data;
   } else {
     message.error("加载失败" + res.message);
   }

@@ -17,6 +17,7 @@ interface Props {
   value: string;
   language?: string;
   handleChange: (v: string) => void;
+  read?: boolean;
 }
 
 /**
@@ -28,6 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
   handleChange: (v: string) => {
     console.log(v);
   },
+  read: () => false
+
 });
 
 const codeEditorRef = ref();
@@ -48,8 +51,8 @@ const updateEditorContent = (newValue: string) => {
         {
           range,
           text: newValue,
-          forceMoveMarkers: true,
-        },
+          forceMoveMarkers: true
+        }
       ]);
 
       // 恢复光标位置
@@ -69,6 +72,7 @@ watch(
     }
   }
 );
+
 
 // 监听 props.language 的变化
 watch(
@@ -94,10 +98,10 @@ onMounted(() => {
     automaticLayout: true,
     colorDecorators: true,
     minimap: {
-      enabled: true,
+      enabled: true
     },
-    readOnly: false,
-    theme: "vs-dark",
+    readOnly: props.read,
+    theme: "vs-dark"
   });
 
   // 编辑时监听内容变化

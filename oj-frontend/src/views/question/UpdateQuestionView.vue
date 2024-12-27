@@ -1,5 +1,5 @@
 <template>
-  <div id="addQuestionView">创建题目</div>
+
   <a-form :model="form">
     <a-form-item field="answer" label="答案">
       <MdEditor :handle-change="onAnswerChange" :value="form.answer" />
@@ -91,12 +91,12 @@
           :style="{ marginLeft: '10px' }"
           status="danger"
           @click="handleDelete(index)"
-          >删除
+        >删除
         </a-button>
       </a-form-item>
       <div>
         <a-button status="success" type="outline" @click="handleAdd"
-          >添加测试用例
+        >添加测试用例
         </a-button>
       </div>
     </a-form-item>
@@ -111,10 +111,9 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { QuestionControllerService, QuestionVO } from "../../../generated";
+import { QuestionControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -124,16 +123,16 @@ const form = ref({
   judgeCase: [
     {
       input: "",
-      output: "",
-    },
+      output: ""
+    }
   ],
   judgeConfig: {
     memoryLimit: 0,
     stackLimit: 0,
-    timeLimit: 0,
+    timeLimit: 0
   },
   tags: [],
-  title: "",
+  title: ""
 } as any);
 
 /**
@@ -181,7 +180,7 @@ const handleAdd = () => {
   if (form.value.judgeCase) {
     form.value.judgeCase.push({
       input: "",
-      output: "",
+      output: ""
     });
   }
 };
