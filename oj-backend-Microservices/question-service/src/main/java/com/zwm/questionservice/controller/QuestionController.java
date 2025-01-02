@@ -18,11 +18,13 @@ import com.zwm.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.zwm.model.entity.Question;
 import com.zwm.model.entity.QuestionSubmit;
 import com.zwm.model.entity.User;
+import com.zwm.model.vo.QuestionSubmitDataVO;
 import com.zwm.model.vo.QuestionSubmitVO;
 import com.zwm.model.vo.QuestionVO;
 import com.zwm.questionservice.service.QuestionService;
 import com.zwm.questionservice.service.QuestionSubmitService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpRequest;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -345,5 +347,12 @@ public class QuestionController {
 
         return ResultUtils.success(questionSubmitList);
     }
+
+    @GetMapping("/question_submit/my/data")
+    public BaseResponse<QuestionSubmitDataVO> myQuestionCommitData(HttpServletRequest request) {
+        QuestionSubmitDataVO questionSubmitData = questionSubmitService.getQuestionSubmitData(request);
+        return ResultUtils.success(questionSubmitData);
+    }
+
 
 }

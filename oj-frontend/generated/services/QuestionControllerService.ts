@@ -287,4 +287,23 @@ export class QuestionControllerService {
       }
     });
   }
+
+  /**
+   * getQuestionById
+   * @param id id
+   * @returns BaseResponse_Question_ OK
+   * @throws ApiError
+   */
+
+  public static myQuestionCommitData(): any {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/question/question_submit/my/data",
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`
+      }
+    });
+  }
 }

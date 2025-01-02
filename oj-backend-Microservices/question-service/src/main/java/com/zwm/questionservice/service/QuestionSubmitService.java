@@ -7,8 +7,10 @@ import com.zwm.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.zwm.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.zwm.model.entity.QuestionSubmit;
 import com.zwm.model.entity.User;
+import com.zwm.model.vo.QuestionSubmitDataVO;
 import com.zwm.model.vo.QuestionSubmitVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -56,6 +58,18 @@ public interface QuestionSubmitService extends IService<QuestionSubmit> {
     Page<QuestionSubmitVO> getQuestionSubmitVOPage(Page<QuestionSubmit> questionSubmitPage, User loginUser);
 
 
-    // 根据userId获取QuestionSubmit列表，并只保留每个questionId的最新提交
+    /**
+     * 根据 userId 获取QuestionSubmit列表，并只保留每个questionId的最新提交
+     * @param userId
+     * @return
+     */
     List<QuestionSubmitVO> getLatestByUserId(Long userId);
+
+
+    /**
+     * 根据当前用户 获取提交数据
+     * @param request
+     * @return
+     */
+    QuestionSubmitDataVO getQuestionSubmitData(HttpServletRequest request);
 }

@@ -17,6 +17,7 @@ import com.zwm.model.entity.QuestionSubmit;
 import com.zwm.model.entity.User;
 import com.zwm.model.enums.QuestionSubmitEnum;
 import com.zwm.model.enums.QuestionSubmitLanguageEnum;
+import com.zwm.model.vo.QuestionSubmitDataVO;
 import com.zwm.model.vo.QuestionSubmitVO;
 import com.zwm.model.vo.QuestionVO;
 import com.zwm.questionservice.mapper.QuestionSubmitMapper;
@@ -29,6 +30,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -208,6 +210,32 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         return questionSubmitVOList;
 
 
+    }
+
+    @Override
+    public QuestionSubmitDataVO getQuestionSubmitData(HttpServletRequest request) {
+        User loginUser = userFeignClient.getLoginUser(request);
+        Long userId = loginUser.getId();
+        QuestionSubmitDataVO questionSubmitDataVO = new QuestionSubmitDataVO();
+
+        QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("userId", userId);
+        //提交总数
+        Integer commitTotal = Math.toIntExact(questionSubmitMapper.selectCount(queryWrapper));
+        questionSubmitDataVO.setCommitTotal(commitTotal);
+        queryWrapper.eq("status", "3");
+        //解题总数
+        // 使用流的方式去重，保留每个 questionId 的第一个记录
+        List<QuestionSubmit> solveTotal = questionSubmitMapper.selectList(queryWrapper).stream()
+                .collect(Collectors.groupingBy(QuestionSubmit::getQuestionId, Collectors.toList()))
+                .entrySet().stream()
+                .map(entry -> entry.getValue().get(0)) // 获取每个分组的第一个元素
+                .collect(Collectors.toList());
+        questionSubmitDataVO.setSolveTotal(solveTotal.size());
+        //通过率
+        questionSubmitDataVO.setPassRate((double) solveTotal.size() / commitTotal);
+
+        return questionSubmitDataVO;
     }
 
 

@@ -45,12 +45,28 @@
 
     </div>
     <div class="card" :style="{ display: 'flex' }">
-      <a-card :style="{ width: '360px' }" title="Arco Card">
-        ByteDance's core product, Toutiao ("Headlines"), is a content platform in
-        China and around the world. Toutiao started out as a news recommendation
-        engine and gradually evolved into a platform delivering content in various
-        formats.
-      </a-card>
+      <div class="top-card">
+        <a-card :style="{ width: '360px', height: '100px'}">
+          <a-statistic title="解题总数" :value=solveTotal show-group-separator>
+            <template #suffix>
+              <icon-arrow-rise />
+            </template>
+          </a-statistic>
+        </a-card>
+        <a-card :style="{ width: '360px', height: '100px'}">
+          <a-statistic title="提交总数" :value=commitTotal :precision="2" :value-style="{ color: '#0fbf60' }">
+            <template #prefix>
+              <icon-arrow-rise />
+            </template>
+          </a-statistic>
+          <a-statistic title="通过率" :value=passRate :precision="2" :value-style="{ color: '#4ba7cb' }">
+            <template #prefix>
+              <icon-arrow-rise />
+            </template>
+            <template #suffix>%</template>
+          </a-statistic>
+        </a-card>
+      </div>
     </div>
 
     <a-drawer :width="600" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
@@ -77,7 +93,7 @@ import CodeEditor from "@/components/CodeEditor.vue";
 
 const visible = ref<boolean>(false);
 const code = ref<string>("");
-let rowQuestionId;
+const rowQuestionId = "";
 const openDrawer = (row: any) => {
   visible.value = true;
   code.value = row.code;
@@ -118,6 +134,9 @@ onMounted(() => {
   loadData();
 });
 
+let solveTotal = ref();
+let commitTotal = ref();
+let passRate = ref();
 
 const loadData = async () => {
   console.log(store.state.user?.loginUser?.id);
@@ -143,6 +162,12 @@ const loadData = async () => {
   } else {
     message.error("加载失败" + res.message);
   }
+  const resCommitData = await QuestionControllerService.myQuestionCommitData();
+  console.log("resCommitData", resCommitData.data);
+  commitTotal.value = resCommitData.data.commitTotal;
+  solveTotal.value = resCommitData.data.solveTotal;
+  passRate.value = resCommitData.data.passRate;
+  console.log(commitTotal, solveTotal, passRate);
 };
 
 const columns = [
@@ -163,16 +188,17 @@ const dataList = ref([]);
 </script>
 
 <style scoped>
+.card {
+  display: flex;
+  justify-content: space-between; /* 控制卡片之间的间隔 */
+  align-items: center; /* 垂直居中 */
+}
+
 .container {
   display: flex;
   padding: 1rem;
 }
 
-.avatar-container {
-  display: flex;
-  justify-content: center; /* 使头像居中 */
-  margin-bottom: 20px; /* 添加一些底部边距 */
-}
 
 a-form {
   display: flex;
