@@ -44,6 +44,12 @@ spring:
           predicates:
             - Path=/api/file/**
 
+        - id: post-service
+          uri:
+            lb://post-service
+          predicates:
+            - Path=/api/post/**
+
 
   application:
     name: gateway
@@ -102,3 +108,10 @@ knife4j:
         # 路由前缀
         context-path: /
         order: 5
+
+      - name: 帖子服务
+        url: /api/file/v2/api-docs?group=post
+        service-name: post-service
+        # 路由前缀
+        context-path: /
+        order: 6

@@ -23,7 +23,7 @@ export class PostFavourControllerService {
     ): CancelablePromise<BaseResponse_int_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/post_favour/',
+            url: '/api/post/post_favour/',
             body: postFavourAddRequest,
             errors: {
                 401: `Unauthorized`,

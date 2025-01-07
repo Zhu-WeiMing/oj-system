@@ -14,6 +14,12 @@
           </template>
           进展分析
         </a-menu-item>
+        <a-menu-item key="2" @click="toUserPost">
+          <template #icon>
+            <icon-message />
+          </template>
+          我的讨论
+        </a-menu-item>
       </a-menu>
     </div>
     <a-form
@@ -61,7 +67,7 @@
 import { onMounted, ref } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import { useRoute, useRouter } from "vue-router";
-import {  IconBulb, IconEdit, IconUser } from "@arco-design/web-vue/es/icon";
+import { IconBulb, IconEdit, IconMessage, IconUser } from "@arco-design/web-vue/es/icon";
 import { FileControllerService, UserControllerService } from "../../../generated";
 import store from "@/store";
 
@@ -143,7 +149,12 @@ const toUserInfo = () => {
     query: { id: store.state.user?.loginUser?.id }
   });
 };
-
+const toUserPost = () => {
+  userouter.push({
+    path: "/user/post",
+    query: { id: store.state.user?.loginUser?.id }
+  });
+};
 const toUserProgress = () => {
   userouter.push({
     path: "/user/progress",

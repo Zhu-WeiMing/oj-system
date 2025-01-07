@@ -13,6 +13,10 @@ import UserInfoView from "@/views/user/UserInfoView.vue";
 import QuestionInfoView from "@/views/question/QuestionInfoView.vue";
 import SendAnswerView from "@/views/question/SendAnswerView.vue";
 import UserProgressView from "@/views/user/UserProgressView.vue";
+import PostView from "@/views/post/PostView.vue";
+import AddPostView from "@/views/post/PostAddView.vue";
+import UserPostView from "@/views/user/UserPostView.vue";
+import PostAdminView from "@/views/post/PostAdminView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +47,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/progress",
         name: "进展分析",
         component: UserProgressView
+      },
+      {
+        path: "/user/post",
+        name: "我的讨论",
+        component: UserPostView
       }
     ]
   },
@@ -99,6 +108,31 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideInMenu: true,
       access: ASSESS_ENUM.USER
+    }
+  },
+
+  {
+    path: "/post/list",
+    name: "讨论",
+    component: PostView
+  },
+
+  {
+    path: "/post/add",
+    name: "发布讨论",
+    component: AddPostView,
+    meta: {
+      hideInMenu: true,
+      access: ASSESS_ENUM.USER || ASSESS_ENUM.ADMIN
+    }
+  },
+
+  {
+    path: "/post/admin",
+    name: "管理帖子",
+    component: PostAdminView,
+    meta: {
+      access: ASSESS_ENUM.ADMIN
     }
   },
 

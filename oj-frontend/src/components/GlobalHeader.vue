@@ -35,7 +35,7 @@
           status="danger"
           @click="logOut"
           class="logout-button"
-          >注销
+        >注销
         </a-button>
       </div>
 
@@ -58,11 +58,14 @@ const store = useStore();
 
 const visibleRoutes = computed(() => {
   return routes.filter((item) => {
+    // 如果菜单被标记为隐藏，直接过滤掉
     if (item.meta?.hideInMenu) {
       return false;
     }
+    // 检查用户是否有权限访问当前路由
     if (
-      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
+      item.meta?.access && // 路由有访问控制
+      !checkAccess(store.state.user.loginUser, item.meta.access as string) // 用户无访问权限
     ) {
       return false;
     }
@@ -83,7 +86,7 @@ const doMenuClick = (key: string) => {
 const toUserInfo = () => {
   router.push({
     path: "/user/info",
-    query: { id: store.state.user?.loginUser?.id },
+    query: { id: store.state.user?.loginUser?.id }
   });
 };
 

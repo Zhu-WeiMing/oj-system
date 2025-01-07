@@ -149,36 +149,6 @@ const loadDate = async () => {
 onMounted(() => {
   loadDate();
 });
-
-const doSubmit = async () => {
-  const res = await QuestionControllerService.updateQuestionUsingPost(
-    form.value
-  );
-  if (res.code === 0) {
-    message.success("更新成功");
-  } else {
-    message.error("更新失败：" + res.message);
-  }
-};
-/**
- * 新增测试用例
- */
-const handleAdd = () => {
-  if (form.value.judgeCase) {
-    form.value.judgeCase.push({
-      input: "",
-      output: "",
-    });
-  }
-};
-/**
- * 删除测试用例
- */
-const handleDelete = (index: number) => {
-  if (form.value.judgeCase) {
-    form.value.judgeCase.splice(index, 1);
-  }
-};
 </script>
 
 <style scoped>

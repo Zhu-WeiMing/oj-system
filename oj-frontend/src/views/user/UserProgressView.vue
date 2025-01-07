@@ -14,6 +14,12 @@
           </template>
           进展分析
         </a-menu-item>
+        <a-menu-item key="2" @click="toUserPost">
+          <template #icon>
+            <icon-message />
+          </template>
+          我的讨论
+        </a-menu-item>
       </a-menu>
     </div>
 
@@ -82,7 +88,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IconBulb, IconUser } from "@arco-design/web-vue/es/icon";
+import { IconBulb, IconUser,IconMessage } from "@arco-design/web-vue/es/icon";
 import store from "@/store";
 import { useRouter } from "vue-router";
 import moment from "moment/moment";
@@ -116,6 +122,12 @@ const userouter = useRouter();
 const toUserInfo = () => {
   userouter.push({
     path: "/user/info",
+    query: { id: store.state.user?.loginUser?.id }
+  });
+};
+const toUserPost = () => {
+  userouter.push({
+    path: "/user/post",
     query: { id: store.state.user?.loginUser?.id }
   });
 };
@@ -163,7 +175,6 @@ const loadData = async () => {
     message.error("加载失败" + res.message);
   }
   const resCommitData = await QuestionControllerService.myQuestionCommitData();
-  console.log("resCommitData", resCommitData.data);
   commitTotal.value = resCommitData.data.commitTotal;
   solveTotal.value = resCommitData.data.solveTotal;
   passRate.value = resCommitData.data.passRate;

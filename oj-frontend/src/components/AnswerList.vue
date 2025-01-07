@@ -11,7 +11,7 @@
           :key="answer.id"
           align="right"
           :author="answer.userName"
-          :avatar="answer.userAvatar" @click="toUserInfo"
+          :avatar="answer.userAvatar"
           :datetime="formattedDateTime(answer.createTime as string)"
         >
           <MdViewer :value="answer.content"></MdViewer>
