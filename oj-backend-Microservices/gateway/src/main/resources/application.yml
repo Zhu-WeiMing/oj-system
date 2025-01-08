@@ -50,6 +50,11 @@ spring:
           predicates:
             - Path=/api/post/**
 
+        - id: sensitive-service
+          uri:
+            lb://sensitive-service
+          predicates:
+            - Path=/api/sensitive/**
 
   application:
     name: gateway
@@ -115,3 +120,10 @@ knife4j:
         # 路由前缀
         context-path: /
         order: 6
+
+      - name: 审核服务
+        url: /api/file/v2/api-docs?group=sensitive
+        service-name: sensitive-service
+        # 路由前缀
+        context-path: /
+        order: 7

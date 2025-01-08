@@ -19,23 +19,14 @@
           </div>
         </div>
         <template #actions>
-      <span class="action" key="heart" @click="onLikeChange(data.id)">
-        <span v-if="data.hasThumb">
-          <IconHeartFill :style="{ color: '#f53f3f' }" />
-        </span>
-        <span v-else>
+      <span class="action" key="heart" >
+
           <IconHeart />
-        </span>
-        {{ data.thumbNum + (like ? 1 : 0) }}
+        {{ data.thumbNum  }}
       </span>
-          <span class="action" key="star" @click="onStarChange(data.id)">
-        <span v-if="data.hasFavour">
-          <IconStarFill style="{ color: '#ffb400' }" />
-        </span>
-        <span v-else>
+          <span class="action" key="star">
           <IconStar />
-        </span>
-        {{ data.favourNum + (star ? 1 : 0) }}
+        {{ data.favourNum  }}
       </span>
           <span v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN" @click="deleteById(data.id)">
               <button><icon-delete /></button>
@@ -154,51 +145,6 @@ const formattedDateTime = (dateTime: string) => {
 };
 
 
-const onLikeChange = (id: number) => {
-  // 创建 PostFavourAddRequest 对象
-  const postThumbAddRequest: PostThumbAddRequest = {
-    postId: id
-  };
-  PostThumbControllerService.doThumbUsingPost(postThumbAddRequest).then(response => {
-    if (response.code === 0) {
-      // 更新点赞数和状态
-      const index = dataList.value.findIndex(item => item.id === id);
-      if (index !== -1) {
-        dataList.value[index].hasThumb = !dataList.value[index].hasThumb;
-        dataList.value[index].thumbNum += dataList.value[index].hasThumb ? 1 : -1;
-      }
-    } else {
-      message.error("点赞失败：" + response.message);
-    }
-  })
-    .catch(error => {
-      console.error("点赞请求错误：", error);
-      message.error("点赞请求错误");
-    });
-};
-
-const onStarChange = (id: number) => {
-  // 创建 PostFavourAddRequest 对象
-  const postFavourAddRequest: PostFavourAddRequest = {
-    postId: id
-  };
-  PostFavourControllerService.doPostFavourUsingPost(postFavourAddRequest).then(response => {
-    if (response.code === 0) {
-      // 更新收藏数和状态
-      const index = dataList.value.findIndex(item => item.id === id);
-      if (index !== -1) {
-        dataList.value[index].hasFavour = !dataList.value[index].hasFavour;
-        dataList.value[index].favourNum += dataList.value[index].hasFavour ? 1 : -1;
-      }
-    } else {
-      message.error("收藏失败：" + response.message);
-    }
-  })
-    .catch(error => {
-      console.error("收藏请求错误：", error);
-      message.error("收藏请求错误");
-    });
-};
 const deleteById = async (id: string) => {
   const deleteRequest: DeleteRequest = {
     id: id

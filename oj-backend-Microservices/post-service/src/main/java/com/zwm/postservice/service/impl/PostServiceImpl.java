@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 
+import com.zwm.client.service.SensitiveFeignClient;
 import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.constant.CommonConstant;
@@ -12,10 +13,8 @@ import com.zwm.common.exception.BusinessException;
 import com.zwm.common.exception.ThrowUtils;
 import com.zwm.common.utils.SqlUtils;
 import com.zwm.model.dto.post.PostQueryRequest;
-import com.zwm.model.entity.Post;
-import com.zwm.model.entity.PostFavour;
-import com.zwm.model.entity.PostThumb;
-import com.zwm.model.entity.User;
+import com.zwm.model.dto.sensitive.SensitiveDto;
+import com.zwm.model.entity.*;
 import com.zwm.model.vo.PostVO;
 import com.zwm.model.vo.UserVO;
 import com.zwm.postservice.mapper.PostFavourMapper;
@@ -58,6 +57,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 //    @Resource
 //    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
+    @Resource
+    private SensitiveFeignClient sensitiveFeignClient;
+
     @Override
     public void validPost(Post post, boolean add) {
         if (post == null) {
@@ -77,6 +79,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (StringUtils.isNotBlank(content) && content.length() > 8192) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
         }
+
+        //审核 todo
+        SensitiveDto sensitiveDto = new SensitiveDto();
+        sensitiveDto.setContent(post.getContent());
+        List<BanList> examine = sensitiveFeignClient.examine(sensitiveDto);
+        log.info("*** examine:{}", examine);
     }
 
     /**

@@ -129,12 +129,13 @@ export const routes: Array<RouteRecordRaw> = [
 
   {
     path: "/post/admin",
-    name: "管理帖子",
+    name: "帖子管理",
     component: PostAdminView,
     meta: {
       access: ASSESS_ENUM.ADMIN
     }
   },
+
 
   {
     path: "/noAuth",

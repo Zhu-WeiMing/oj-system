@@ -1,4 +1,4 @@
-package com.zwm.postservice.config;
+package com.zwm.sensitiveservice.config;
 
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -35,7 +35,7 @@ public class SwaggerConfig {
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("开发文档【post服务API】")    // 文档的标题
+                .title("开发文档【sensitive服务API】")    // 文档的标题
                 .description("开发文档")     // 测试的接口文档
                 .version("1.0")   // 版本信息，可自定义
                 .build();
@@ -54,7 +54,7 @@ public class SwaggerConfig {
                 .select()   // 初始化并返回一个API选择构造器
                 .apis(RequestHandlerSelectors.any())    // 选择将全部接口生成API文档，你可以自己筛
                 .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
-                .build().groupName("post"); // 组名为user，因为我这是用户模块，这名字你自己取
+                .build().groupName("sensitive"); // 组名为user，因为我这是用户模块，这名字你自己取
     }
     @Bean
     public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier,
