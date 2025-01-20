@@ -25,7 +25,7 @@ public interface PostService extends IService<Post> {
      * @param post
      * @param add
      */
-    void validPost(Post post, boolean add);
+    Post validPost(Post post, boolean add);
 
     /**
      * 获取查询条件
@@ -34,6 +34,14 @@ public interface PostService extends IService<Post> {
      * @return
      */
     QueryWrapper<Post> getQueryWrapper(PostQueryRequest postQueryRequest);
+
+    /**
+     * admin获取查询条件
+     *
+     * @param postQueryRequest
+     * @return
+     */
+    QueryWrapper<Post> getQueryWrapperAdmin(PostQueryRequest postQueryRequest);
 
     /**
      * 从 ES 查询
@@ -60,4 +68,10 @@ public interface PostService extends IService<Post> {
      * @return
      */
     Page<PostVO> getPostVOPage(Page<Post> postPage, HttpServletRequest request);
+
+    /**
+     * 审核帖子
+     * @param post
+     */
+    void examinePost(Post post);
 }

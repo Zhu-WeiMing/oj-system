@@ -19,7 +19,8 @@
         <module>answer-service</module>
         <module>file-service</module>
         <module>post-service</module>
-        <module>sensitive-service</module>
+        <module>examine-service</module>
+        <module>comments-service</module>
     </modules>
     <properties>
         <knife4j.version>4.4.0</knife4j.version>

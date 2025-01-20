@@ -1,11 +1,12 @@
 package com.zwm.postservice.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 
-import com.zwm.client.service.SensitiveFeignClient;
+import com.zwm.client.service.ExamineFeignClient;
 import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.constant.CommonConstant;
@@ -13,8 +14,10 @@ import com.zwm.common.exception.BusinessException;
 import com.zwm.common.exception.ThrowUtils;
 import com.zwm.common.utils.SqlUtils;
 import com.zwm.model.dto.post.PostQueryRequest;
-import com.zwm.model.dto.sensitive.SensitiveDto;
+import com.zwm.model.dto.examine.thirdApi.ThirdApiBanList;
+import com.zwm.model.dto.examine.ExamineDto;
 import com.zwm.model.entity.*;
+import com.zwm.model.enums.ExamineStatusEnum;
 import com.zwm.model.vo.PostVO;
 import com.zwm.model.vo.UserVO;
 import com.zwm.postservice.mapper.PostFavourMapper;
@@ -27,6 +30,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -58,10 +62,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 //    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Resource
-    private SensitiveFeignClient sensitiveFeignClient;
+    private ExamineFeignClient examineFeignClient;
 
     @Override
-    public void validPost(Post post, boolean add) {
+    public Post validPost(Post post, boolean add) {
         if (post == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -80,11 +84,29 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
         }
 
-        //审核 todo
-        SensitiveDto sensitiveDto = new SensitiveDto();
-        sensitiveDto.setContent(post.getContent());
-        List<BanList> examine = sensitiveFeignClient.examine(sensitiveDto);
-        log.info("*** examine:{}", examine);
+
+        return post;
+    }
+
+    @Transactional
+    public void examinePost(Post post) {
+        //审核
+        ExamineDto examineDto = new ExamineDto();
+        Examine examine = new Examine();
+
+        examineDto.setContent(post.getContent());
+        List<ThirdApiBanList> thirdApiBanList = examineFeignClient.examine(examineDto);
+        if (!ObjectUtils.isEmpty(thirdApiBanList)) {
+            post.setExamineStatus(ExamineStatusEnum.EXAMINING.getValue());//审核中
+        } else {
+            post.setExamineStatus(ExamineStatusEnum.EXAMINE_SUCCEED.getValue());//无违规
+        }
+        this.updateById(post);
+        examine.setPostId(post.getId());
+        examine.setBanList(String.valueOf(thirdApiBanList));
+        examine.setCreateTime(new Date());
+        examine.setUpdateTime(new Date());
+        examineFeignClient.save(examine);
     }
 
     /**
@@ -95,6 +117,49 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
      */
     @Override
     public QueryWrapper<Post> getQueryWrapper(PostQueryRequest postQueryRequest) {
+        QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
+        if (postQueryRequest == null) {
+            return queryWrapper;
+        }
+        String searchText = postQueryRequest.getSearchText();
+        String sortField = postQueryRequest.getSortField();
+        String sortOrder = postQueryRequest.getSortOrder();
+        Long id = postQueryRequest.getId();
+        String title = postQueryRequest.getTitle();
+        String content = postQueryRequest.getContent();
+        List<String> tagList = postQueryRequest.getTags();
+        Long userId = postQueryRequest.getUserId();
+        Long notId = postQueryRequest.getNotId();
+        Integer examineStatus = postQueryRequest.getExamineStatus();
+        // 拼接查询条件
+        if (StringUtils.isNotBlank(searchText)) {
+            queryWrapper.like("title", searchText).or().like("content", searchText);
+        }
+        queryWrapper.like(StringUtils.isNotBlank(title), "title", title);
+        queryWrapper.like(StringUtils.isNotBlank(content), "content", content);
+        if (CollectionUtils.isNotEmpty(tagList)) {
+            for (String tag : tagList) {
+                queryWrapper.like("tags", "\"" + tag + "\"");
+            }
+        }
+        queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.eq("isDelete", false);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(examineStatus), "examineStatus", examineStatus);
+        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
+                sortField);
+        return queryWrapper;
+    }
+
+    /**
+     * 获取查询包装类
+     *
+     * @param postQueryRequest
+     * @return
+     */
+    @Override
+    public QueryWrapper<Post> getQueryWrapperAdmin(PostQueryRequest postQueryRequest) {
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
         if (postQueryRequest == null) {
             return queryWrapper;
@@ -122,7 +187,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
-        queryWrapper.eq("isDelete", false);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;

@@ -34,5 +34,10 @@ public class PostUpdateRequest implements Serializable {
      */
     private List<String> tags;
 
+    /**
+     * 审核状态
+     */
+    private Integer examineStatus;
+
     private static final long serialVersionUID = 1L;
 }

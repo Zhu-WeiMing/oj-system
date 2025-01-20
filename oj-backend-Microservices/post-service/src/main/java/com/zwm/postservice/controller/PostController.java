@@ -2,6 +2,7 @@ package com.zwm.postservice.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
+import com.zwm.client.service.ExamineFeignClient;
 import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.annotation.AuthCheck;
 import com.zwm.common.common.BaseResponse;
@@ -15,8 +16,10 @@ import com.zwm.model.dto.post.PostAddRequest;
 import com.zwm.model.dto.post.PostEditRequest;
 import com.zwm.model.dto.post.PostQueryRequest;
 import com.zwm.model.dto.post.PostUpdateRequest;
+import com.zwm.model.entity.Examine;
 import com.zwm.model.entity.Post;
 import com.zwm.model.entity.User;
+import com.zwm.model.enums.ExamineStatusEnum;
 import com.zwm.model.vo.PostVO;
 import com.zwm.postservice.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static com.zwm.common.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 帖子接口
@@ -58,19 +63,24 @@ public class PostController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Post post = new Post();
+
         BeanUtils.copyProperties(postAddRequest, post);
         List<String> tags = postAddRequest.getTags();
         if (tags != null) {
             post.setTags(GSON.toJson(tags));
         }
-        postService.validPost(post, true);
+
         User loginUser = userFeignClient.getLoginUser(request);
         post.setUserId(loginUser.getId());
         post.setFavourNum(0);
         post.setThumbNum(0);
+        post.setExamineStatus(ExamineStatusEnum.EXAMINING.getValue());
+        post = postService.validPost(post, true);
         boolean result = postService.save(post);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         long newPostId = post.getId();
+        post.setId(newPostId);
+        postService.examinePost(post);
         return ResultUtils.success(newPostId);
     }
 
@@ -99,6 +109,10 @@ public class PostController {
         return ResultUtils.success(b);
     }
 
+
+    @Resource
+    private ExamineFeignClient examineFeignClient;
+
     /**
      * 更新（仅管理员）
      *
@@ -107,23 +121,33 @@ public class PostController {
      */
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public BaseResponse<Boolean> updatePost(@RequestBody PostUpdateRequest postUpdateRequest) {
+    public BaseResponse<Boolean> updatePost(@RequestBody PostUpdateRequest postUpdateRequest
+            , HttpServletRequest request) {
         if (postUpdateRequest == null || postUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Post post = new Post();
+
         BeanUtils.copyProperties(postUpdateRequest, post);
         List<String> tags = postUpdateRequest.getTags();
         if (tags != null) {
             post.setTags(GSON.toJson(tags));
         }
         // 参数校验
-        postService.validPost(post, false);
+        post = postService.validPost(post, false);
         long id = postUpdateRequest.getId();
         // 判断是否存在
         Post oldPost = postService.getById(id);
         ThrowUtils.throwIf(oldPost == null, ErrorCode.NOT_FOUND_ERROR);
         boolean result = postService.updateById(post);
+        //todo 更新 examine 数据库
+        Examine examine = new Examine();
+        examine.setId(postUpdateRequest.getId());
+        examine.setPostId(postUpdateRequest.getId());
+//        User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        User user = userFeignClient.getLoginUser(request);
+        examine.setExamineUserId(user.getId());
+        examineFeignClient.update(examine);
         return ResultUtils.success(result);
     }
 
@@ -220,13 +244,14 @@ public class PostController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Post post = new Post();
+
         BeanUtils.copyProperties(postEditRequest, post);
         List<String> tags = postEditRequest.getTags();
         if (tags != null) {
             post.setTags(GSON.toJson(tags));
         }
         // 参数校验
-        postService.validPost(post, false);
+        post = postService.validPost(post, false);
         User loginUser = userFeignClient.getLoginUser(request);
         long id = postEditRequest.getId();
         // 判断是否存在

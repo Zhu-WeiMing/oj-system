@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { UserVO } from './UserVO';
+import type {UserVO} from './UserVO';
+
 export type PostVO = {
     content?: string;
     createTime?: string;
@@ -16,5 +17,6 @@ export type PostVO = {
     updateTime?: string;
     user?: UserVO;
     userId?: number;
+    examineStatus: number;
 };
 

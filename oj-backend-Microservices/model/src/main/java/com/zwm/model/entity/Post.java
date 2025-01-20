@@ -65,6 +65,12 @@ public class Post implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    /**
+     * 审核状态 0-待审核 1-审核通过 2-违规
+     */
+    private Integer examineStatus;
+
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
