@@ -6,6 +6,7 @@ import type {CancelablePromise} from '../core/CancelablePromise';
 import {OpenAPI} from '../core/OpenAPI';
 import {request as __request} from '../core/request';
 import {BaseResponse_ExamineVO_} from "../models/BaseResponse_ExamineVO_";
+import type {PostQueryRequest} from "../models/PostQueryRequest";
 
 export class CommentsControllerService {
 
@@ -68,7 +69,12 @@ export class CommentsControllerService {
     }
 
 
-
+    /**
+     * 发布文章
+     * @param postId
+     * @param parentId
+     * @param content
+     */
     public static saveComment(
         postId: number,
         parentId: number,
@@ -81,6 +87,24 @@ export class CommentsControllerService {
                 'postId': postId,
                 'parentId': parentId,
                 'content': content
+            },
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+
+
+    public static listComment(
+        postQueryRequest: PostQueryRequest,
+    ): any {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/comments/list',
+            body: {
+                postQueryRequest
             },
             errors: {
                 401: `Unauthorized`,

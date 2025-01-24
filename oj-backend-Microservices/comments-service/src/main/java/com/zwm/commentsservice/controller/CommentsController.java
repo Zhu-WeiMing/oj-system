@@ -1,6 +1,7 @@
 package com.zwm.commentsservice.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zwm.client.service.ExamineFeignClient;
 import com.zwm.client.service.UserFeignClient;
@@ -10,6 +11,7 @@ import com.zwm.common.common.BaseResponse;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.common.ResultUtils;
 import com.zwm.common.exception.BusinessException;
+import com.zwm.model.dto.comments.CommentQueryRequest;
 import com.zwm.model.dto.comments.CommentSaveDto;
 import com.zwm.model.dto.comments.CommentsPageDto;
 import com.zwm.model.dto.examine.ExamineDto;
@@ -19,6 +21,7 @@ import com.zwm.model.entity.Examine;
 import com.zwm.model.entity.User;
 import com.zwm.model.enums.ExamineStatusEnum;
 import com.zwm.model.vo.CommentsVO;
+import com.zwm.model.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +82,7 @@ public class CommentsController {
 
     /**
      * 发布评论
+     *
      * @param commentSaveDto
      * @return
      */
@@ -114,5 +119,26 @@ public class CommentsController {
         examineFeignClient.save(examine);
         return ResultUtils.success("发布成功");
     }
+
+
+    @PostMapping("/list")
+    public BaseResponse<List<CommentsVO>> list(@RequestBody CommentQueryRequest commentQueryRequest) {
+        QueryWrapper<Comments> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(commentQueryRequest.getId() != null, "id", commentQueryRequest.getId());
+        queryWrapper.eq(commentQueryRequest.getExamineStatus() != null, "examineStatus", commentQueryRequest.getExamineStatus());
+        List<Comments> comments = commentsMapper.selectList(queryWrapper);
+        List<CommentsVO> commentsVOList = new ArrayList<>();
+        for (Comments comment : comments) {
+            CommentsVO commentsVO = new CommentsVO();
+            BeanUtils.copyProperties(comment, commentsVO);
+            User user = userFeignClient.getById(comment.getUserId());
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            commentsVO.setUser(userVO);
+            commentsVOList.add(commentsVO);
+        }
+        return ResultUtils.success(commentsVOList);
+    }
+
 
 }

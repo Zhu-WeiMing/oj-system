@@ -54,7 +54,8 @@
           </a-avatar>
         </template>
         <template>
-          <a-drawer :width="500" :visible="visible" @ok="handleOk" @cancel="handleCancel"  :footer="false" unmountOnClose>
+          <a-drawer :width="500" :visible="visible" @ok="handleOk" @cancel="handleCancel" :footer="false"
+                    unmountOnClose>
             <div>
               <a-comment
                   :key="data.id"
@@ -109,7 +110,7 @@
               <a-comment
                   v-for="commentInfo in commentList"
                   :key="commentInfo.id"
-                  :author="commentInfo.userVO.userName"
+                  :author="commentInfo.user.userName"
                   :content="commentInfo.content"
                   :datetime="formattedDateTime(commentInfo.createTime as string) "
               >
@@ -117,7 +118,7 @@
                   <a-avatar>
                     <img
                         alt="avatar"
-                        :src=commentInfo.userVO.userAvatar
+                        :src=commentInfo.user.userAvatar
                     />
                   </a-avatar>
                 </template>
@@ -184,7 +185,6 @@ import {CommentsControllerService} from "../../../generated/services/CommentsCon
  */
 const openChildComments = async (postId: number, parentId: number) => {
   const res = await CommentsControllerService.listChildCommentsPage(postId, parentId, 1, 10);
-  console.log("res:::" + res)
 };
 
 
@@ -213,7 +213,7 @@ const commentList = ref([{
   parentId: null,
   userId: null,
   postId: null,
-  userVO: {
+  user: {
     userAvatar: "",
     userName: "",
   },
