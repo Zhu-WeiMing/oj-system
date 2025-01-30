@@ -23,7 +23,6 @@
       </a-menu>
 
       <a-split
-          v-if="hideStr === true"
           :style="{
             height: '500px',
             width: '1300px',
@@ -47,7 +46,8 @@
                 </a-select>
               </a-form-item>
               <a-form-item>
-                <a-button type="primary" @click="handleSearch">查询</a-button>
+                <a-button v-if="hideStr == true" type="primary" @click="postExamine">查询</a-button>
+                <a-button v-if="hideStr == false" type="primary" @click="commentsExamine">查询</a-button>
               </a-form-item>
             </a-form>
           </div>
@@ -58,23 +58,24 @@
                   v-for="data in dataList"
                   :key="data.id"
                   :author="data.user.userName"
-                  :content="data.content"
                   :datetime="formattedDateTime(data.createTime as string)"
                   @click="getExamineInfo(data)"
               >
-                <!-- 水印图标 -->
-                <div class="status-icon" v-if=isSelected(data)>
-                  <div v-if="data.examineStatus == 1">
-                    <img src="../../assets/examineImg/通过.png" alt="通过" class="status-icon-image"/>
+                <!-- 文本以及水印图标 -->
+                <template #content>
+                  {{ data.content }}
+                  <div class="watermark" style="position: absolute; right: 20px">
+                    <div v-if="data.examineStatus == 1">
+                      <img src="../../assets/examineImg/通过.png" alt="通过" class="status-icon-image"/>
+                    </div>
+                    <div v-else-if="data.examineStatus == 2">
+                      <img src="../../assets/examineImg/不通过.png" alt="不通过" class="status-icon-image"/>
+                    </div>
+                    <div v-else>
+                      <img src="../../assets/examineImg/审核中.png" alt="待审核" class="status-icon-image"/>
+                    </div>
                   </div>
-                  <div v-else-if="data.examineStatus == 2">
-                    <img src="../../assets/examineImg/不通过.png" alt="不通过" class="status-icon-image"/>
-                  </div>
-                  <div v-else>
-                    <img src="../../assets/examineImg/审核中.png" alt="待审核" class="status-icon-image"/>
-                  </div>
-                </div>
-
+                </template>
                 <div class="tag-container">
                   <!-- 遍历 tagList 数组，为每个标签单独渲染一个 <a-tag> -->
                   <div v-for="tag in data.tagList" :key="tag">
@@ -127,10 +128,10 @@
             <a-descriptions style="margin-top: 20px" :data="descriptionsData" size="large" title="审核信息"
                             :column="1"></a-descriptions>
             <div>
-              <a-button type="primary" @click="updatePostUsingPost(examine.postId,1)">
+              <a-button type="primary" @click="updateUsingPost(examine,1)">
                 通过
               </a-button>
-              <a-button type="outline" status="danger" @click="updatePostUsingPost(examine.postId,2)">不通过
+              <a-button type="outline" status="danger" @click="updateUsingPost(examine,2)">不通过
               </a-button>
             </div>
           </div>
@@ -145,13 +146,14 @@
 <script setup lang="ts">
 import {IconHeart, IconHeartFill, IconMenu, IconStar, IconStarFill, IconStorage} from "@arco-design/web-vue/es/icon";
 import {computed, ref} from "vue";
-import {PostControllerService, PostQueryRequest, type PostUpdateRequest, PostVO} from "../../../generated";
+import {PostControllerService, type PostUpdateRequest, PostVO} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import moment from "moment";
 import {ExamineControllerService} from "../../../generated/services/ExamineControllerService";
 import {ExamineVO} from "../../../generated/models/ExamineVO";
 import {ThirdApiBanList} from "../../../generated/models/BankList";
 import {CommentsControllerService} from "../../../generated/services/CommentsControllerService";
+import {CommentsUpdateRequest} from "../../../generated/models/CommentsUpdateRequest";
 
 const hideStr = ref<boolean>(true);
 
@@ -160,6 +162,7 @@ const examine = ref<ExamineVO>({
   id: null,
   examineUserId: null,
   postId: null,
+  commentsId: null,
   banList: [
     {
       word: "",
@@ -193,16 +196,31 @@ const getExamineInfo = async (data: any) => {
  * 审核接口
  * @param postId
  */
-const updatePostUsingPost = async (postId: number, examineStatus: number) => {
-  const postUpdateRequest = ref<PostUpdateRequest>({
-    id: postId,
-    examineStatus: examineStatus,
-  });
-  const res = await PostControllerService.updatePostUsingPost(postUpdateRequest.value);
-  if (res.code === 0) {
-    getExamineInfo(postId)
+const updateUsingPost = async (examine: ExamineVO, examineStatus: number) => {
+  console.log("hideStr.value:::", hideStr.value);
+  if (hideStr.value == true) {
+    const postUpdateRequest = ref<PostUpdateRequest>({
+      id: examine.postId,
+      examineStatus: examineStatus,
+    });
+    const res = await PostControllerService.updatePostUsingPost(postUpdateRequest.value);
+    if (res.code === 0) {
+      getExamineInfo(postUpdateRequest.value)
+    } else {
+      message.error("加载失败: " + res.message);
+    }
   } else {
-    message.error("加载失败: " + res.message);
+    console.log(examine.commentsId)
+    const commentsUpdateRequest = ref<CommentsUpdateRequest>({
+      id: examine.commentsId,
+      examineStatus: examineStatus,
+    });
+    const res = await CommentsControllerService.updatePostUsingPost(commentsUpdateRequest.value);
+    if (res.code === 0) {
+      getExamineInfo(commentsUpdateRequest.value)
+    } else {
+      message.error("加载失败: " + res.message);
+    }
   }
 };
 
@@ -239,25 +257,28 @@ const post = ref<PostVO>(
       userId: null,
     }
 );
-const postQueryRequest = ref<PostQueryRequest>({
+const postQueryRequest = ({
   id: null,
   examineStatus: null
 });
 
 const postExamine = async () => {
-  const res = await PostControllerService.listPostVoByPageUsingPost(postQueryRequest.value);
+  console.log("postExamine:::" + hideStr.value)
+  const res = await PostControllerService.listPostVoByPageUsingPost(postQueryRequest);
   if (res.code === 0) {
     dataList.value = res.data.records;
+    hideStr.value = true;
   } else {
     message.error("加载失败: " + res.message);
   }
 };
 
 const commentsExamine = async () => {
-  const res = await CommentsControllerService.listComment(postQueryRequest.value);
-  console.log("res:::" + res)
+  console.log("commentsExamine:::" + hideStr.value)
+  const res = await CommentsControllerService.listComment(postQueryRequest);
   if (res.code === 0) {
     dataList.value = res.data;
+    hideStr.value = false;
   } else {
     message.error("加载失败: " + res.message);
   }
@@ -314,7 +335,6 @@ const formattedDateTime = (dateTime: string) => {
 
 /* 确保水印图标不会覆盖内容 */
 .status-icon {
-  position: absolute;
   top: 8px;
   right: 8px;
   z-index: 1; /* 确保它不会遮盖其他内容 */

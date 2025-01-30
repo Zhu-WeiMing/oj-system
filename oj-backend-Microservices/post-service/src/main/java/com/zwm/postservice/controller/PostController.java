@@ -142,7 +142,6 @@ public class PostController {
         boolean result = postService.updateById(post);
         //todo 更新 examine 数据库
         Examine examine = new Examine();
-        examine.setId(postUpdateRequest.getId());
         examine.setPostId(postUpdateRequest.getId());
 //        User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
         User user = userFeignClient.getLoginUser(request);

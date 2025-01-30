@@ -15,6 +15,7 @@ import com.zwm.model.dto.examine.thirdApi.ThirdApiExamine;
 import com.zwm.model.dto.examine.thirdApi.ThirdApiExamineData;
 import com.zwm.model.entity.Examine;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -62,8 +63,12 @@ public class ExamineInnerController implements ExamineFeignClient {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         LambdaUpdateWrapper<Examine> queryWrapper = new LambdaUpdateWrapper<>();
-        queryWrapper.eq(Examine::getPostId, examine.getPostId());
-        examineService.update(examine,queryWrapper);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(examine.getPostId()), Examine::getPostId, examine.getPostId());
+        queryWrapper.eq(ObjectUtils.isNotEmpty(examine.getCommentsId()), Examine::getCommentsId, examine.getCommentsId());
+        boolean update = examineService.update(examine, queryWrapper);
+        if (update = false) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+        }
         return true;
     }
 

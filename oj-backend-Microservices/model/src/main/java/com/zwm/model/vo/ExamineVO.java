@@ -24,6 +24,11 @@ public class ExamineVO {
     private Long postId;
 
     /**
+     * 评论id
+     */
+    private Long commentsId;
+
+    /**
      * 违禁词
      */
     private List<ThirdApiBanList> banList;

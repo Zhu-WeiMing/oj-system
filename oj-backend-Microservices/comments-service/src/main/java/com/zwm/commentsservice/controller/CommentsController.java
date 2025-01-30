@@ -7,17 +7,24 @@ import com.zwm.client.service.ExamineFeignClient;
 import com.zwm.client.service.UserFeignClient;
 import com.zwm.commentsservice.mapper.CommentsMapper;
 import com.zwm.commentsservice.service.CommentsService;
+import com.zwm.common.annotation.AuthCheck;
 import com.zwm.common.common.BaseResponse;
 import com.zwm.common.common.ErrorCode;
 import com.zwm.common.common.ResultUtils;
+import com.zwm.common.constant.UserConstant;
 import com.zwm.common.exception.BusinessException;
+import com.zwm.common.exception.ThrowUtils;
 import com.zwm.model.dto.comments.CommentQueryRequest;
 import com.zwm.model.dto.comments.CommentSaveDto;
+import com.zwm.model.dto.comments.CommentUpdateRequest;
 import com.zwm.model.dto.comments.CommentsPageDto;
 import com.zwm.model.dto.examine.ExamineDto;
 import com.zwm.model.dto.examine.thirdApi.ThirdApiBanList;
+import com.zwm.model.dto.post.PostQueryRequest;
+import com.zwm.model.dto.post.PostUpdateRequest;
 import com.zwm.model.entity.Comments;
 import com.zwm.model.entity.Examine;
+import com.zwm.model.entity.Post;
 import com.zwm.model.entity.User;
 import com.zwm.model.enums.ExamineStatusEnum;
 import com.zwm.model.vo.CommentsVO;
@@ -47,8 +54,6 @@ public class CommentsController {
     private UserFeignClient userFeignClient;
     @Resource
     private ExamineFeignClient examineFeignClient;
-    @Autowired
-    private CommentsMapper commentsMapper;
 
     /**
      * 获取父级评论(分页 )
@@ -111,7 +116,7 @@ public class CommentsController {
         } else {
             comments.setExamineStatus(ExamineStatusEnum.EXAMINE_SUCCEED.getValue());//无违规
         }
-        commentsMapper.updateById(comments);
+        commentsService.updateById(comments);
         examine.setCommentsId(comments.getId());
         examine.setBanList(String.valueOf(thirdApiBanList));
         examine.setCreateTime(new Date());
@@ -122,11 +127,12 @@ public class CommentsController {
 
 
     @PostMapping("/list")
-    public BaseResponse<List<CommentsVO>> list(@RequestBody CommentQueryRequest commentQueryRequest) {
+    public BaseResponse<List<CommentsVO>> list(@RequestBody PostQueryRequest postQueryRequest) {
+        //todo bug
         QueryWrapper<Comments> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(commentQueryRequest.getId() != null, "id", commentQueryRequest.getId());
-        queryWrapper.eq(commentQueryRequest.getExamineStatus() != null, "examineStatus", commentQueryRequest.getExamineStatus());
-        List<Comments> comments = commentsMapper.selectList(queryWrapper);
+        queryWrapper.eq(postQueryRequest.getId() != null, "id", postQueryRequest.getId());
+        queryWrapper.eq(postQueryRequest.getExamineStatus() != null, "examineStatus", postQueryRequest.getExamineStatus());
+        List<Comments> comments = commentsService.list(queryWrapper);
         List<CommentsVO> commentsVOList = new ArrayList<>();
         for (Comments comment : comments) {
             CommentsVO commentsVO = new CommentsVO();
@@ -140,5 +146,33 @@ public class CommentsController {
         return ResultUtils.success(commentsVOList);
     }
 
+    /**
+     * 更新（仅管理员）
+     *
+     * @param commentUpdateRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/update")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<String> updatePost(@RequestBody CommentUpdateRequest commentUpdateRequest
+            , HttpServletRequest request) {
+        if (commentUpdateRequest == null || commentUpdateRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Comments comments = new Comments();
+        BeanUtils.copyProperties(commentUpdateRequest, comments);
+        boolean update = commentsService.updateById(comments);
+        if (update = false) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
+        }
+        Examine examine = new Examine();
+        examine.setCommentsId(commentUpdateRequest.getId());
+//        User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        User user = userFeignClient.getLoginUser(request);
+        examine.setExamineUserId(user.getId());
+        examineFeignClient.update(examine);
+        return ResultUtils.success("更新成功");
+    }
 
 }

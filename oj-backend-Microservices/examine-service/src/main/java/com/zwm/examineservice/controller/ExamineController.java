@@ -36,13 +36,18 @@ public class ExamineController {
     private UserFeignClient userFeignClient;
 
     @GetMapping("/getByPostId")
-    public BaseResponse<ExamineVO> getByPostId(@RequestParam("postId") String postId) {
+    public BaseResponse<ExamineVO> getByPostId(Long postId) {
         if (postId == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        QueryWrapper<Examine> queryWrapper = new QueryWrapper<>();
+        QueryWrapper queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("postId", postId);
         Examine examine = examineService.getOne(queryWrapper);
+        if(examine == null){
+            queryWrapper.clear();
+            queryWrapper.eq("commentsId",postId);
+            examine = examineService.getOne(queryWrapper);
+        }
 
         // 转换为 JSON 格式的字符串
         String json = convertToJson(examine.getBanList());

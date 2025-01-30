@@ -11,7 +11,7 @@ public class CommentsVO {
     private Long id;
     private Long postId;
     private Long userId;
-    private UserVO userVO;
+    private UserVO user;
     private Long parentId;
     private String content;
     private Date createTime;

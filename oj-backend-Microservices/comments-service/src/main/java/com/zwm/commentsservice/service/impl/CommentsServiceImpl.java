@@ -75,7 +75,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments>
                         if (user != null) {
                             UserVO userVO = new UserVO();
                             BeanUtils.copyProperties(user, userVO);
-                            vo.setUserVO(userVO);
+                            vo.setUser(userVO);
                         }
                         //hasChild 是否有子评论处理
                         vo.setHasChild(false);
@@ -156,7 +156,7 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments>
         if (user != null) {
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
-            commentsVO.setUserVO(userVO);
+            commentsVO.setUser(userVO);
         }
 
         // 如果有子评论，递归设置子评论

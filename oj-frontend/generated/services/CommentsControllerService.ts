@@ -6,6 +6,8 @@ import type {CancelablePromise} from '../core/CancelablePromise';
 import {OpenAPI} from '../core/OpenAPI';
 import {request as __request} from '../core/request';
 import {BaseResponse_ExamineVO_} from "../models/BaseResponse_ExamineVO_";
+import type {PostUpdateRequest} from "../models/PostUpdateRequest";
+import type {BaseResponse_boolean_} from "../models/BaseResponse_boolean_";
 import type {PostQueryRequest} from "../models/PostQueryRequest";
 
 export class CommentsControllerService {
@@ -50,7 +52,7 @@ export class CommentsControllerService {
         parentId: number,
         current: number,
         pageSize: number,
-    ):any {
+    ): any {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/comments/listChildComments',
@@ -106,6 +108,21 @@ export class CommentsControllerService {
             body: {
                 postQueryRequest
             },
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+
+    public static updatePostUsingPost(
+        postUpdateRequest: PostUpdateRequest,
+    ): CancelablePromise<BaseResponse_boolean_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/comments/update',
+            body: postUpdateRequest,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

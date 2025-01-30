@@ -8,6 +8,7 @@ export type ExamineVO = {
     id?: number;
     examineUserId?: number;
     postId?: number;
+    commentsId?: number;
     banList?: Array<ThirdApiBanList>;
     examineUserName?: string;
     createTime?: string;
