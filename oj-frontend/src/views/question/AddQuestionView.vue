@@ -23,12 +23,12 @@
     <a-form-item :content-flex="false" :merge-props="false" label="判题配置">
       <a-space direction="vertical">
         <a-form-item
-          field="judgeConfig.memoryLimit"
-          label="memoryLimit"
+          field="judgeConfig.memory"
+          label="memory"
           style="min-width: 480px"
         >
           <a-input-number
-            v-model="form.judgeConfig.memoryLimit"
+            v-model="form.judgeConfig.memory"
             mode="button"
             placeholder="请输入内存消耗"
             size="large"
@@ -49,12 +49,12 @@
         </a-form-item>
 
         <a-form-item
-          field="judgeConfig.timeLimit"
-          label="timeLimit"
+          field="judgeConfig.time"
+          label="time"
           style="min-width: 480px"
         >
           <a-input-number
-            v-model="form.judgeConfig.timeLimit"
+            v-model="form.judgeConfig.time"
             mode="button"
             placeholder="请输入时间消耗"
             size="large"
@@ -127,9 +127,9 @@ const form = reactive({
     },
   ],
   judgeConfig: {
-    memoryLimit: 0,
+    memory: 0,
     stackLimit: 0,
-    timeLimit: 0,
+    time: 0,
   },
   tags: [],
   title: "",

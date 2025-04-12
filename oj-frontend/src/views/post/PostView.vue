@@ -41,7 +41,7 @@
         </span>
         {{ data.favourNum + (star ? 1 : 0) }}
       </span>
-          <span class="action" key="reply" @click="openComments(data)">
+          <span class="action" key="reply" @click="openComments(data.id)">
         <IconMessage/>
       </span>
         </template>
@@ -88,7 +88,7 @@
         </span>
         {{ data.favourNum + (star ? 1 : 0) }}
       </span>
-                  <span class="action" key="reply" @click="openComments(data)">
+                  <span class="action" key="reply" @click="openComments(data.id)">
         <IconMessage/>
       </span>
                 </template>
@@ -107,6 +107,8 @@
 
 
               <a-divider orientation="center">评论区</a-divider>
+              <!--              todo bug-->
+              <!--              <div v-if="commentList === null ">-->
               <a-comment
                   v-for="commentInfo in commentList"
                   :key="commentInfo.id"
@@ -122,11 +124,14 @@
                     />
                   </a-avatar>
                 </template>
-                <template v-if="commentInfo.hasChild == true">
-                  <div @click="openChildComments(commentInfo.postId,commentInfo.id)">点击查看更多回复</div>
-                </template>
+                <!--                  <template v-if="commentInfo.hasChild == true">-->
+                <!--                    <div @click="openChildComments(commentInfo.postId,commentInfo.id)">点击查看更多回复</div>-->
+                <!--                  </template>-->
               </a-comment>
-
+              <!--              </div>-->
+              <!--              <div v-else>-->
+              <!--                <a-empty/>-->
+              <!--              </div>-->
               <!--回复框-->
               <a-affix
                   :offsetBottom="30"
@@ -193,8 +198,8 @@ const commentContent = ref("");
 const sendComments = async (id: number, parentId: number) => {
   const res = await CommentsControllerService.saveComment(id, parentId, commentContent.value);
   if (res.code === 0) {
-
     message.success('发布成功！')
+    openComments(id);
     commentContent.value = ""
   } else {
     message.error("发布失败 " + res.message);
@@ -221,9 +226,9 @@ const commentList = ref([{
   createTime: "",
   hasChild: false
 }])
-const openComments = async (data: PostVO) => {
-  const res = await CommentsControllerService.listParentCommentsPage(data.id, 1, 10);
-  commentList.value = res.data.records
+const openComments = async (id: number) => {
+  const res = await CommentsControllerService.listParentCommentsPage(id, 1, 10);
+  commentList.value = res.data?.records
   visible.value = true;
 };
 

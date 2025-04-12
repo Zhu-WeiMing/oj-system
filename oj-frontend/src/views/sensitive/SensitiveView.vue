@@ -163,14 +163,7 @@ const examine = ref<ExamineVO>({
   examineUserId: null,
   postId: null,
   commentsId: null,
-  banList: [
-    {
-      word: "",
-      category: "",
-      explanation: "",
-      index: null,
-    }
-  ],
+  banList: [],
   examineUserName: "",
   createTime: "",
   updateTime: "",
@@ -197,7 +190,6 @@ const getExamineInfo = async (data: any) => {
  * @param postId
  */
 const updateUsingPost = async (examine: ExamineVO, examineStatus: number) => {
-  console.log("hideStr.value:::", hideStr.value);
   if (hideStr.value == true) {
     const postUpdateRequest = ref<PostUpdateRequest>({
       id: examine.postId,
@@ -206,6 +198,7 @@ const updateUsingPost = async (examine: ExamineVO, examineStatus: number) => {
     const res = await PostControllerService.updatePostUsingPost(postUpdateRequest.value);
     if (res.code === 0) {
       getExamineInfo(postUpdateRequest.value)
+      postExamine
     } else {
       message.error("加载失败: " + res.message);
     }
@@ -218,6 +211,7 @@ const updateUsingPost = async (examine: ExamineVO, examineStatus: number) => {
     const res = await CommentsControllerService.updatePostUsingPost(commentsUpdateRequest.value);
     if (res.code === 0) {
       getExamineInfo(commentsUpdateRequest.value)
+      commentsExamine()
     } else {
       message.error("加载失败: " + res.message);
     }
@@ -234,7 +228,7 @@ const descriptionsData = computed(() => [
   {
     label: '违禁词',
     value: Array.isArray(examine.value.banList)
-        ? examine.value.banList.map((item: ThirdApiBanList) => item.word).join(', ')
+        ? examine.value.banList.map((item: ThirdApiBanList) => item.category).join(', ')
         : '无'
   },
   {label: '创建时间', value: examine.value.createTime},
@@ -263,7 +257,6 @@ const postQueryRequest = ({
 });
 
 const postExamine = async () => {
-  console.log("postExamine:::" + hideStr.value)
   const res = await PostControllerService.listPostVoByPageUsingPost(postQueryRequest);
   if (res.code === 0) {
     dataList.value = res.data.records;
@@ -274,7 +267,6 @@ const postExamine = async () => {
 };
 
 const commentsExamine = async () => {
-  console.log("commentsExamine:::" + hideStr.value)
   const res = await CommentsControllerService.listComment(postQueryRequest);
   if (res.code === 0) {
     dataList.value = res.data;

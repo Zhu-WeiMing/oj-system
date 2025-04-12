@@ -16,7 +16,7 @@
         </a-menu-item>
         <a-menu-item key="2" @click="toUserPost">
           <template #icon>
-            <icon-message />
+            <icon-message/>
           </template>
           我的讨论
         </a-menu-item>
@@ -25,19 +25,19 @@
 
     <div class="question_submit_list">
       <a-table
-        :columns="columns"
-        :data="dataList"
-        @row-click="openDrawer"
+          :columns="columns"
+          :data="dataList"
+          @row-click="openDrawer"
       >
 
         <template #questionSubmitStatus="{ record }">
           <a-space size="mini">
             <a-tooltip v-if="record.questionSubmitStatus===3" content="已解答" background-color="#3491FA" mini>
-              <a-progress type="circle" :percent="100" size="mini" />
+              <a-progress type="circle" :percent="100" size="mini"/>
             </a-tooltip>
             <a-tooltip v-else-if="record.questionSubmitStatus===2 || record.questionSubmitStatus===1" content="尝试过"
                        background-color="#3491FA" mini>
-              <a-progress type="circle" status='danger' :percent="100" size="mini" />
+              <a-progress type="circle" status='danger' :percent="100" size="mini"/>
             </a-tooltip>
 
           </a-space>
@@ -55,19 +55,19 @@
         <a-card :style="{ width: '360px', height: '100px'}">
           <a-statistic title="解题总数" :value=solveTotal show-group-separator>
             <template #suffix>
-              <icon-arrow-rise />
+              <icon-arrow-rise/>
             </template>
           </a-statistic>
         </a-card>
         <a-card :style="{ width: '360px', height: '100px'}">
           <a-statistic title="提交总数" :value=commitTotal :precision="2" :value-style="{ color: '#0fbf60' }">
             <template #prefix>
-              <icon-arrow-rise />
+              <icon-arrow-rise/>
             </template>
           </a-statistic>
           <a-statistic title="通过率" :value=passRate :precision="2" :value-style="{ color: '#4ba7cb' }">
             <template #prefix>
-              <icon-arrow-rise />
+              <icon-arrow-rise/>
             </template>
             <template #suffix>%</template>
           </a-statistic>
@@ -79,7 +79,7 @@
       <template #title>
         详情
       </template>
-      <CodeEditor :value="code ||''" :read="true" />
+      <CodeEditor :value="code ||''" :read="true"/>
       <a-affix :offsetBottom="120" align="right">
         <a-button status="success" shape="round" @click="toSendAnswerView(code)">发布题解</a-button>
       </a-affix>
@@ -88,22 +88,22 @@
 </template>
 
 <script lang="ts" setup>
-import { IconBulb, IconUser,IconMessage } from "@arco-design/web-vue/es/icon";
+import {IconBulb, IconMessage, IconUser} from "@arco-design/web-vue/es/icon";
 import store from "@/store";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 import moment from "moment/moment";
-import { onMounted, ref } from "vue";
-import { QuestionControllerService } from "../../../generated";
+import {onMounted, ref} from "vue";
+import {QuestionControllerService} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 
 const visible = ref<boolean>(false);
 const code = ref<string>("");
-const rowQuestionId = "";
+const rowQuestionId = ref<number | null>(null); // 使用 ref 并初始化为 null
 const openDrawer = (row: any) => {
   visible.value = true;
   code.value = row.code;
-  rowQuestionId = row.questionId;
+  rowQuestionId.value = row.questionId;
 };
 const handleOk = () => {
   visible.value = false;
@@ -114,28 +114,28 @@ const handleCancel = () => {
 const router = useRouter();
 const toSendAnswerView = (paramsCode: string) => {
   router.push({
-    path: `/answer/send/${rowQuestionId}`,
-    query: { paramsCode }
+    path: `/answer/send/${rowQuestionId.value}`,
+    query: {paramsCode}
   });
 };
 const userouter = useRouter();
 const toUserInfo = () => {
   userouter.push({
     path: "/user/info",
-    query: { id: store.state.user?.loginUser?.id }
+    query: {id: store.state.user?.loginUser?.id}
   });
 };
 const toUserPost = () => {
   userouter.push({
     path: "/user/post",
-    query: { id: store.state.user?.loginUser?.id }
+    query: {id: store.state.user?.loginUser?.id}
   });
 };
 
 const toUserProgress = () => {
   userouter.push({
     path: "/user/progress",
-    query: { id: store.state.user?.loginUser?.id }
+    query: {id: store.state.user?.loginUser?.id}
   });
 };
 
@@ -153,7 +153,7 @@ let passRate = ref();
 const loadData = async () => {
   console.log(store.state.user?.loginUser?.id);
   const res = await QuestionControllerService.listLatestByUserId(
-    store.state.user?.loginUser?.id as number
+      store.state.user?.loginUser?.id as number
   );
   console.log(res);
 

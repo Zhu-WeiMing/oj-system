@@ -70,12 +70,12 @@
             @click="doUpdate(record)"
           >修改
           </a-button>
-          <a-button
-            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
-            type="outline"
-            @click="doLook(record)"
-          >查看
-          </a-button>
+<!--          <a-button-->
+<!--            v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"-->
+<!--            type="outline"-->
+<!--            @click="doLook(record)"-->
+<!--          >查看-->
+<!--          </a-button>-->
           <a-button
             v-if="store.state.user?.loginUser?.userRole === ASSESS_ENUM.ADMIN"
             status="danger"

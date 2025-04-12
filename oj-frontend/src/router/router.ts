@@ -2,7 +2,6 @@ import {RouteRecordRaw} from "vue-router";
 import HomeView from "@/views/ExampleView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ASSESS_ENUM from "@/access/accessEnum";
-import UserLayout from "@/layouts/UserLayout.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import UseLoginView from "@/views/user/UseLoginView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
@@ -17,43 +16,54 @@ import PostView from "@/views/post/PostView.vue";
 import AddPostView from "@/views/post/PostAddView.vue";
 import UserPostView from "@/views/user/UserPostView.vue";
 import SensitiveView from "@/views/sensitive/SensitiveView.vue";
+import UserAdminView from "@/views/user/UserAdminView.vue";
+import QuestionCommitHistoryView from "@/views/question/QuestionCommitHistoryView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
     {
-        path: "/user",
-        name: "用户",
-        component: UserLayout,
+        path: "/user/login",
+        name: "用户登录",
+        component: UseLoginView,
         meta: {
             //给路由新增一个标志位，用于判断路由是否显隐
             hideInMenu: true
         },
-        children: [
-            {
-                path: "/user/login",
-                name: "用户登录",
-                component: UseLoginView
-            },
-            {
-                path: "/user/register",
-                name: "用户注册",
-                component: UserRegisterView
-            },
-            {
-                path: "/user/info",
-                name: "个人信息",
-                component: UserInfoView
-            },
-            {
-                path: "/user/progress",
-                name: "进展分析",
-                component: UserProgressView
-            },
-            {
-                path: "/user/post",
-                name: "我的讨论",
-                component: UserPostView
-            }
-        ]
+    },
+    {
+        path: "/user/register",
+        name: "用户注册",
+        component: UserRegisterView,
+        meta: {
+            //给路由新增一个标志位，用于判断路由是否显隐
+            hideInMenu: true
+        },
+    },
+    {
+        path: "/user/info",
+        name: "个人信息",
+        component: UserInfoView,
+        meta: {
+            //给路由新增一个标志位，用于判断路由是否显隐
+            hideInMenu: true
+        },
+    },
+    {
+        path: "/user/progress",
+        name: "进展分析",
+        component: UserProgressView,
+        meta: {
+            //给路由新增一个标志位，用于判断路由是否显隐
+            hideInMenu: true
+        },
+    },
+    {
+        path: "/user/post",
+        name: "我的讨论",
+        component: UserPostView,
+        meta: {
+            //给路由新增一个标志位，用于判断路由是否显隐
+            hideInMenu: true
+        },
     },
     {
         path: "/",
@@ -62,7 +72,7 @@ export const routes: Array<RouteRecordRaw> = [
     },
     {
         path: "/question",
-        name: "浏览题目",
+        name: "题目中心",
         component: QuestionView
     },
     {
@@ -136,7 +146,23 @@ export const routes: Array<RouteRecordRaw> = [
             access: ASSESS_ENUM.ADMIN
         }
     },
+    {
+        path: "/user/admin",
+        name: "人员管理",
+        component: UserAdminView,
+        meta: {
+            access: ASSESS_ENUM.ADMIN
+        }
+    },
 
+    {
+        path: "/question/commit/history",
+        name: "提交记录",
+        component: QuestionCommitHistoryView,
+        meta: {
+            access: ASSESS_ENUM.ADMIN
+        }
+    },
 
     {
         path: "/noAuth",

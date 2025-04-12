@@ -1,25 +1,27 @@
 <template>
   <a-form :model="form">
     <a-form-item field="title" label="标题">
-      <a-input v-model="form.title" placeholder="请输入标题" />
+      <a-input v-model="form.title" placeholder="请输入标题"/>
     </a-form-item>
     <a-form-item field="context" label="内容">
-      <MdEditor :handle-change="onContextChange" :value="form.content" />
+      <!--      todo 边长-->
+      <MdEditor :handle-change="onContextChange" :value="form.content" style="width: 1000px"/>
     </a-form-item>
 
 
     <a-form-item>
       <a-button type="primary" @click="doSubmit">提交</a-button>
+      <a-button type="dashed" @click="router.go(-1)">返回</a-button>
     </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from "vue";
+import {reactive} from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { AnswerControllerService } from "../../../generated";
+import {AnswerControllerService} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRoute, useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
@@ -30,15 +32,17 @@ const paramsCode = route.query.paramsCode; // 直接从 route.params 获取 para
 const form = reactive({
   questionId: id,
   content: "# 思路\n" +
-    "\n" +
-    "> 你选用何种方法解题？\n" +
-    "\n" +
-    "# 解题过程\n" +
-    "\n" +
-    "> 这些方法具体怎么运用？\n" +
-    "\n" +
-    "# Code\n"
-    + paramsCode,
+      "\n" +
+      "> 你选用何种方法解题？\n" +
+      "\n" +
+      "# 解题过程\n" +
+      "\n" +
+      "> 这些方法具体怎么运用？\n" +
+      "\n" +
+      "# Code\n"
+      + "```" +
+      paramsCode
+  ,
   title: ""
 });
 

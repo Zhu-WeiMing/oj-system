@@ -8,10 +8,10 @@
             <a-card v-if="question" :title="question.title">
               <a-descriptions title="判题条件" :colum="{ xs: 1, md: 2, lg: 3 }">
                 <a-descriptions-item label="时间限制">
-                  {{ question.judgeConfig?.timeLimit }}
+                  {{ question.judgeConfig?.time }}
                 </a-descriptions-item>
                 <a-descriptions-item label="内存限制">
-                  {{ question.judgeConfig?.memoryLimit }}
+                  {{ question.judgeConfig?.memory }}
                 </a-descriptions-item>
                 <a-descriptions-item label="堆栈限制">
                   {{ question.judgeConfig?.stackLimit }}

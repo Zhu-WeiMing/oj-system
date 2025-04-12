@@ -28,7 +28,6 @@
         <a-comment
           v-for="data in dataList"
           :key="data.id"
-          :content="data.content"
           :datetime="formattedDateTime(data.createTime as string) "
         >
           <div class="tag-container">
@@ -57,6 +56,21 @@
                 :src=data.user.userAvatar
               />
             </a-avatar>
+          </template>
+
+          <template #content>
+            {{ data.content }}
+            <div class="watermark" style="position: absolute; right: 20px">
+              <div v-if="data.examineStatus == 1">
+                <img src="../../assets/examineImg/通过.png" alt="通过" class="status-icon-image"/>
+              </div>
+              <div v-else-if="data.examineStatus == 2">
+                <img src="../../assets/examineImg/不通过.png" alt="不通过" class="status-icon-image"/>
+              </div>
+              <div v-else>
+                <img src="../../assets/examineImg/审核中.png" alt="待审核" class="status-icon-image"/>
+              </div>
+            </div>
           </template>
         </a-comment>
       </div>
@@ -217,5 +231,27 @@ a-form-item {
 
 .tag-container a-tag {
   margin-right: 8px; /* 标签之间的间距 */
+}
+
+
+
+/* 确保水印图标不会覆盖内容 */
+.status-icon {
+  top: 8px;
+  right: 8px;
+  z-index: 1; /* 确保它不会遮盖其他内容 */
+}
+
+/* 水印图标图片 */
+.status-icon-image {
+  width: 70px; /* 设置图标宽度 */
+  height: 50px; /* 设置图标高度 */
+  opacity: 0.7; /* 设置透明度 */
+}
+
+/* 增加评论内容的右侧内边距，以留出空间 */
+.a-comment {
+  position: relative;
+  padding-right: 90px; /* 根据水印图标的宽度调整 */
 }
 </style>

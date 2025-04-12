@@ -1,62 +1,63 @@
 <template>
 
   <a-form :model="form">
+    <a-form-item field="title" label="标题">
+      <a-input v-model="form.title" placeholder="请输入标题"/>
+    </a-form-item>
     <a-form-item field="answer" label="答案">
-      <MdEditor :handle-change="onAnswerChange" :value="form.answer" />
+      <MdEditor :handle-change="onAnswerChange" :value="form.answer"/>
     </a-form-item>
     <a-form-item field="context" label="题目内容">
-      <MdEditor :handle-change="onContextChange" :value="form.content" />
+      <MdEditor :handle-change="onContextChange" :value="form.content"/>
     </a-form-item>
-    <a-form-item field="title" label="标题">
-      <a-input v-model="form.title" placeholder="请输入标题" />
-    </a-form-item>
+
     <a-form-item field="tags" label="标签">
       <a-input-tag
-        v-model="form.tags"
-        :value="form.tags"
-        allow-clear
-        placeholder="请选择标签"
+          v-model="form.tags"
+          :value="form.tags"
+          allow-clear
+          placeholder="请输入标签"
       />
     </a-form-item>
 
     <a-form-item :content-flex="false" :merge-props="false" label="判题配置">
       <a-space direction="vertical">
         <a-form-item
-          field="judgeConfig.memoryLimit"
-          label="memoryLimit"
-          style="min-width: 480px"
+            field="judgeConfig.memory"
+            label="memory"
+            style="min-width: 480px"
         >
           <a-input-number
-            v-model="form.judgeConfig.memoryLimit"
-            mode="button"
-            placeholder="请输入内存消耗"
-            size="large"
+              v-model="form.judgeConfig.memory"
+              mode="button"
+              placeholder="请输入内存消耗"
+              size="large"
           />
         </a-form-item>
 
         <a-form-item
-          field="judgeConfig.stackLimit"
-          label="stackLimit"
-          style="min-width: 480px"
+            field="judgeConfig.stackLimit"
+            label="stackLimit"
+            style="min-width: 480px"
         >
           <a-input-number
-            v-model="form.judgeConfig.stackLimit"
-            mode="button"
-            placeholder="请输入堆栈消耗"
-            size="large"
+              v-model="form.judgeConfig.stackLimit"
+              mode="button"
+              placeholder="请输入堆栈消耗"
+              size="large"
           />
         </a-form-item>
 
         <a-form-item
-          field="judgeConfig.timeLimit"
-          label="timeLimit"
-          style="min-width: 480px"
+            field="judgeConfig.time"
+            label="time"
+            style="min-width: 480px"
         >
           <a-input-number
-            v-model="form.judgeConfig.timeLimit"
-            mode="button"
-            placeholder="请输入时间消耗"
-            size="large"
+              v-model="form.judgeConfig.time"
+              mode="button"
+              placeholder="请输入时间消耗"
+              size="large"
           />
         </a-form-item>
       </a-space>
@@ -64,33 +65,33 @@
 
     <a-form-item :content-flex="false" :merge-props="false" label="测试用例">
       <a-form-item
-        v-for="(judgeCase, index) of form.judgeCase"
-        :key="index"
-        align="left"
+          v-for="(judgeCase, index) of form.judgeCase"
+          :key="index"
+          align="left"
       >
         <a-form-item
-          :key="index"
-          :field="`form.judgeCase[${index}].input`"
-          :label="`输入用例-${index}`"
+            :key="index"
+            :field="`form.judgeCase[${index}].input`"
+            :label="`输入用例-${index}`"
         >
-          <a-input v-model="judgeCase.input" placeholder="请输入测试输入用例" />
+          <a-input v-model="judgeCase.input" placeholder="请输入测试输入用例"/>
         </a-form-item>
 
         <a-form-item
-          :key="index"
-          :field="`form.judgeCase[${index}].out`"
-          :label="`输出用例-${index}`"
+            :key="index"
+            :field="`form.judgeCase[${index}].out`"
+            :label="`输出用例-${index}`"
         >
           <a-input
-            v-model="judgeCase.output"
-            placeholder="请输入测试输出用例"
+              v-model="judgeCase.output"
+              placeholder="请输入测试输出用例"
           />
         </a-form-item>
 
         <a-button
-          :style="{ marginLeft: '10px' }"
-          status="danger"
-          @click="handleDelete(index)"
+            :style="{ marginLeft: '10px' }"
+            status="danger"
+            @click="handleDelete(index)"
         >删除
         </a-button>
       </a-form-item>
@@ -109,11 +110,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 import MdEditor from "@/components/MdEditor.vue";
-import { QuestionControllerService } from "../../../generated";
+import {QuestionControllerService} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRoute, useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const router = useRouter();
 
@@ -127,9 +128,9 @@ const form = ref({
     }
   ],
   judgeConfig: {
-    memoryLimit: 0,
+    memory: 0,
     stackLimit: 0,
-    timeLimit: 0
+    time: 0
   },
   tags: [],
   title: ""
@@ -145,7 +146,7 @@ const loadDate = async () => {
     return;
   }
   const res = (await QuestionControllerService.getQuestionByIdUsingGet(
-    id as any
+      id as any
   )) as any;
   if (res.code === 0) {
     form.value = res.data;
@@ -165,10 +166,11 @@ onMounted(() => {
 
 const doSubmit = async () => {
   const res = await QuestionControllerService.updateQuestionUsingPost(
-    form.value
+      form.value
   );
   if (res.code === 0) {
     message.success("更新成功");
+    router.go(-1)
   } else {
     message.error("更新失败：" + res.message);
   }
