@@ -59,8 +59,8 @@ public class JavaJudgeStrategyImpl implements JudgeStrategy {
 
         String judgeConfigStr = question.getJudgeConfig();
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
-        long memoryLimit = judgeConfig.getMemoryLimit();
-        long timeLimit = judgeConfig.getTimeLimit();
+        long memoryLimit = judgeConfig.getMemory();
+        long timeLimit = judgeConfig.getTime();
         // JAVA 程序本身执行时间需要额外执行10s
         long JAVA_PROGRAM_EXECUTION_TIME = 10000L;
         if ((time - JAVA_PROGRAM_EXECUTION_TIME) > timeLimit){

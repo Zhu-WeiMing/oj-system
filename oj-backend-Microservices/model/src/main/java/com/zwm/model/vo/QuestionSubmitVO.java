@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import com.google.gson.Gson;
+import com.zwm.model.dto.examine.thirdApi.ThirdApiBanList;
 import com.zwm.model.dto.question.JudgeConfig;
 import com.zwm.model.entity.QuestionSubmit;
 import lombok.Data;
@@ -12,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 题目提交封装类
@@ -75,8 +78,6 @@ public class QuestionSubmitVO implements Serializable {
     private Integer questionSubmitStatus;
 
 
-
-
     /**
      * 包装类转对象
      *
@@ -110,8 +111,12 @@ public class QuestionSubmitVO implements Serializable {
         }
         QuestionSubmitVO questionSubmitVO = new QuestionSubmitVO();
         BeanUtils.copyProperties(questionSubmit, questionSubmitVO);
-        JudgeConfig judgeInfoStr = questionSubmitVO.getJudgeInfo();
-        questionSubmit.setJudgeInfo(JSONUtil.toJsonStr(judgeInfoStr));
+        String judgeInfoStr = questionSubmit.getJudgeInfo();
+        if (judgeInfoStr != null) {
+            Gson gson = new Gson();
+            JudgeConfig judgeConfig = gson.fromJson(judgeInfoStr, JudgeConfig.class);
+            questionSubmitVO.setJudgeInfo(judgeConfig);
+        }
         return questionSubmitVO;
     }
 

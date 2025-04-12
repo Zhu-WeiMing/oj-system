@@ -1,0 +1,134 @@
+@startuml
+skinparam class {
+    BackgroundColor PaleGreen
+    ArrowColor #004D99
+    BorderColor #003366
+}
+
+class User {
+  - Long id
+  - String userAccount
+  - String userPassword
+  - String unionId
+  - String mpOpenId
+  - String userName
+  - String userAvatar
+  - String userProfile
+  - String userRole
+  - Date createTime
+  - Date updateTime
+  - Integer isDelete
+}
+
+class Question {
+  - Long id
+  - String title
+  - String content
+  - String tags
+  - String answer
+  - Integer submitNum
+  - Integer acceptedNum
+  - String judgeCase
+  - String judgeConfig
+  - Integer thumbNum
+  - Integer favourNum
+  - Long userId
+  - Date createTime
+  - Date updateTime
+  - Integer isDelete
+}
+
+class QuestionSubmit {
+  - Long id
+  - String language
+  - String judgeInfo
+  - Integer status
+  - Long questionId
+  - Long userId
+  - String code
+  - Date createTime
+  - Date updateTime
+  - Integer isDelete
+}
+
+class Answer {
+  - Long id
+  - String title
+  - String content
+  - Long userId
+  - Long questionId
+  - Date createTime
+  - Integer isDelete
+}
+
+class Post {
+  - Long id
+  - String title
+  - String content
+  - String tags
+  - Integer thumbNum
+  - Integer favourNum
+  - Long userId
+  - Date createTime
+  - Date updateTime
+  - Integer isDelete
+  - Integer examineStatus
+}
+
+class PostThumb {
+  - Long id
+  - Long postId
+  - Long userId
+  - Date createTime
+  - Date updateTime
+}
+
+class PostFavour {
+  - Long id
+  - Long postId
+  - Long userId
+  - Date createTime
+  - Date updateTime
+}
+
+class Comments {
+  - Long id
+  - Long postId
+  - Long userId
+  - Long parentId
+  - String content
+  - Date createTime
+  - Integer examineStatus
+  - Integer isDelete
+}
+
+class Examine {
+  - Long id
+  - Long examineUserId
+  - Long postId
+  - Long commentsId
+  - String banList
+  - Date createTime
+  - Date updateTime
+}
+
+' 核心关系定义
+User "1" --> "0..*" Question : 创建
+User "1" --> "0..*" QuestionSubmit : 提交
+User "1" --> "0..*" Answer : 发布
+User "1" --> "0..*" Post : 发帖
+User "1" --> "0..*" PostThumb : 点赞
+User "1" --> "0..*" PostFavour : 收藏
+User "1" --> "0..*" Comments : 评论
+
+Question "1" --> "0..*" QuestionSubmit : 包含提交
+Question "1" --> "0..*" Answer : 关联题解
+
+Post "1" --> "0..*" PostThumb : 接收点赞
+Post "1" --> "0..*" PostFavour : 接收收藏
+Post "1" --> "0..*" Comments : 关联评论
+
+Comments "1" --> "0..1" Examine : 被审核
+Post "1" --> "0..1" Examine : 被审核
+
+@enduml

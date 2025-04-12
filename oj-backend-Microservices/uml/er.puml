@@ -1,0 +1,128 @@
+@startuml
+entity User {
+  * id : Long
+  * userAccount : String
+  * userPassword : String
+  * unionId : String
+  * mpOpenId : String
+  * userName : String
+  * userAvatar : String
+  * userProfile : String
+  * userRole : String
+  * createTime : Date
+  * updateTime : Date
+  * isDelete : Integer
+}
+
+entity Question {
+  * id : Long
+  * title : String
+  * content : String
+  * tags : String
+  * answer : String
+  * submitNum : Integer
+  * acceptedNum : Integer
+  * judgeCase : String
+  * judgeConfig : String
+  * thumbNum : Integer
+  * favourNum : Integer
+  * userId : Long
+  * createTime : Date
+  * updateTime : Date
+  * isDelete : Integer
+}
+
+entity QuestionSubmit {
+  * id : Long
+  * language : String
+  * judgeInfo : String
+  * status : Integer
+  * questionId : Long
+  * userId : Long
+  * code : String
+  * createTime : Date
+  * updateTime : Date
+  * isDelete : Integer
+}
+
+entity Answer {
+  * id : Long
+  * title : String
+  * content : String
+  * questionId : Long
+  * userId : Long
+  * createTime : Date
+  * isDelete : Integer
+}
+
+entity Post {
+  * id : Long
+  * title : String
+  * content : String
+  * tags : String
+  * thumbNum : Integer
+  * favourNum : Integer
+  * userId : Long
+  * createTime : Date
+  * updateTime : Date
+  * isDelete : Integer
+  * examineStatus : Integer
+}
+
+entity PostThumb {
+  * id : Long
+  * postId : Long
+  * userId : Long
+  * createTime : Date
+  * updateTime : Date
+}
+
+entity PostFavour {
+  * id : Long
+  * postId : Long
+  * userId : Long
+  * createTime : Date
+  * updateTime : Date
+}
+
+entity Comments {
+  * id : Long
+  * postId : Long
+  * userId : Long
+  * parentId : Long
+  * content : String
+  * createTime : Date
+  * examineStatus : Integer
+  * isDelete : Integer
+}
+
+entity Examine {
+  * id : Long
+  * examineUserId : Long
+  * postId : Long
+  * commentsId : Long
+  * banList : String
+  * createTime : Date
+  * updateTime : Date
+}
+
+User ||--o{ Question : creates
+User ||--o{ QuestionSubmit : submits
+User ||--o{ Answer : writes
+User ||--o{ Post : posts
+User ||--o{ PostThumb : likes
+User ||--o{ PostFavour : favourites
+User ||--o{ Comments : comments
+User ||--o{ Examine : examines
+
+Question ||--o{ QuestionSubmit : has
+Question ||--o{ Answer : has
+
+Post ||--o{ PostThumb : has
+Post ||--o{ PostFavour : has
+Post ||--o{ Comments : has
+
+Comments ||--o{ Examine : is examined
+Post ||--o{ Examine : is examined
+
+@enduml

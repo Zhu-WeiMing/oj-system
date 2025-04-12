@@ -90,8 +90,8 @@ minio:
   accessKey: miniouser
   secretKey: miniouser
   bucket: oj-system
-  endpoint: http://192.168.197.131:19000
-  readPath: http://192.168.197.131:19000
+  endpoint: http://192.168.10.115:19000
+  readPath: http://192.168.10.115:19000
 #??????
 codesandbox:
   type: remote

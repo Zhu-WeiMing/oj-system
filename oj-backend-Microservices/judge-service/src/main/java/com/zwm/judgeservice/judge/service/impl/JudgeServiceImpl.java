@@ -90,23 +90,34 @@ public class JudgeServiceImpl implements JudgeService {
                 .inputList(inputList)
                 .build();
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
-        List<String> outputList = executeCodeResponse.getOutputList();
-        // 5）根据代码沙箱执行结果，设置题目的判题状态和信息
-        JudgeContext judgeContext = new JudgeContext();
-        judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
-        judgeContext.setInputList(inputList);
-        judgeContext.setOutputList(outputList);
-        judgeContext.setJudgeCaseList(judgeCaseList);
-        judgeContext.setQuestion(question);
-        judgeContext.setQuestionSubmit(questionSubmit);
+        String jsonStr = "";
+        JudgeInfo judgeInfo = new JudgeInfo();
+        //编译错误
+        if (executeCodeResponse.getMessage() != null && executeCodeResponse.getMessage().contains("错误")) {
+            judgeInfo.setMessage(executeCodeResponse.getMessage());
+            judgeInfo.setTime(0);
+            judgeInfo.setMemory(0);
+            jsonStr = JSONUtil.toJsonStr(judgeInfo);
+        } else {
+            List<String> outputList = executeCodeResponse.getOutputList();
+            // 5）根据代码沙箱执行结果，设置题目的判题状态和信息
+            JudgeContext judgeContext = new JudgeContext();
+            judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
+            judgeContext.setInputList(inputList);
+            judgeContext.setOutputList(outputList);
+            judgeContext.setJudgeCaseList(judgeCaseList);
+            judgeContext.setQuestion(question);
+            judgeContext.setQuestionSubmit(questionSubmit);
 
-        //进行判题
-        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
+            //进行判题
+            judgeInfo = judgeManager.doJudge(judgeContext);
+            jsonStr = JSONUtil.toJsonStr(judgeInfo);
+        }
 
         // 6）更新判题结果信息
         questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
-        String jsonStr = JSONUtil.toJsonStr(judgeInfo);
+
         questionSubmitUpdate.setStatus(QuestionSubmitEnum.FAILED.getValue());
         if (jsonStr.contains(QuestionSubmitEnum.SUCCEED.getText())) {
             questionSubmitUpdate.setStatus(QuestionSubmitEnum.SUCCEED.getValue());

@@ -11,11 +11,11 @@ public class JudgeConfig {
     /**
      * 时间限制(ms)
      */
-    private Long timeLimit;
+    private Long time;
     /**
      * 内存限制(KB)
      */
-    private Long memoryLimit;
+    private Long memory;
 
     /**
      * 堆栈限制(KB)

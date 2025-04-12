@@ -58,8 +58,8 @@ public class DefaultJudgeStrategyImpl implements JudgeStrategy {
         // 判断其他条件是否符合要求，比如时间、内存限制
         String judgeConfigStr = question.getJudgeConfig(); //获取判题配置
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class); //获取判题配置
-        long memoryLimit = judgeConfig.getMemoryLimit();
-        long timeLimit = judgeConfig.getTimeLimit();
+        long memoryLimit = judgeConfig.getMemory();
+        long timeLimit = judgeConfig.getTime();
         if (time > timeLimit){
             //超过限制时间
             judgeInfoMessageEnum = JudgeInfoMessageEnum.TIME_LIMIT_EXCEEDED;

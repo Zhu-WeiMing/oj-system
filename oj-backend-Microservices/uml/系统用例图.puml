@@ -1,0 +1,44 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #LightBlue
+  BorderColor DarkSlateGray
+}
+
+actor 管理员 as Admin
+actor 学习者 as Learner
+
+rectangle "在线编程学习系统" {
+  ' 管理员用例
+  Admin --> (登录系统)
+  Admin --> (查看数据统计)
+  Admin --> (管理用户信息)
+  Admin --> (管理课程内容)
+  Admin --> (管理编程题目)
+  Admin --> (管理评论内容)
+  Admin --> (管理论坛帖子)
+  Admin --> (审核违规内容)
+  Admin --> (管理题目提交)
+
+  ' 学习者用例
+  Learner --> (注册账号)
+  Learner --> (用户登录)
+  Learner --> (维护个人资料)
+  Learner --> (修改账户密码)
+  Learner --> (浏览编程题目)
+  Learner --> (参与讨论区)
+  Learner --> (发表评论)
+  Learner --> (点赞收藏内容)
+  Learner --> (查看提交历史)
+  Learner --> (分析学习进度)
+  Learner --> (管理我的讨论)
+
+  ' 通用关系
+  (用户登录) .u.> (注册账号) : extends
+  (管理用户信息) .d.> (查看数据统计) : includes
+}
+
+' 标注关键功能关系
+Admin -[hidden]-> Learner
+@enduml

@@ -20,11 +20,13 @@ import com.zwm.model.enums.QuestionSubmitLanguageEnum;
 import com.zwm.model.vo.QuestionSubmitDataVO;
 import com.zwm.model.vo.QuestionSubmitVO;
 import com.zwm.model.vo.QuestionVO;
+import com.zwm.model.vo.UserVO;
 import com.zwm.questionservice.mapper.QuestionSubmitMapper;
 import com.zwm.questionservice.service.QuestionService;
 import com.zwm.questionservice.service.QuestionSubmitService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -145,10 +147,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     public QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser) {
         QuestionSubmitVO questionSubmitVO = QuestionSubmitVO.objToVo(questionSubmit);
         //脱敏
-        Long userId = loginUser.getId();
-        if (userId != questionSubmit.getId() && !userFeignClient.isAdmin(loginUser)) {
-            questionSubmitVO.setCode(null);
-        }
+//        Long userId = loginUser.getId();
+//        if (userId == questionSubmit.getUserId() || !userFeignClient.isAdmin(loginUser)) {
+//            questionSubmitVO.setCode(null);
+//        }
         return questionSubmitVO;
     }
 
@@ -160,9 +162,29 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (CollectionUtils.isEmpty(questionSubmitList)) {
             return questionSubmitVOPage;
         }
+        //过滤code
         List<QuestionSubmitVO> questionSubmitVOList = questionSubmitList.stream()
                 .map(questionSubmit -> getQuestionSubmitVO(questionSubmit, loginUser))
                 .collect(Collectors.toList());
+
+        List<Long> userIds = questionSubmitVOList.stream()
+                .map(QuestionSubmitVO::getUserId)
+                .collect(Collectors.toList());
+        // 步骤2: 使用userFeignClient.listByIds(ids)获取用户信息
+        List<User> users = userFeignClient.listByIds(userIds);
+
+        // 步骤3: 将用户信息填充到QuestionSubmitVO的userVO属性中
+        for (QuestionSubmitVO questionSubmitVO : questionSubmitVOList) {
+            Long userId = questionSubmitVO.getUserId();
+            User user = users.stream()
+                    .filter(u -> u.getId().equals(userId))
+                    .findFirst()
+                    .orElse(null);
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            questionSubmitVO.setUserVO(userVO);
+        }
+
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
 
