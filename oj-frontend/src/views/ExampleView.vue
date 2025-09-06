@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div ref="vantaRef" style="width: 100vw; height: 100vh"></div>
-    <div class="banner">
+    <div class="banner" >
       <h1>OJ Problem Determination System</h1>
       <p>author：zwm</p>
     </div>

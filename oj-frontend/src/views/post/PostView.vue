@@ -1,166 +1,148 @@
 <template>
-  <a-affix :offsetBottom="120" align="right">
-    <a-button status="success" shape="round" @click="SendPost">
-      <icon-edit/>
-      发起讨论
-    </a-button>
-  </a-affix>
-  <!--  <a-tabs default-active-key="1">-->
-  <!--    <a-tab-pane key="1" title="最新">-->
-  <a-scrollbar style="height:400px;overflow: auto;">
-    <div class="new_post" v-if="dataList && dataList.length > 0">
-      <a-comment
-          v-for="data in dataList"
-          :key="data.id"
-          :author="data.user.userName"
-          :content="data.content"
-          :datetime="formattedDateTime(data.createTime as string) "
-      >
-        <div class="tag-container">
-          <!-- 遍历 tagList 数组，为每个标签单独渲染一个 <a-tag> -->
-          <div v-for="tag in data.tagList" :key="tag">
-            <a-tag color="arcoblue">{{ tag }}</a-tag>
-          </div>
-        </div>
-        <template #actions>
-      <span class="action" key="heart" @click="onLikeChange(data.id)">
-        <span v-if="data.hasThumb">
-          <IconHeartFill :style="{ color: '#f53f3f' }"/>
-        </span>
-        <span v-else>
-          <IconHeart/>
-        </span>
-        {{ data.thumbNum + (like ? 1 : 0) }}
-      </span>
-          <span class="action" key="star" @click="onStarChange(data.id)">
-        <span v-if="data.hasFavour">
-          <IconStarFill style="{ color: '#ffb400' }"/>
-        </span>
-        <span v-else>
-          <IconStar/>
-        </span>
-        {{ data.favourNum + (star ? 1 : 0) }}
-      </span>
-          <span class="action" key="reply" @click="openComments(data.id)">
-        <IconMessage/>
-      </span>
-        </template>
-        <template #avatar>
-          <a-avatar>
-            <img
-                alt="avatar"
-                :src=data.user.userAvatar
-            />
-          </a-avatar>
-        </template>
-        <template>
-          <a-drawer :width="500" :visible="visible" @ok="handleOk" @cancel="handleCancel" :footer="false"
-                    unmountOnClose>
-            <div>
-              <a-comment
-                  :key="data.id"
-                  :author="data.user.userName"
-                  :content="data.content"
-                  :datetime="formattedDateTime(data.createTime as string) "
-              >
-                <div class="tag-container">
-                  <!-- 遍历 tagList 数组，为每个标签单独渲染一个 <a-tag> -->
-                  <div v-for="tag in data.tagList" :key="tag">
-                    <a-tag color="arcoblue">{{ tag }}</a-tag>
-                  </div>
-                </div>
-                <template #actions>
-      <span class="action" key="heart" @click="onLikeChange(data.id)">
-        <span v-if="data.hasThumb">
-          <IconHeartFill :style="{ color: '#f53f3f' }"/>
-        </span>
-        <span v-else>
-          <IconHeart/>
-        </span>
-        {{ data.thumbNum + (like ? 1 : 0) }}
-      </span>
-                  <span class="action" key="star" @click="onStarChange(data.id)">
-        <span v-if="data.hasFavour">
-          <IconStarFill style="{ color: '#ffb400' }"/>
-        </span>
-        <span v-else>
-          <IconStar/>
-        </span>
-        {{ data.favourNum + (star ? 1 : 0) }}
-      </span>
-                  <span class="action" key="reply" @click="openComments(data.id)">
-        <IconMessage/>
-      </span>
-                </template>
-                <template #avatar>
-                  <a-avatar>
-                    <img
-                        alt="avatar"
-                        :src=data.user.userAvatar
-                    />
-                  </a-avatar>
-                </template>
-              </a-comment>
-
+  <div class="post">
+    <a-affix :offsetBottom="120" align="right">
+      <a-button status="success" shape="round" @click="SendPost">
+        <icon-edit/>
+        发起讨论
+      </a-button>
+    </a-affix>
+    <!--  <a-tabs default-active-key="1">-->
+    <!--    <a-tab-pane key="1" title="最新">-->
+    <a-scrollbar style="height:400px;overflow: auto;">
+      <div class="new_post" v-if="dataList && dataList.length > 0">
+        <a-comment
+            v-for="data in dataList"
+            :key="data.id"
+            :author="data.user.userName"
+            :content="data.content"
+            :datetime="formattedDateTime(data.createTime as string) "
+        >
+          <div class="tag-container">
+            <!-- 遍历 tagList 数组，为每个标签单独渲染一个 <a-tag> -->
+            <div v-for="tag in data.tagList" :key="tag">
+              <a-tag color="arcoblue">{{ tag }}</a-tag>
             </div>
-            <div class="comments">
-
-
-              <a-divider orientation="center">评论区</a-divider>
-              <!--              todo bug-->
-              <!--              <div v-if="commentList === null ">-->
-              <a-comment
-                  v-for="commentInfo in commentList"
-                  :key="commentInfo.id"
-                  :author="commentInfo.user.userName"
-                  :content="commentInfo.content"
-                  :datetime="formattedDateTime(commentInfo.createTime as string) "
-              >
-                <template #avatar>
-                  <a-avatar>
-                    <img
-                        alt="avatar"
-                        :src=commentInfo.user.userAvatar
-                    />
-                  </a-avatar>
-                </template>
-                <!--                  <template v-if="commentInfo.hasChild == true">-->
-                <!--                    <div @click="openChildComments(commentInfo.postId,commentInfo.id)">点击查看更多回复</div>-->
-                <!--                  </template>-->
-              </a-comment>
-              <!--              </div>-->
-              <!--              <div v-else>-->
-              <!--                <a-empty/>-->
-              <!--              </div>-->
-              <!--回复框-->
-              <a-affix
-                  :offsetBottom="30"
-              >
+          </div>
+          <template #actions>
+      <span class="action" key="heart" @click="onLikeChange(data.id)">
+        <span v-if="data.hasThumb">
+          <IconHeartFill :style="{ color: '#f53f3f' }"/>
+        </span>
+        <span v-else>
+          <IconHeart/>
+        </span>
+        {{ data.thumbNum + (like ? 1 : 0) }}
+      </span>
+            <span class="action" key="star" @click="onStarChange(data.id)">
+        <span v-if="data.hasFavour">
+          <IconStarFill style="{ color: '#ffb400' }"/>
+        </span>
+        <span v-else>
+          <IconStar/>
+        </span>
+        {{ data.favourNum + (star ? 1 : 0) }}
+      </span>
+            <span class="action" key="reply" @click="openComments(data.id)">
+        <IconMessage/>
+      </span>
+          </template>
+          <template #avatar>
+            <a-avatar>
+              <img
+                  alt="avatar"
+                  :src=data.user.userAvatar
+              />
+            </a-avatar>
+          </template>
+          <template>
+            <a-drawer :width="500" :visible="visible" @ok="handleOk" @cancel="handleCancel" :footer="false"
+                      unmountOnClose>
+              <div>
                 <a-comment
-                    align="right"
+                    :key="data.id"
+                    :author="data.user.userName"
+                    :content="data.content"
+                    :datetime="formattedDateTime(data.createTime as string) "
                 >
-                  <template #content>
-                    <a-input style="width: 390px" :model-value="commentContent"
-                             @update:model-value="commentContent = $event" placeholder="发起评论"/>
-                    <a-button key="1" type="primary" @click="sendComments(data.id,null)"> 发送</a-button>
+                  <div class="tag-container">
+                    <!-- 遍历 tagList 数组，为每个标签单独渲染一个 <a-tag> -->
+                    <div v-for="tag in data.tagList" :key="tag">
+                      <a-tag color="arcoblue">{{ tag }}</a-tag>
+                    </div>
+                  </div>
+                  <template #actions>
+      <span class="action" key="heart" @click="onLikeChange(data.id)">
+        <span v-if="data.hasThumb">
+          <IconHeartFill :style="{ color: '#f53f3f' }"/>
+        </span>
+        <span v-else>
+          <IconHeart/>
+        </span>
+        {{ data.thumbNum + (like ? 1 : 0) }}
+      </span>
+                    <span class="action" key="star" @click="onStarChange(data.id)">
+        <span v-if="data.hasFavour">
+          <IconStarFill style="{ color: '#ffb400' }"/>
+        </span>
+        <span v-else>
+          <IconStar/>
+        </span>
+        {{ data.favourNum + (star ? 1 : 0) }}
+      </span>
+                    <span class="action" key="reply" @click="openComments(data.id)">
+        <IconMessage/>
+      </span>
+                  </template>
+                  <template #avatar>
+                    <a-avatar>
+                      <img
+                          alt="avatar"
+                          :src=data.user.userAvatar
+                      />
+                    </a-avatar>
                   </template>
                 </a-comment>
-              </a-affix>
-            </div>
-          </a-drawer>
-        </template>
-      </a-comment>
-    </div>
 
-    <!--    </a-tab-pane>-->
-    <!--    <a-tab-pane key="2" title="最热">-->
-    <!--      <div class="hot_post">-->
-    <!--        hot-->
-    <!--      </div>-->
-    <!--    </a-tab-pane>-->
-    <!--  </a-tabs>-->
-  </a-scrollbar>
+              </div>
+              <div class="comments">
 
+                <a-divider orientation="center">评论区</a-divider>
+                <a-comment
+                    v-for="commentInfo in commentList"
+                    :key="commentInfo.id"
+                    :author="commentInfo.user.userName"
+                    :content="commentInfo.content"
+                    :datetime="formattedDateTime(commentInfo.createTime as string) "
+                >
+                  <template #avatar>
+                    <a-avatar>
+                      <img
+                          alt="avatar"
+                          :src=commentInfo.user.userAvatar
+                      />
+                    </a-avatar>
+                  </template>
+                </a-comment>
+                <a-affix
+                    :offsetBottom="30"
+                >
+                  <a-comment
+                      align="right"
+                  >
+                    <template #content>
+                      <a-input style="width: 390px" :model-value="commentContent"
+                               @update:model-value="commentContent = $event" placeholder="发起评论"/>
+                      <a-button key="1" type="primary" @click="sendComments(postId)"> 发送</a-button>
+                    </template>
+                  </a-comment>
+                </a-affix>
+              </div>
+            </a-drawer>
+          </template>
+        </a-comment>
+      </div>
+    </a-scrollbar>
+  </div>
 </template>
 <script setup lang="ts">/**
  * 页面加载时 请求数据
@@ -183,20 +165,11 @@ import {useStore} from "vuex";
 import {CommentsControllerService} from "../../../generated/services/CommentsControllerService";
 
 
-/**
- * 打开子级评论
- * @param postId
- * @param parentId
- */
-const openChildComments = async (postId: number, parentId: number) => {
-  const res = await CommentsControllerService.listChildCommentsPage(postId, parentId, 1, 10);
-};
-
-
 const commentContent = ref("");
 
-const sendComments = async (id: number, parentId: number) => {
-  const res = await CommentsControllerService.saveComment(id, parentId, commentContent.value);
+const sendComments = async (id: number) => {
+  console.log("id:::" + id)
+  const res = await CommentsControllerService.saveComment(id, commentContent.value);
   if (res.code === 0) {
     message.success('发布成功！')
     openComments(id);
@@ -226,7 +199,10 @@ const commentList = ref([{
   createTime: "",
   hasChild: false
 }])
+const postId = ref<number>(null);
 const openComments = async (id: number) => {
+  postId.value = id;
+  console.log("postId.value:::", postId.value);
   const res = await CommentsControllerService.listParentCommentsPage(id, 1, 10);
   commentList.value = res.data?.records
   visible.value = true;
@@ -349,6 +325,13 @@ const SendPost = () => {
 
 .tag-container a-tag {
   margin-right: 8px; /* 标签之间的间距 */
+}
+
+.post {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 </style>

@@ -79,7 +79,6 @@ export class CommentsControllerService {
      */
     public static saveComment(
         postId: number,
-        parentId: number,
         content: string,
     ): CancelablePromise<BaseResponse_ExamineVO_> {
         return __request(OpenAPI, {
@@ -87,7 +86,6 @@ export class CommentsControllerService {
             url: '/api/comments/saveComment',
             body: {
                 'postId': postId,
-                'parentId': parentId,
                 'content': content
             },
             errors: {

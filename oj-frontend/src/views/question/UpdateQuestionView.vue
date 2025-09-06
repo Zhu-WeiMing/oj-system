@@ -35,18 +35,18 @@
           />
         </a-form-item>
 
-        <a-form-item
-            field="judgeConfig.stackLimit"
-            label="stackLimit"
-            style="min-width: 480px"
-        >
-          <a-input-number
-              v-model="form.judgeConfig.stackLimit"
-              mode="button"
-              placeholder="请输入堆栈消耗"
-              size="large"
-          />
-        </a-form-item>
+<!--        <a-form-item-->
+<!--            field="judgeConfig.stackLimit"-->
+<!--            label="stackLimit"-->
+<!--            style="min-width: 480px"-->
+<!--        >-->
+<!--          <a-input-number-->
+<!--              v-model="form.judgeConfig.stackLimit"-->
+<!--              mode="button"-->
+<!--              placeholder="请输入堆栈消耗"-->
+<!--              size="large"-->
+<!--          />-->
+<!--        </a-form-item>-->
 
         <a-form-item
             field="judgeConfig.time"
@@ -63,16 +63,18 @@
       </a-space>
     </a-form-item>
 
-    <a-form-item :content-flex="false" :merge-props="false" label="测试用例">
-      <a-form-item
+    <a-form-item :content-flex="false" :merge-props="false" label="测试用例" >
+      <div
           v-for="(judgeCase, index) of form.judgeCase"
           :key="index"
           align="left"
+          class="ceshi"
       >
         <a-form-item
             :key="index"
             :field="`form.judgeCase[${index}].input`"
             :label="`输入用例-${index}`"
+            style="width: 500px"
         >
           <a-input v-model="judgeCase.input" placeholder="请输入测试输入用例"/>
         </a-form-item>
@@ -81,6 +83,7 @@
             :key="index"
             :field="`form.judgeCase[${index}].out`"
             :label="`输出用例-${index}`"
+            style="width: 500px"
         >
           <a-input
               v-model="judgeCase.output"
@@ -94,7 +97,14 @@
             @click="handleDelete(index)"
         >删除
         </a-button>
-      </a-form-item>
+      </div>
+<!--      <a-form-item-->
+<!--          v-for="(judgeCase, index) of form.judgeCase"-->
+<!--          :key="index"-->
+<!--          align="left"-->
+<!--      >-->
+
+<!--      </a-form-item>-->
       <div>
         <a-button status="success" type="outline" @click="handleAdd"
         >添加测试用例
@@ -204,5 +214,12 @@ const onContextChange = (v: string) => {
 
 <style scoped>
 #addQuestionView {
+}
+.ceshi{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+margin-left: -110px;
+
 }
 </style>

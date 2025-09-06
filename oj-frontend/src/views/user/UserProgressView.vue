@@ -59,18 +59,29 @@
             </template>
           </a-statistic>
         </a-card>
-        <a-card :style="{ width: '360px', height: '100px'}">
-          <a-statistic title="提交总数" :value=commitTotal :precision="2" :value-style="{ color: '#0fbf60' }">
-            <template #prefix>
-              <icon-arrow-rise/>
-            </template>
-          </a-statistic>
-          <a-statistic title="通过率" :value=passRate :precision="2" :value-style="{ color: '#4ba7cb' }">
-            <template #prefix>
-              <icon-arrow-rise/>
-            </template>
-            <template #suffix>%</template>
-          </a-statistic>
+        <a-card :style="{ width: '360px', height: '100px' }">
+          <div class="statistic-container">
+            <a-statistic
+                title="提交总数"
+                :value="commitTotal"
+                :value-style="{ color: '#0fbf60' }"
+            >
+              <template #prefix>
+                <icon-arrow-rise />
+              </template>
+            </a-statistic>
+            <a-statistic
+                title="通过率"
+                :value="passRate"
+                :precision="2"
+                :value-style="{ color: '#4ba7cb' }"
+            >
+              <template #prefix>
+                <icon-arrow-rise />
+              </template>
+              <template #suffix>%</template>
+            </a-statistic>
+          </div>
         </a-card>
       </div>
     </div>
@@ -276,5 +287,15 @@ a-form-item {
   max-width: 800px; /* 设置最大宽度 */
   width: 100%; /* 宽度自适应 */
   margin: 0 auto; /* 上下外边距为0，左右外边距自动，实现水平居中 */
+}
+
+
+.statistic-container {
+  display: flex;
+  justify-content: space-between; /* 水平分布 */
+  align-items: center; /* 垂直居中 */
+  width: 100%;
+  height: 100%;
+  gap: 20px; /* 设置两个统计卡片之间的间距 */
 }
 </style>

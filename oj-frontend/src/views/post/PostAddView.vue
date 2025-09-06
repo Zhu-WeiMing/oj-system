@@ -1,31 +1,34 @@
 <template>
-  <a-form :model="form">
-    <a-form-item field="title">
-      <a-input v-model="form.title" placeholder="在此处输入标题" />
-    </a-form-item>
-    <a-form-item field="context">
-      <a-textarea placeholder="在此处输入内容" v-model="form.content" :value="form.content" :style="{ height: '200px' }" />
-    </a-form-item>
-    <a-form-item field="tags">
-      <a-input-tag
-        v-model="form.tags"
-        :value="form.tags"
-        allow-clear
-        placeholder="在此处输入标签"
-      />
-    </a-form-item>
+  <div class="postAdd">
+    <a-form :model="form">
+      <a-form-item field="title">
+        <a-input v-model="form.title" placeholder="在此处输入标题"/>
+      </a-form-item>
+      <a-form-item field="context">
+        <a-textarea placeholder="在此处输入内容" v-model="form.content" :value="form.content"
+                    :style="{ height: '200px' }"/>
+      </a-form-item>
+      <a-form-item field="tags">
+        <a-input-tag
+            v-model="form.tags"
+            :value="form.tags"
+            allow-clear
+            placeholder="在此处输入标签"
+        />
+      </a-form-item>
 
-    <a-form-item>
-      <a-button type="primary" @click="doSubmit">发布</a-button>
-    </a-form-item>
-  </a-form>
+      <a-form-item>
+        <a-button type="primary" @click="doSubmit">发布</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import { PostControllerService } from "../../../generated";
+import {reactive} from "vue";
+import {PostControllerService} from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 
 const router = useRouter();
 
@@ -48,5 +51,15 @@ const doSubmit = async () => {
 
 <style scoped>
 #addQuestionView {
+}
+
+.postAdd {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 </style>

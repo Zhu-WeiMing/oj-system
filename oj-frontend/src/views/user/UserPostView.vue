@@ -60,17 +60,17 @@
 
           <template #content>
             {{ data.content }}
-            <div class="watermark" style="position: absolute; right: 20px">
-              <div v-if="data.examineStatus == 1">
-                <img src="../../assets/examineImg/通过.png" alt="通过" class="status-icon-image"/>
-              </div>
-              <div v-else-if="data.examineStatus == 2">
-                <img src="../../assets/examineImg/不通过.png" alt="不通过" class="status-icon-image"/>
-              </div>
-              <div v-else>
-                <img src="../../assets/examineImg/审核中.png" alt="待审核" class="status-icon-image"/>
-              </div>
-            </div>
+<!--            <div class="watermark" style="position: absolute; right: 20px">-->
+<!--              <div v-if="data.examineStatus == 1">-->
+<!--                <img src="../../assets/examineImg/通过.png" alt="通过" class="status-icon-image"/>-->
+<!--              </div>-->
+<!--              <div v-else-if="data.examineStatus == 2">-->
+<!--                <img src="../../assets/examineImg/不通过.png" alt="不通过" class="status-icon-image"/>-->
+<!--              </div>-->
+<!--              <div v-else>-->
+<!--                <img src="../../assets/examineImg/审核中.png" alt="待审核" class="status-icon-image"/>-->
+<!--              </div>-->
+<!--            </div>-->
           </template>
         </a-comment>
       </div>

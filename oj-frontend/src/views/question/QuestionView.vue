@@ -1,17 +1,22 @@
 <template>
-  <div id="questionView">
-    <a-form :model="searchParams" layout="inline">
-      <a-form-item field="title" label="名称" style="min-width: 280px">
+  <div id="questionView" class="questionView">
+    <div class="query">
+    <a-form :model="searchParams" layout="inline" class="search-form" style="width: 100%;">
+      <a-form-item field="title" label="名称" >
         <a-input v-model="searchParams.title" placeholder="请输入名称" />
       </a-form-item>
-      <a-form-item field="tags" label="标签" style="min-width: 280px">
+      <a-form-item field="questionId" label="题号" >
+        <a-input v-model="searchParams.id" placeholder="请输入题号" />
+      </a-form-item>
+      <a-form-item field="tags" label="标签">
         <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
       </a-form-item>
       <a-form-item>
         <a-button type="primary" @click="handleSearch">查询</a-button>
       </a-form-item>
     </a-form>
-
+    </div>
+    <a-divider></a-divider>
     <a-table
       :columns="columns"
       :data="dataList"
@@ -45,12 +50,8 @@
         </a-space>
       </template>
 
-      <template #acceptedRate="{ record }">
-        {{
-          `${
-            record.submitNum ? record.acceptedNum / record.submitNum : "0"
-          }% (${record.acceptedNum / record.submitNum})`
-        }}
+      <template #acceptedRate>
+        33%
       </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
@@ -233,5 +234,24 @@ const columns = [
 
 <style scoped>
 #managerQuestionView {
+}
+
+.questionView {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+.query {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form {
+  width: 80%;
+  max-width: 800px;
 }
 </style>

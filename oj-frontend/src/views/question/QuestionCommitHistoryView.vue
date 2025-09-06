@@ -13,6 +13,59 @@
       </a-form-item>
     </a-form>
     <a-table :columns="columns" :data="data" class="center-table">
+      <template #optional="{ record }">
+        <div class="button-container">
+          <a-button @click="handleInfo()" shape="round" type="primary">详情</a-button>
+          <a-modal v-model:visible="modalVisible" @ok="ev =>modalVisible = false" fullscreen>
+            <template #title>
+              提交记录详情
+            </template>
+            <div class="container">
+              <div class="left-panel">
+                <a-scrollbar style="height:500px;overflow: auto;">
+                  <div class="questionInfo">
+                    <h1>{{ record.questionVO.title }}</h1>
+                    <MdViewer :value="record.questionVO.content"/>
+                  </div>
+                  <div class="result-status" v-if="record.status == 2">
+                    <!--                  <a-tag color="red" size="large">{{ record.judgeInfo }}</a-tag>-->
+                    <img src="../../assets/未通过.png" alt="不通过" height="150" width="150" class="status-icon-image"/>
+                  </div>
+                  <div class="result-status" v-if="record.status == 3">
+                    <!--                  <a-tag color="green" size="large">{{ record.judgeInfo }}</a-tag>-->
+                    <img src="../../assets/通过.png" alt="通过" height="150" width="150" class="status-icon-image"/>
+                  </div>
+                </a-scrollbar>
+              </div>
+              <div class="right-panel">
+                <div class="result">
+                  <div class="statistics">
+                    <a-statistic
+                        title="时间消耗（ms）"
+                        :value="JSON.parse(record.judgeInfo.time)"
+                        :value-from="0"
+                        :start="numStart"
+                        animation
+                        style="background: #c0d0c7; border-radius: 10px; padding: 15px; margin: 10px;"
+                    />
+                    <a-statistic
+                        title="内存消耗（b）"
+                        :value="JSON.parse(record.judgeInfo.memory)"
+                        :value-from="0"
+                        :start="numStart"
+                        animation
+                        style="background: #f1d8d8; border-radius: 10px; padding: 15px; margin: 10px;"
+                    />
+                  </div>
+                </div>
+                <div class="code">
+                  <CodeEditor :value="record.code" :read="true"/>
+                </div>
+              </div>
+            </div>
+          </a-modal>
+        </div>
+      </template>
       <template #userAvatar="{ record }">
         <img
             :src="record.userVO.userAvatar"
@@ -20,7 +73,11 @@
             style="width: 40px; height: 40px; border-radius: 50%;"
         />
       </template>
+      <template #updateTime="{ record }">
+        {{ formatDate(record.updateTime) }}
+      </template>
     </a-table>
+
   </div>
 </template>
 
@@ -35,8 +92,12 @@ import {
 } from "../../../generated";
 import moment from "moment";
 import message from "@arco-design/web-vue/es/message";
+import MdViewer from "@/components/MdViewer.vue";
+import CodeEditor from "@/components/CodeEditor.vue";
 
+const numStart = ref<boolean>(false)
 const visible = ref(false);
+const modalVisible = ref(false);
 const user = ref<User | null>({
   createTime: "",
   id: null,
@@ -51,6 +112,11 @@ const user = ref<User | null>({
   userProfile: "",
   userRole: "",
 });
+
+const handleInfo = () => {
+  modalVisible.value = !modalVisible.value;
+  numStart.value = true;
+}
 
 const handleClick = (data: any) => {
   visible.value = true;
@@ -99,7 +165,7 @@ const questionSubmitQueryRequest = ref<QuestionSubmitQueryRequest>({
   userVO: {
     id: null,
     userName: "",
-    userAvatar:"",
+    userAvatar: "",
   },
 });
 const columns = [
@@ -175,8 +241,9 @@ const handleSearch = () => {
 }
 
 .center-table {
-  width: 80%; /* 设置表格宽度 */
+  width: 90%; /* 设置表格宽度 */
   margin: 0 auto; /* 水平居中 */
+  white-space: nowrap;
 }
 
 .icon-hover {
@@ -189,13 +256,65 @@ const handleSearch = () => {
   transition: all 0.1s;
 }
 
-.icon-hover:hover {
-  background-color: rgb(var(--gray-2));
+.container {
+  display: flex;
+  height: 100vh;
 }
 
-.avatar-container {
+.left-panel {
+  position: relative; /* 添加相对定位 */
+  width: 40%;
+  padding: 20px;
+}
+
+.right-panel {
+  width: 60%;
+  padding: 20px;
   display: flex;
-  justify-content: center; /* 使头像居中 */
-  margin-bottom: 20px; /* 添加一些底部边距 */
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.questionInfo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.statistics {
+  display: flex;
+  gap: 20px;
+}
+
+.code {
+  flex: 1;
+  padding-top: 20px;
+}
+
+.result-status {
+  position: absolute; /* 使用绝对定位 */
+  top: 10px; /* 距离顶部10px */
+  right: 10px; /* 距离右侧10px */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statistics {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.statistics > * {
+  flex: 1;
 }
 </style>

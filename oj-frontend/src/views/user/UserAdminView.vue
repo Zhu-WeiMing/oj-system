@@ -15,18 +15,24 @@
 
     <a-table :columns="columns" :data="data" class="center-table">
       <template #optional="{ record }">
-        <a-button @click="handleClick(record)">view</a-button>
-        <a-modal v-model:visible="visible" @ok="handleOk(record)" @cancel="handleCancel" width="auto">
+        <div class="button-container">
+          <a-button @click="handleClick(record)" shape="round" type="primary">编辑</a-button>
+          <a-button @click="handleDelete(record)" shape="round" status="danger">删除</a-button>
+        </div>
+        <a-modal v-model:visible="visible" @ok="handleOk(user)" @cancel="handleCancel" width="auto">
           <template #title>
             详情信息
           </template>
-          <div>
+          <div class="info-container">
             <a-form
                 ref="formRef"
-                :model="user"
-                :style="{ width: '600px', marginLeft: '20rem' }"
+                :v-model="user"
+                :style="{ width: '500px' }"
+                auto-label-width
+                layout="horizontal"
             >
               <a-space size="large" class="avatar-container">
+
                 <a-avatar @click="uploadImage" :image-url="user.userAvatar" :size="100">
                   <template #trigger-icon>
                     <IconEdit/>
@@ -47,9 +53,9 @@
               </a-form-item>
               <!--              todo 有bug-->
               <a-form-item field="userRole" label="角色">
-                <a-select :v-model="user.userRole" :style="{width:'360px'}" placeholder="请选择角色">
-                  <a-option>admin</a-option>
-                  <a-option>user</a-option>
+                <a-select v-model="user.userRole" :style="{width:'450px'}" placeholder="请选择角色">
+                  <a-option value="admin">管理员</a-option>
+                  <a-option value="user">学习者</a-option>
                 </a-select>
               </a-form-item>
 
@@ -87,7 +93,13 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {FileControllerService, User, UserControllerService, UserQueryRequest} from "../../../generated";
+import {
+  type DeleteRequest,
+  FileControllerService,
+  User,
+  UserControllerService,
+  UserQueryRequest
+} from "../../../generated";
 import moment from "moment";
 import {IconEdit} from "@arco-design/web-vue/es/icon";
 import message from "@arco-design/web-vue/es/message";
@@ -107,12 +119,20 @@ const user = ref<User | null>({
   userProfile: "",
   userRole: "",
 });
+const handleDelete = async (data: any) => {
 
+  const deleteRequest = ref<DeleteRequest>({
+    id: data.id
+  })
+  UserControllerService.deleteUserUsingPost(deleteRequest.value);
+  loadData();
+}
 const handleClick = (data: any) => {
   visible.value = true;
   user.value = data;
 };
 const handleOk = async (record: any) => {
+  console.log("record::::", record);
   const res = await UserControllerService.updateUserUsingPost({
     id: record.id,
     userAvatar: record.userAvatar,
@@ -240,12 +260,15 @@ const handleSearch = () => {
 </script>
 
 <style scoped>
+
 .userAdmin {
   display: flex;
   justify-content: flex-start; /* 使表格居中 */
   align-items: center; /* 垂直居中 */
   flex-direction: column; /* 垂直排列子元素 */
   height: 100vh; /* 使父容器占满整个视口高度 */
+  width: 100vw;
+  white-space: nowrap;
 }
 
 .center-table {
@@ -271,5 +294,18 @@ const handleSearch = () => {
   display: flex;
   justify-content: center; /* 使头像居中 */
   margin-bottom: 20px; /* 添加一些底部边距 */
+}
+
+.info-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+}
+
+
+.button-container {
+  display: flex;
+  gap: 10px; /* 按钮之间的间距 */
 }
 </style>

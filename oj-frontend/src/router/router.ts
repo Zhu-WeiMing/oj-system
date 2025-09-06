@@ -2,7 +2,6 @@ import {RouteRecordRaw} from "vue-router";
 import HomeView from "@/views/ExampleView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ASSESS_ENUM from "@/access/accessEnum";
-import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import UseLoginView from "@/views/user/UseLoginView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import UpdateQuestionView from "@/views/question/UpdateQuestionView.vue";
@@ -24,15 +23,6 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/login",
         name: "用户登录",
         component: UseLoginView,
-        meta: {
-            //给路由新增一个标志位，用于判断路由是否显隐
-            hideInMenu: true
-        },
-    },
-    {
-        path: "/user/register",
-        name: "用户注册",
-        component: UserRegisterView,
         meta: {
             //给路由新增一个标志位，用于判断路由是否显隐
             hideInMenu: true
@@ -147,7 +137,7 @@ export const routes: Array<RouteRecordRaw> = [
         }
     },
     {
-        path: "/user/admin",
+        path: "/admin/user",
         name: "人员管理",
         component: UserAdminView,
         meta: {

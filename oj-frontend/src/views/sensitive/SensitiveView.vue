@@ -35,9 +35,6 @@
         <template #first>
           <div class="search">
             <a-form :model="postQueryRequest" layout="inline">
-              <a-form-item field="id" label="id" style="min-width: 200px">
-                <a-input v-model="postQueryRequest.id" placeholder="请输入id"/>
-              </a-form-item>
               <a-form-item field="section" label="审核状态">
                 <a-select v-model="postQueryRequest.examineStatus" placeholder="审核状态" allow-clear>
                   <a-option value="0">待审核</a-option>
@@ -46,8 +43,10 @@
                 </a-select>
               </a-form-item>
               <a-form-item>
-                <a-button v-if="hideStr == true" type="primary" @click="postExamine">查询</a-button>
-                <a-button v-if="hideStr == false" type="primary" @click="commentsExamine">查询</a-button>
+
+                <a-button v-if="hideStr" type="primary" @click="postExamine">查询</a-button>
+                <a-button v-if="!hideStr" type="primary" @click="commentsExamine">查询</a-button>
+
               </a-form-item>
             </a-form>
           </div>
@@ -126,8 +125,9 @@
           <div v-else>
 
             <a-descriptions style="margin-top: 20px" :data="descriptionsData" size="large" title="审核信息"
-                            :column="1"></a-descriptions>
-            <div>
+                            :column="1">
+            </a-descriptions>
+            <div class="button-container">
               <a-button type="primary" @click="updateUsingPost(examine,1)">
                 通过
               </a-button>
@@ -151,7 +151,6 @@ import message from "@arco-design/web-vue/es/message";
 import moment from "moment";
 import {ExamineControllerService} from "../../../generated/services/ExamineControllerService";
 import {ExamineVO} from "../../../generated/models/ExamineVO";
-import {ThirdApiBanList} from "../../../generated/models/BankList";
 import {CommentsControllerService} from "../../../generated/services/CommentsControllerService";
 import {CommentsUpdateRequest} from "../../../generated/models/CommentsUpdateRequest";
 
@@ -163,7 +162,7 @@ const examine = ref<ExamineVO>({
   examineUserId: null,
   postId: null,
   commentsId: null,
-  banList: [],
+  banWord: "",
   examineUserName: "",
   createTime: "",
   updateTime: "",
@@ -179,7 +178,9 @@ const getExamineInfo = async (data: any) => {
   try {
     selectedPostId.value = data.id; // 设置选中项的 ID
     const res = await ExamineControllerService.getByPostIdGet(data.id);
+    console.log(res.data)
     examine.value = res.data;
+    getCategory();
     post.value = data;
   } catch (error) {
     console.error("获取审核信息出错：", error);
@@ -197,8 +198,9 @@ const updateUsingPost = async (examine: ExamineVO, examineStatus: number) => {
     });
     const res = await PostControllerService.updatePostUsingPost(postUpdateRequest.value);
     if (res.code === 0) {
+      postExamine()
       getExamineInfo(postUpdateRequest.value)
-      postExamine
+
     } else {
       message.error("加载失败: " + res.message);
     }
@@ -227,14 +229,11 @@ const descriptionsData = computed(() => [
   {label: '帖子ID', value: examine.value.postId},
   {
     label: '违禁词',
-    value: Array.isArray(examine.value.banList)
-        ? examine.value.banList.map((item: ThirdApiBanList) => item.category).join(', ')
-        : '无'
+    value: examine.value.banWord
   },
-  {label: '创建时间', value: examine.value.createTime},
-  {label: '更新时间', value: examine.value.updateTime}
+  {label: '创建时间', value: formattedDateTime(examine.value.createTime as string)},
+  {label: '更新时间', value: formattedDateTime(examine.value.updateTime as string)}
 ]);
-
 
 const dataList = ref<PostVO[]>([]);
 const post = ref<PostVO>(
@@ -343,5 +342,15 @@ const formattedDateTime = (dateTime: string) => {
 .a-comment {
   position: relative;
   padding-right: 90px; /* 根据水印图标的宽度调整 */
+}
+
+
+.button-container {
+  display: flex;
+  gap: 50px; /* 按钮之间的间距 */
+}
+
+.button-container .arco-btn {
+  flex: 1;
 }
 </style>

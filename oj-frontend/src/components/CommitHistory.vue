@@ -9,7 +9,7 @@
                 v-if="commit.status === 3"
                 dotColor="#00B42A"
                 :label="moment(commit.updateTime).format('YYYY-MM-DD HH:mm:ss')"
-                @click="getCode(commit.code)"
+                @click="getCode(commit)"
             >
               <span class="timeline-content success">通过</span>
               <a-tag color="arcoblue">{{ commit.language }}</a-tag>
@@ -18,7 +18,7 @@
                 v-else-if="commit.status === 2 ||commit.status === 1"
                 dotColor="#F53F3F"
                 :label="moment(commit.updateTime).format('YYYY-MM-DD HH:mm:ss')"
-                @click="getCode(commit.code)"
+                @click="getCode(commit)"
             >
               <span class="timeline-content failure">失败</span>
               <a-tag color="arcoblue">{{ commit.language }}</a-tag>
@@ -29,11 +29,32 @@
       </div>
     </a-scrollbar>
 
-    <a-drawer :width="600" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
+    <a-drawer :width="1200" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose>
       <template #title>
-        详情
+        判题结果
       </template>
-      <CodeEditor :value="codeStr ||''" :read="true"/>
+      <div class="content">
+        <CodeEditor :value="codeStr || ''" :read="true" style="width: 600px" />
+        <div class="statistics">
+          <a-statistic
+              title="时间消耗（ms）"
+              :value="JSON.parse(time)"
+              :value-from="0"
+              :start="numStart"
+              animation
+              style="background: #c0d0c7; border-radius: 10px; padding: 15px; margin: 10px;"
+          />
+          <a-statistic
+              title="内存消耗（b）"
+              :value="JSON.parse(memory)"
+              :precision="2"
+              :value-from="0"
+              :start="numStart"
+              animation
+              style="background: #f1d8d8; border-radius: 10px; padding: 15px; margin: 10px;"
+          />
+        </div>
+      </div>
       <a-affix :offsetBottom="120" align="right">
         <a-button status="success" shape="round" @click="toSendAnswerView">发布题解</a-button>
       </a-affix>
@@ -80,11 +101,24 @@ const loadData = async () => {
     message.error("加载失败" + res.message);
   }
 };
+
 const visible = ref<boolean>(false);
 const codeStr = ref<string>("");
-const getCode = (code: string) => {
+const numStart = ref<boolean>(false)
+const time = ref<number>(0)
+const memory = ref<number>(0)
+const getCode = (commit: QuestionSubmitVO) => {
   visible.value = true;
-  codeStr.value = code;
+  if (commit.code != null) {
+    codeStr.value = commit.code;
+  }
+  if (commit.status == 3) {
+    time.value = commit.judgeInfo?.time
+    memory.value = commit.judgeInfo?.memory
+  }
+  console.log("time.value::", time.value);
+  console.log("memory.value::", memory.value);
+  numStart.value = true;
 };
 const router = useRouter();
 const toSendAnswerView = () => {
@@ -107,5 +141,23 @@ const toSendAnswerView = () => {
 
 .failure {
   color: #f53f3f; /* 红色字体 */
+}
+
+
+
+.content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.statistics {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+}
+
+.statistics > * {
+  flex: 1;
 }
 </style>

@@ -7,7 +7,7 @@
       <a-layout-content class="content">
         <router-view />
       </a-layout-content>
-      <a-layout-footer class="footer">
+      <a-layout-footer class="footer" >
         <a href="https://github.com/Zhu-WeiMing/OJ" target="_blank"
           >OJ判题系统 by zhuweiming</a
         >
@@ -22,17 +22,17 @@
 
 #basicLayout .header {
   margin-bottom: 16px;
-  box-shadow: #eee 1px 1px 5px;
+  box-shadow: #267aff 1px 1px 5px;
 }
 
 #basicLayout .content {
-  background: linear-gradient(to right, #efefef, #fff);
+  background: linear-gradient(to right, #ffffff, #f3fafa);
   margin-bottom: 16px;
   padding: 20px;
 }
 
 #basicLayout .footer {
-  background: #efefef;
+  background: #ffffff;
   padding: 16px;
   position: sticky;
 
