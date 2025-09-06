@@ -1,0 +1,5 @@
+1.使用编译器打开oj-backend-Micorservices，更改application.yaml的nacos等信息
+2.运行oj-backend-Micorservices
+3.使用编译器打开oj-frontend前端项目
+4.在前端编译器的终端输入 npm i
+5.在前端编译器的终端输入 npm run serve
