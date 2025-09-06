@@ -1,44 +1,68 @@
 @startuml
 left to right direction
-skinparam packageStyle rectangle
+skinparam backgroundColor #F5F5F5
 skinparam usecase {
-  BackgroundColor #LightBlue
-  BorderColor DarkSlateGray
+  BackgroundColor #E0F7FA
+  BorderColor #0097A7
+  FontColor black
 }
 
 actor 管理员 as Admin
 actor 学习者 as Learner
 
 rectangle "在线编程学习系统" {
-  ' 管理员用例
-  Admin --> (登录系统)
-  Admin --> (查看数据统计)
-  Admin --> (管理用户信息)
-  Admin --> (管理课程内容)
-  Admin --> (管理编程题目)
-  Admin --> (管理评论内容)
-  Admin --> (管理论坛帖子)
-  Admin --> (审核违规内容)
-  Admin --> (管理题目提交)
+  ' 管理员用例群
+  (登录系统) as UC1
+  (用户管理) as UC2
+  (题目管理) as UC3
+  (内容审核) as UC4
+  (数据统计) as UC5
+  (课程管理) as UC6
 
-  ' 学习者用例
-  Learner --> (注册账号)
-  Learner --> (用户登录)
-  Learner --> (维护个人资料)
-  Learner --> (修改账户密码)
-  Learner --> (浏览编程题目)
-  Learner --> (参与讨论区)
-  Learner --> (发表评论)
-  Learner --> (点赞收藏内容)
-  Learner --> (查看提交历史)
-  Learner --> (分析学习进度)
-  Learner --> (管理我的讨论)
+  ' 学习者用例群
+  (注册账号) as UC7
+  (用户登录) as UC8
+  (题目练习) as UC9
+  (代码提交) as UC10
+  (讨论互动) as UC11
+  (进度跟踪) as UC12
 
-  ' 通用关系
-  (用户登录) .u.> (注册账号) : extends
-  (管理用户信息) .d.> (查看数据统计) : includes
+  ' 管理员关系
+  Admin --> UC1
+  Admin --> UC2
+  Admin --> UC3
+  Admin --> UC4
+  Admin --> UC5
+  Admin --> UC6
+
+  ' 学习者关系
+  Learner --> UC7
+  Learner --> UC8
+  Learner --> UC9
+  Learner --> UC10
+  Learner --> UC11
+  Learner --> UC12
+
+  ' 扩展关系
+  UC8 .u.> UC7 : <<extends>>
+  UC10 .d.> UC9 : <<includes>>
+  UC11 .d.> UC8 : <<includes>>
 }
 
-' 标注关键功能关系
-Admin -[hidden]-> Learner
+note right of Admin
+  **管理员核心功能：**
+  1. 用户账户管理
+  2. 编程题目维护
+  3. 社区内容审核
+  4. 学习数据分析
+end note
+
+note left of Learner
+  **学习者核心功能：**
+  1. 在线编程实践
+  2. 即时代码评测
+  3. 学习社区交互
+  4. 个人成长追踪
+end note
+
 @enduml

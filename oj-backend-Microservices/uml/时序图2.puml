@@ -1,0 +1,28 @@
+@startuml
+
+participant "管理员" as Browser
+participant "提交记录管理页面" as WebServer
+participant "提交记录管理处理器" as App
+participant "数据库" as DB
+    Browser --> WebServer: 请求进入提交记录管理界面
+    WebServer -> App: 验证管理员权限
+    alt 权限验证通过
+        App --> WebServer: 返回权限验证结果
+        WebServer --> Browser: 显示提交记录管理界面
+        Browser --> WebServer: 设置筛选条件并点击查询
+        WebServer -> App: 接收查询条件
+        App -> DB: 查询提交记录
+        DB --> App: 返回查询结果
+        App --> WebServer: 返回查询结果
+        WebServer --> Browser: 分页展示提交记录列表
+        Browser --> WebServer: 点击详情按钮
+        WebServer -> App: 获取记录详情
+        App -> DB: 查询详细信息
+        DB --> App: 返回详细信息
+        App --> WebServer: 返回详细信息
+        WebServer --> Browser: 弹窗展示完整信息
+    else 权限不足
+        WebServer --> Browser: 跳转至无权限提示页面
+    end
+
+@enduml

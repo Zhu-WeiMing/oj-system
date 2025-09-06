@@ -1,0 +1,71 @@
+@startuml
+!pragma layout smetana
+skinparam backgroundColor #F0F0F0
+skinparam componentStyle uml2
+
+package "前端层（MVVM模式）" {
+  [Web浏览器] as Browser
+  [Vue.js应用] as VueApp
+  [Arco Design组件库] as Arco
+}
+
+package "API网关层" {
+  [Spring Cloud Gateway] as Gateway
+}
+
+package "微服务层（Spring Boot）" {
+  [用户服务] as UserService
+  [题目服务] as QuestionService
+  [判题服务] as JudgeService
+  [帖子服务] as PostService
+  [文件服务] as FileService
+  [题解服务] as SolutionService
+  [评论服务] as CommentService
+  [审核服务] as AuditService
+}
+
+package "数据存储层" {
+  [MySQL] as MySQL
+  [Redis] as Redis
+  [MinIO文件存储] as MinIO
+}
+
+package "基础设施层" {
+  [Docker容器] as Docker
+  [RabbitMQ] as MQ
+}
+
+Browser --> VueApp : HTTP/HTTPS\n(组件交互)
+VueApp --> Gateway : RESTful API\n(JSON/HTTPS)
+
+Gateway --> UserService : HTTP/1.1
+Gateway --> QuestionService : HTTP/2
+Gateway --> JudgeService : gRPC
+Gateway --> PostService : HTTP/1.1
+Gateway --> FileService : HTTP/2
+Gateway --> SolutionService : HTTP/1.1
+Gateway --> CommentService : HTTP/2
+Gateway --> AuditService : HTTP/1.1
+
+UserService --> MySQL : 用户数据
+QuestionService --> MySQL : 题目数据
+PostService --> MySQL : 帖子数据
+SolutionService --> MySQL : 题解数据
+CommentService --> MySQL : 评论数据
+AuditService --> MySQL : 审核日志
+
+JudgeService --> Redis : 判题缓存
+QuestionService --> Redis : 题目缓存
+UserService --> Redis : 会话管理
+
+FileService --> MinIO : 文件存储\n(S3协议)
+
+
+JudgeService --> MQ : 判题任务队列\n(AMQP协议)
+AuditService --> MQ : 审核事件订阅
+
+Docker --> UserService : 容器化部署
+K8S --> Docker : 调度管理
+
+
+@enduml

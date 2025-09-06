@@ -315,6 +315,19 @@ public class QuestionController {
         return ResultUtils.success(result);
     }
 
+    @GetMapping("/getfinishQuestionDetail")
+    public BaseResponse<QuestionSubmit> getFinishQuestionDetail(long id) {
+        boolean isStats = true;
+        QuestionSubmit byId = new QuestionSubmit();
+        while (isStats){
+             byId = questionSubmitService.getById(id);
+            if(byId.getStatus()!=0 && byId.getStatus()!=1){
+                isStats = false;
+            }
+        }
+        return ResultUtils.success(byId);
+    }
+
 
     /**
      * 分页获取题目提交列表（除管理员外，普通用户只能非答案，提交代码等公开信息
@@ -331,7 +344,9 @@ public class QuestionController {
         long size = questionSubmitQueryRequest.getPageSize();
         //返回脱敏信息
         final User loginUser = userFeignClient.getLoginUser(request);
-        questionSubmitQueryRequest.setUserId(loginUser.getId());
+        if(!userFeignClient.isAdmin(loginUser)){
+            questionSubmitQueryRequest.setUserId(loginUser.getId());
+        }
         //从数据库中查询原始的题目提交分页信息
         Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
                 questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));

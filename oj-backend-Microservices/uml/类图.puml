@@ -1,134 +1,173 @@
 @startuml
-skinparam class {
-    BackgroundColor PaleGreen
-    ArrowColor #004D99
-    BorderColor #003366
-}
 
 class User {
-  - Long id
-  - String userAccount
-  - String userPassword
-  - String unionId
-  - String mpOpenId
-  - String userName
-  - String userAvatar
-  - String userProfile
-  - String userRole
-  - Date createTime
-  - Date updateTime
-  - Integer isDelete
-}
+  + Long id
+  + String userAccount
+  + String userPassword
+  + String unionId
+  + String mpOpenId
+  + String userName
+  + String userAvatar
+  + String userProfile
+  + String userRole
+  + Date createTime
+  + Date updateTime
+  + Integer isDelete
 
-class Question {
-  - Long id
-  - String title
-  - String content
-  - String tags
-  - String answer
-  - Integer submitNum
-  - Integer acceptedNum
-  - String judgeCase
-  - String judgeConfig
-  - Integer thumbNum
-  - Integer favourNum
-  - Long userId
-  - Date createTime
-  - Date updateTime
-  - Integer isDelete
-}
-
-class QuestionSubmit {
-  - Long id
-  - String language
-  - String judgeInfo
-  - Integer status
-  - Long questionId
-  - Long userId
-  - String code
-  - Date createTime
-  - Date updateTime
-  - Integer isDelete
-}
-
-class Answer {
-  - Long id
-  - String title
-  - String content
-  - Long userId
-  - Long questionId
-  - Date createTime
-  - Integer isDelete
+  + User()
+  + login(): boolean
+  + register(): boolean
+  + updateProfile(): boolean
+  + delete(): boolean
 }
 
 class Post {
-  - Long id
-  - String title
-  - String content
-  - String tags
-  - Integer thumbNum
-  - Integer favourNum
-  - Long userId
-  - Date createTime
-  - Date updateTime
-  - Integer isDelete
-  - Integer examineStatus
+  + Long id
+  + String title
+  + String content
+  + String tags
+  + Integer thumbNum
+  + Integer favourNum
+  + Long userId
+  + Date createTime
+  + Date updateTime
+  + Integer isDelete
+  + Integer examineStatus
+
+  + Post()
+  + publish(): boolean
+  + update(): boolean
+  + delete(): boolean
+  + getStats(): Object
 }
 
-class PostThumb {
-  - Long id
-  - Long postId
-  - Long userId
-  - Date createTime
-  - Date updateTime
+class Question {
+  + Long id
+  + String title
+  + String content
+  + String tags
+  + String answer
+  + Integer submitNum
+  + Integer acceptedNum
+  + String judgeCase
+  + String judgeConfig
+  + Integer thumbNum
+  + Integer favourNum
+  + Long userId
+  + Date createTime
+  + Date updateTime
+  + Integer isDelete
+
+  + Question()
+  + submitAnswer(): boolean
+  + update(): boolean
+  + delete(): boolean
+  + getStats(): Object
 }
 
-class PostFavour {
-  - Long id
-  - Long postId
-  - Long userId
-  - Date createTime
-  - Date updateTime
+class Answer {
+  + Long id
+  + String title
+  + String content
+  + Long userId
+  + Long questionId
+  + Date createTime
+  + Integer isDelete
+
+  + Answer()
+  + submit(): boolean
+  + update(): boolean
+  + delete(): boolean
 }
 
 class Comments {
-  - Long id
-  - Long postId
-  - Long userId
-  - Long parentId
-  - String content
-  - Date createTime
-  - Integer examineStatus
-  - Integer isDelete
+  + Long id
+  + Long postId
+  + Long userId
+  + Long parentId
+  + String content
+  + Date createTime
+  + Integer examineStatus
+  + Integer isDelete
+
+  + Comments()
+  + comment(): boolean
+  + update(): boolean
+  + delete(): boolean
+  + getReplies(): List
 }
 
 class Examine {
-  - Long id
-  - Long examineUserId
-  - Long postId
-  - Long commentsId
-  - String banList
-  - Date createTime
-  - Date updateTime
+  + Long id
+  + Long examineUserId
+  + Long postId
+  + Long commentsId
+  + String banList
+  + Date createTime
+  + Date updateTime
+
+  + Examine()
+  + examinePost(): boolean
+  + examineComment(): boolean
+  + update(): boolean
 }
 
-' 核心关系定义
-User "1" --> "0..*" Question : 创建
-User "1" --> "0..*" QuestionSubmit : 提交
-User "1" --> "0..*" Answer : 发布
-User "1" --> "0..*" Post : 发帖
-User "1" --> "0..*" PostThumb : 点赞
+class PostFavour {
+  + Long id
+  + Long postId
+  + Long userId
+  + Date createTime
+  + Date updateTime
+
+  + PostFavour()
+  + favourite(): boolean
+  + cancelFavourite(): boolean
+}
+
+class PostThumb {
+  + Long id
+  + Long postId
+  + Long userId
+  + Date createTime
+  + Date updateTime
+
+  + PostThumb()
+  + thumb(): boolean
+  + cancelThumb(): boolean
+}
+
+class QuestionSubmit {
+  + Long id
+  + String language
+  + String judgeInfo
+  + Integer status
+  + Long questionId
+  + Long userId
+  + String code
+  + Date createTime
+  + Date updateTime
+  + Integer isDelete
+
+  + QuestionSubmit()
+  + submit(): boolean
+  + update(): boolean
+  + delete(): boolean
+  + getJudgeResult(): Object
+}
+
+User "1" --> "0..*" Post : 创建
 User "1" --> "0..*" PostFavour : 收藏
-User "1" --> "0..*" Comments : 评论
+User "1" --> "0..*" PostThumb : 点赞
+User "1" --> "0..*" Question : 创建
+User "1" --> "0..*" Answer : 创建
+User "1" --> "0..*" Comments : 创建
+User "1" --> "0..*" QuestionSubmit : 提交
 
-Question "1" --> "0..*" QuestionSubmit : 包含提交
-Question "1" --> "0..*" Answer : 关联题解
+Post "1" --> "0..*" Comments : 评论
+Question "1" --> "0..*" Answer : 题解
+Question "1" --> "0..*" QuestionSubmit : 提交记录
 
-Post "1" --> "0..*" PostThumb : 接收点赞
-Post "1" --> "0..*" PostFavour : 接收收藏
-Post "1" --> "0..*" Comments : 关联评论
-
-Comments "1" --> "0..1" Examine : 被审核
-Post "1" --> "0..1" Examine : 被审核
+Examine "1" --> "0..1" Post : 审核帖子
+Examine "1" --> "0..*" Comments : 审核评论
 
 @enduml

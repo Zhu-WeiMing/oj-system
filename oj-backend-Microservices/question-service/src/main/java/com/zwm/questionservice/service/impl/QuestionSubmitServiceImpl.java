@@ -94,7 +94,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmit.setLanguage(language);
         // todo 设置初始状态
         questionSubmit.setStatus(QuestionSubmitEnum.WAITING.getValue());
-        questionSubmit.setJudgeInfo("{}");
+        questionSubmit.setJudgeInfo("{\"message\":\"判题中\",\"time\":0,\"memory\":0}");
 
         boolean save = this.save(questionSubmit);
         if (!save) {
@@ -137,7 +137,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         queryWrapper.eq(ObjectUtils.isNotEmpty(questionId), "questionId", questionId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(status), "status", status);
         queryWrapper.eq("isDelete", false);
-        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_DESC),
+        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);
         return queryWrapper;
     }
@@ -183,6 +183,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(user, userVO);
             questionSubmitVO.setUserVO(userVO);
+
+            Long questionId = questionSubmitVO.getQuestionId();
+            Question question = questionService.getById(questionId);
+            QuestionVO submitQuestion = QuestionVO.objToVo(question);
+            questionSubmitVO.setQuestionVO(submitQuestion);
+
         }
 
         questionSubmitVOPage.setRecords(questionSubmitVOList);
@@ -255,7 +261,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
                 .collect(Collectors.toList());
         questionSubmitDataVO.setSolveTotal(solveTotal.size());
         //通过率
-        questionSubmitDataVO.setPassRate((double) solveTotal.size() / commitTotal);
+        questionSubmitDataVO.setPassRate(((double) solveTotal.size() / commitTotal)*100 );
 
         return questionSubmitDataVO;
     }

@@ -1,0 +1,57 @@
+@startuml
+
+participant "学习者" as Browser
+participant "登录页面" as Login
+participant "登录处理器" as LoginCon
+participant "题目中心页面" as WebServer
+participant "题目中心处理器" as App
+participant "学习者信息库" as Student
+participant "题库" as DB
+participant "提交记录库" as commitDB
+
+participant "判题处理器" as JudgeService
+participant "代码沙箱" as Sandbox
+
+Browser -> Login: 发送登录请求
+Login -> LoginCon: 验证凭据
+LoginCon -> Student: 查询学习者信息
+Student --> LoginCon: 返回查询结果
+LoginCon --> Login: 返回登录响应
+alt 登录成功
+    Browser --> WebServer: 请求进入题目中心页面
+    WebServer -> App: 加载题目中心页面
+    App -> DB:查询题目列表
+    DB -->App :返回查询列表信息
+    App --> WebServer: 返回页面数据
+    WebServer --> Browser: 显示题目中心页面
+    Browser --> WebServer: 请求题目详情
+    WebServer -> App: 加载题目详情
+    App --> WebServer: 返回题目数据
+    WebServer --> Browser: 显示题目详情
+    Browser --> WebServer: 进入代码编辑界面
+    WebServer -> App: 加载代码编辑界面
+    App --> WebServer: 返回编辑界面
+    WebServer --> Browser: 显示代码编辑界面
+    Browser --> WebServer: 提交代码
+    WebServer -> App: 接收代码并校验是否非空
+    alt 代码非空
+        App -> commitDB: 保存提交记录到数据库
+        commitDB --> App: 返回保存结果
+        App -> Sandbox: 将判题任务异步提交处理
+        App --> WebServer: 返回提交成功状态
+        WebServer --> Browser: 提示提交成功
+
+        JudgeService -> Sandbox: 启动代码沙箱执行环境
+        Sandbox --> JudgeService: 返回沙箱准备状态
+        JudgeService -> Sandbox: 编译并运行代码
+        Sandbox --> JudgeService: 返回运行结果
+        JudgeService -> DB: 更新判题结果到数据库
+        DB --> JudgeService: 返回更新结果
+        JudgeService --> Browser: 推送判题结果
+    else 代码为空
+        App --> WebServer: 返回代码为空错误
+        WebServer --> Browser: 提示“代码不能为空”
+    end
+else 登录失败
+    WebServer --> Browser: 返回登录失败提示
+@enduml

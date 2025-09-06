@@ -3,6 +3,7 @@ package com.zwm.examineservice.controller;
 import com.alibaba.nacos.shaded.com.google.gson.reflect.TypeToken;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.zwm.client.service.UserFeignClient;
 import com.zwm.common.common.BaseResponse;
 import com.zwm.common.common.ErrorCode;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,9 +45,9 @@ public class ExamineController {
         QueryWrapper queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("postId", postId);
         Examine examine = examineService.getOne(queryWrapper);
-        if(examine == null){
+        if (examine == null) {
             queryWrapper.clear();
-            queryWrapper.eq("commentsId",postId);
+            queryWrapper.eq("commentsId", postId);
             examine = examineService.getOne(queryWrapper);
         }
 
@@ -53,10 +55,19 @@ public class ExamineController {
         String json = convertToJson(examine.getBanList());
         Gson gson = new Gson();
         // 解析
-        List<ThirdApiBanList> banList = gson.fromJson(json, List.class);
+        List<com.google.gson.internal.LinkedTreeMap> banList = gson.fromJson(json, List.class);
         ExamineVO examineVO = new ExamineVO();
         BeanUtils.copyProperties(examine, examineVO);
-        examineVO.setBanList(banList);
+        String banWord = "";
+        int sise = 1;
+        for (LinkedTreeMap item : banList) {
+            banWord += ("敏感词：" + item.get("word") + ",解释：" + item.get("explanation") + "\n");
+            if (sise != banList.size()) {
+                banWord += "\n";
+            }
+            sise++;
+        }
+        examineVO.setBanWord(banWord);
         if (examine.getExamineUserId() != null) {
             User user = userFeignClient.getById(examine.getExamineUserId());
             examineVO.setExamineUserName(user.getUserName());
@@ -79,7 +90,7 @@ public class ExamineController {
         jsonString = jsonString.replaceAll("\\s*\"", "\"").replaceAll("\",\\s*", "\", ");
 
         // 包装为 JSON 数组
-        return "[" + jsonString + "]";
+        return jsonString;
     }
 
 

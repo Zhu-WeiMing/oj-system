@@ -31,7 +31,7 @@ public class ExamineVO {
     /**
      * 违禁词
      */
-    private List<ThirdApiBanList> banList;
+    private String banWord;
 
     /**
      * 创建时间

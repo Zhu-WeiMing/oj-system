@@ -1,0 +1,40 @@
+@startuml
+participant "管理员" as Browser
+participant "题目管理页面" as WebServer
+participant "题目处理器" as App
+participant "题库" as DB
+
+
+
+alt 登录成功
+    Browser --> WebServer: 请求进入题目管理模块
+    WebServer -> App: 加载题目管理页面
+    App -> DB:查询相关题目列表
+    DB ->App :返回题目数据
+    App --> WebServer: 封装题库返回的数据并封装
+    WebServer --> Browser: 显示题目管理页面
+    Browser --> WebServer: 请求新建题目表单
+    WebServer -> App: 提供表单模板
+    App --> WebServer: 返回表单模板
+    WebServer --> Browser: 显示表单
+    Browser --> WebServer: 提交表单数据（题目信息）
+    WebServer -> App: 接收表单数据并验证
+    App --> WebServer: 返回检查结果
+
+    WebServer --> Browser: 显示验证结果
+    alt 验证成功
+        Browser --> WebServer: 发布题目
+        WebServer -> App: 处理发布请求
+        App -> DB: 持久化题目到数据库
+        DB --> App: 返回操作结果
+
+        App --> WebServer: 返回操作状态
+        WebServer --> Browser: 操作成功，跳转到题目中心页面
+    else 验证失败
+        WebServer --> Browser: 返回验证失败信息
+    end
+else 登录失败
+    WebServer --> Browser: 返回登录失败提示
+end
+
+@enduml
